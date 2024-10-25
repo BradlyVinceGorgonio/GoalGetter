@@ -30,7 +30,9 @@ public class Login extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
+        //FirebaseAuth.getInstance().signOut();
 
+        
         //TANGGALIN MO TO BRADLY
         TextView signUpText = findViewById(R.id.signUpText);
         signUpText.setOnClickListener(new View.OnClickListener() {
