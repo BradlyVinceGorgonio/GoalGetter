@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "393544065520",
+    "project_id": "goal-getter-db",
+    "storage_bucket": "goal-getter-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393544065520:android:e235988b93060551bdbd35",
+        "android_client_info": {
+          "package_name": "com.example.goalgetter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1lO9jVqWWkVz1WH_7357gIFn4zneh_Yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
