@@ -1,0 +1,115 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up Details"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="20dp">
+    </TextView>
+
+
+
+    <!-- Name Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name">
+
+        <EditText
+            android:id="@+id/signupNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+          />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Email Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Email"
+        android:endIconMode="clear_text">
+
+        <EditText
+            android:id="@+id/signupEmailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+             />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Password Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Password"
+        android:endIconMode="password_toggle">
+
+        <EditText
+            android:id="@+id/signupPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Confirm Password Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Confirm Password"
+        android:endIconMode="password_toggle">
+
+        <EditText
+            android:id="@+id/signupConfirmPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+          />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Signup Button -->
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:layout_marginTop="24dp" />
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Already have  account?"
+
+            />
+    <TextView
+        android:id="@+id/signUpText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=" Login Here"
+        android:textColor="@android:color/holo_blue_dark"
+        />
+    </LinearLayout>
+</LinearLayout>
