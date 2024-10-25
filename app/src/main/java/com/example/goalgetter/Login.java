@@ -32,15 +32,7 @@ public class Login extends AppCompatActivity {
 
         //FirebaseAuth.getInstance().signOut();
 
-        
-        //TANGGALIN MO TO BRADLY
-        TextView signUpText = findViewById(R.id.signUpText);
-        signUpText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSignUpBottomSheet();
-            }
-        });
+
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
@@ -100,31 +92,4 @@ public class Login extends AppCompatActivity {
         }
     }
 
-
-    private void showSignUpBottomSheet()
-    {
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-
-        View bottomSheetView = getLayoutInflater().inflate(R.layout.signup_bottom_sheet, null);
-
-        Button signupButton = bottomSheetView.findViewById(R.id.signupButton);
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetDialog.dismiss();
-            }
-        });
-
-        TextView loginHereText = bottomSheetView.findViewById(R.id.signUpText);
-        loginHereText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetDialog.dismiss();
-            }
-        });
-
-        bottomSheetDialog.setContentView(bottomSheetView);
-        bottomSheetDialog.show();
-
     }
-}
