@@ -7,7 +7,8 @@ public class Message {
     private String text;
     private long timestamp;
 
-    public Message() {}
+    public Message() {
+    }
 
     public Message(String senderId, String sender, String receiver, String text, long timestamp) {
         this.senderId = senderId;
@@ -17,8 +18,13 @@ public class Message {
         this.timestamp = timestamp;
     }
 
-    public String getSenderId() { return senderId; }
-    public void setSenderId(String senderId) { this.senderId = senderId; }
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
 
     public String getSender() { return sender; }
     public void setSender(String sender) { this.sender = sender; }
