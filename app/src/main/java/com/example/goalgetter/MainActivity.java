@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(MainActivity.this, bottomNavigation.class);
+            Intent intent = new Intent(MainActivity.this, Login.class);
             startActivity(intent);
             finish();  // Optional: Close MainActivity so it's not in the back stack
         }, 3000);  // 3000ms = 3 seconds delay
