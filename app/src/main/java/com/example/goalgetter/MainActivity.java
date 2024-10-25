@@ -1,6 +1,8 @@
 package com.example.goalgetter;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +22,10 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(MainActivity.this, bottomNavigation.class);
+            startActivity(intent);
+            finish();  // Optional: Close MainActivity so it's not in the back stack
+        }, 3000);  // 3000ms = 3 seconds delay
     }
 }

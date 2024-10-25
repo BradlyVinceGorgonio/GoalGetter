@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Home"
+        android:icon="@drawable/homeic_svg"
+        />
+
+    <item
+        android:id="@+id/navCalendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Calendar"
+        android:icon="@drawable/calendaric"/>
+
+    <item
+        android:id="@+id/navTodo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="To-Do"
+        android:icon="@drawable/todoic"/>
+
+    <item
+        android:id="@+id/navGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Group"
+        android:icon="@drawable/groupic"/>
+
+</menu>
