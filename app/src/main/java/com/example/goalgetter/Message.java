@@ -1,22 +1,34 @@
 package com.example.goalgetter;
 
 public class Message {
-    private String senderName;
-    private String messageText;
+    private String senderId;
+    private String sender;
+    private String receiver;
+    private String text;
+    private long timestamp;
 
-    public Message() {
+    public Message() {}
+
+    public Message(String senderId, String sender, String receiver, String text, long timestamp) {
+        this.senderId = senderId;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.text = text;
+        this.timestamp = timestamp;
     }
 
-    public Message(String senderName, String messageText) {
-        this.senderName = senderName;
-        this.messageText = messageText;
-    }
+    public String getSenderId() { return senderId; }
+    public void setSenderId(String senderId) { this.senderId = senderId; }
 
-    public String getSenderName() {
-        return senderName;
-    }
+    public String getSender() { return sender; }
+    public void setSender(String sender) { this.sender = sender; }
 
-    public String getMessageText() {
-        return messageText;
-    }
+    public String getReceiver() { return receiver; }
+    public void setReceiver(String receiver) { this.receiver = receiver; }
+
+    public String getText() { return text; }
+    public void setText(String text) { this.text = text; }
+
+    public long getTimestamp() { return timestamp; }
+    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
 }
