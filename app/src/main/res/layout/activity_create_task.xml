@@ -43,10 +43,13 @@
 
 
                     <ImageButton
+                        android:id="@+id/back_button"
                         android:layout_width="40dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/backarrowic"
-                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"></ImageButton>
+                        android:layout_height="40dp"
+                        android:background="@drawable/back"
+                        android:contentDescription="Back"
+                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
 
                     <TextView
                         android:layout_width="match_parent"
