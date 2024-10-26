@@ -264,33 +264,6 @@
 
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="15dp">
-
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="15dp">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonAM"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="AM" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonPM"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="PM" />
-                </RadioGroup>
-
-            </LinearLayout>
 
 
             <Button
