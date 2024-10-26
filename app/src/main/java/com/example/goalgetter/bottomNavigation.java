@@ -3,6 +3,7 @@ package com.example.goalgetter;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -18,7 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class bottomNavigation extends AppCompatActivity {
 
-   private BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
 
     @Override
@@ -31,6 +32,17 @@ public class bottomNavigation extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomnavView);
         frameLayout = findViewById(R.id.frameLayout);
+
+        ImageButton notificationButton = findViewById(R.id.notificationButton);
+        ImageButton profileButton = findViewById(R.id.profileButton);
+
+        notificationButton.setOnClickListener(v -> {
+            loadFragment(new NotificationFragment(), false);
+        });
+
+        profileButton.setOnClickListener(v -> {
+            loadFragment(new ProfileFragment(), false);
+        });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

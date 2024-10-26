@@ -4,15 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_marginTop="25dp"
-        >
+        android:layout_marginTop="25dp">
 
         <TextView
             android:id="@+id/titleText"
@@ -22,8 +18,7 @@
             android:textSize="18sp"
             android:textColor="@color/black"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            />
+            android:layout_centerVertical="true" />
 
         <ImageButton
             android:id="@+id/notificationButton"
@@ -46,8 +41,5 @@
             android:background="@drawable/profileic"
             android:contentDescription="Profile Button"
             tools:ignore="TouchTargetSizeCheck" />
-
     </RelativeLayout>
-
-
 </RelativeLayout>
