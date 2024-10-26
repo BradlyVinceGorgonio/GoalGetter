@@ -217,7 +217,7 @@ public class CreateTask extends AppCompatActivity {
 
                     uploadImageToFirebase(imageUri);
                     String fileName = getImageFileName();
-                    createTask(courseName, taskType, description, priorityMode, dateStarted, deadline, alarm);
+                    createTask(courseName, taskType, description, priorityMode, dateStarted, deadline, alarm, fileName);
 
                     Log.d("UGOKEN", "onCreate: " + courseName + taskType + description + isPriorityMode + dateStarted + deadline + alarm);
 
@@ -249,7 +249,7 @@ public class CreateTask extends AppCompatActivity {
     }
 
     public void createTask(String courseName, String taskType, String description, String priorityMode,
-                           String dateStart, String dateDue, String alarmTime) {
+                           String dateStart, String dateDue, String alarmTime, String fileName) {
 
         // Get the current user's UID
         String currentUid = auth.getCurrentUser().getUid();
@@ -263,6 +263,7 @@ public class CreateTask extends AppCompatActivity {
         taskData.put("dateStart", dateStart);
         taskData.put("dateDue", dateDue);
         taskData.put("alarmTime", alarmTime);
+        taskData.put("fileName", fileName);
 
         // Parse dateDue and alarmTime to create Deadline Due timestamp
         try {
