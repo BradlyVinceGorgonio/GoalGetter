@@ -11,7 +11,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -142,6 +144,26 @@ public class CreateTask extends AppCompatActivity {
 
 
 
+
+        createTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Retrieving text from EditText views
+                String courseName = courseNameEditText.getText().toString();
+                String taskType = taskTypeEditText.getText().toString();
+                String description = descriptionEditText.getText().toString();
+
+                // Retrieving the state of the CheckBox
+                boolean isPriorityMode = priorityModeCheckBox.isChecked();
+
+                // Retrieving text from other EditText views
+                String dateStarted = dateStartedEditText.getText().toString();
+                String deadline = deadlineEditText.getText().toString();
+                String alarm = alarmEditText.getText().toString();
+
+                Log.d("UGOKEN", "onCreate: " + courseName + taskType + description + isPriorityMode + dateStarted + deadline + alarm);
+            }
+        });
 
 
         backButton = findViewById(R.id.back_button);
