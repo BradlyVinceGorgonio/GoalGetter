@@ -1,40 +1,41 @@
 package com.example.goalgetter;
 
 public class Message {
-    private String senderId;
-    private String sender;
-    private String receiver;
-    private String text;
+    private String userId;
+    private String userName;
+    private String imageUrl; // If you plan to send images
+    private String messageText;
     private long timestamp;
 
+    // Default constructor required for calls to DataSnapshot.getValue(Message.class)
     public Message() {
     }
 
-    public Message(String senderId, String sender, String receiver, String text, long timestamp) {
-        this.senderId = senderId;
-        this.sender = sender;
-        this.receiver = receiver;
-        this.text = text;
+    public Message(String userId, String userName, String imageUrl, String messageText, long timestamp) {
+        this.userId = userId;
+        this.userName = userName;
+        this.imageUrl = imageUrl;
+        this.messageText = messageText;
         this.timestamp = timestamp;
     }
 
-    public String getSenderId() {
-        return senderId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
+    public String getUserName() {
+        return userName;
     }
 
-    public String getSender() { return sender; }
-    public void setSender(String sender) { this.sender = sender; }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-    public String getReceiver() { return receiver; }
-    public void setReceiver(String receiver) { this.receiver = receiver; }
+    public String getMessageText() {
+        return messageText;
+    }
 
-    public String getText() { return text; }
-    public void setText(String text) { this.text = text; }
-
-    public long getTimestamp() { return timestamp; }
-    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
+    public long getTimestamp() {
+        return timestamp;
+    }
 }

@@ -1,27 +1,24 @@
 package com.example.goalgetter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
-    private Context context;
-    private List<Message> messageList;
 
-    public MessageAdapter(Context context, List<Message> messageList) {
+    private final Context context;
+    private final List<Message> messages;
+
+    public MessageAdapter(Context context, List<Message> messages) {
         this.context = context;
-        this.messageList = messageList;
+        this.messages = messages;
     }
 
     @NonNull
@@ -33,37 +30,24 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        Message message = messageList.get(position);
-
-        holder.userName.setText(message.getSender());
-
-        holder.messageText.setText(message.getText());
-
-        holder.profileImage.setImageResource(R.drawable.profileic);
-
-        if (message.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-            holder.itemView.setBackgroundResource(R.drawable.my_message_background);
-        } else {
-            holder.itemView.setBackgroundResource(R.drawable.other_message_background);
-        }
-
+        Message message = messages.get(position);
+        holder.messageText.setText(message.getMessageText());
+        holder.userName.setText(message.getUserName());
     }
 
     @Override
     public int getItemCount() {
-        return messageList.size();
+        return messages.size();
     }
 
     static class MessageViewHolder extends RecyclerView.ViewHolder {
-        TextView userName;
         TextView messageText;
-        ImageView profileImage;
+        TextView userName;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
-            userName = itemView.findViewById(R.id.user_name);
             messageText = itemView.findViewById(R.id.message_text);
-            profileImage = itemView.findViewById(R.id.profile_image);
+            userName = itemView.findViewById(R.id.user_name);
         }
     }
 }

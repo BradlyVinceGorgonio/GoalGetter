@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import com.example.goalgetter.Message;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,8 +36,7 @@ public class ChatGroupActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private String currentUserId;
     private String currentUserName;
-    private ImageButton backButton; // Add this line
-
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +48,7 @@ public class ChatGroupActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.send_button);
         backButton = findViewById(R.id.back_button);
 
-        backButton.setOnClickListener(v -> {
-            finish();
-        });
+        backButton.setOnClickListener(v -> finish());
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -109,6 +107,9 @@ public class ChatGroupActivity extends AppCompatActivity {
                     .addOnSuccessListener(aVoid -> {
                         Log.d(TAG, "Message sent successfully");
                         messageInput.setText("");
+                        messageList.add(message);
+                        messageAdapter.notifyItemInserted(messageList.size() - 1);
+                        messagesRecyclerView.scrollToPosition(messageList.size() - 1);
                     })
                     .addOnFailureListener(e -> {
                         Log.e(TAG, "Error sending message: " + e.getMessage());
@@ -131,10 +132,13 @@ public class ChatGroupActivity extends AppCompatActivity {
                     Message message = messageSnapshot.getValue(Message.class);
                     if (message != null) {
                         messageList.add(message);
+                        Log.d(TAG, "Loaded message: " + message.getMessageText());
                     }
                 }
                 messageAdapter.notifyDataSetChanged();
-                messagesRecyclerView.scrollToPosition(messageList.size() - 1);
+                if (!messageList.isEmpty()) {
+                    messagesRecyclerView.scrollToPosition(messageList.size() - 1);
+                }
             }
 
             @Override

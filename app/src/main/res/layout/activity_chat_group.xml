@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -64,7 +62,6 @@
             android:contentDescription="Create Task"
             android:tint="@android:color/white"
             android:background="?attr/selectableItemBackgroundBorderless" />
-
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -81,7 +78,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp">
-
 
         <ImageButton
             android:id="@+id/photo_selector_button"
@@ -101,7 +97,6 @@
             android:contentDescription="Take Photo"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
-
         <EditText
             android:id="@+id/message_input"
             android:layout_width="0dp"
@@ -118,6 +113,4 @@
             android:contentDescription="Send"
             android:background="?attr/selectableItemBackgroundBorderless" />
     </LinearLayout>
-
-
 </LinearLayout>
