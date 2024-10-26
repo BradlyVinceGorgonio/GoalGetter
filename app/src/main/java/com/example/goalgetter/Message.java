@@ -3,11 +3,10 @@ package com.example.goalgetter;
 public class Message {
     private String userId;
     private String userName;
-    private String imageUrl; // If you plan to send images
+    private String imageUrl;
     private String messageText;
     private long timestamp;
 
-    // Default constructor required for calls to DataSnapshot.getValue(Message.class)
     public Message() {
     }
 

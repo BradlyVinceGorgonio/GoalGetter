@@ -37,7 +37,7 @@ public class GroupFragment extends Fragment {
         RecyclerView recyclerView = popupView.findViewById(R.id.recycler_view);
         Button selectButton = popupView.findViewById(R.id.select_button);
 
-        List<User> users = new ArrayList<>(); // Replace with actual Firebase user data
+        List<User> users = new ArrayList<>();
         UserAdapter adapter = new UserAdapter(getContext(), users, selectedUsers -> {
             this.selectedUsers = selectedUsers;
         });
@@ -53,16 +53,14 @@ public class GroupFragment extends Fragment {
         dialog.show();
 
         selectButton.setOnClickListener(v -> {
-            // Start ChatGroupActivity when the button is clicked
+
             Intent intent = new Intent(getContext(), ChatGroupActivity.class);
-            // Optionally, pass selected users if needed
             // intent.putParcelableArrayListExtra("SELECTED_USERS", new ArrayList<>(selectedUsers));
             startActivity(intent); // Start the new activity
-            dialog.dismiss(); // Dismiss the dialog
+            dialog.dismiss();
         });
     }
 
     private void createGroupWithSelectedUsers(List<User> selectedUsers) {
-        // Implement your logic to create a group with the selected users
     }
 }
