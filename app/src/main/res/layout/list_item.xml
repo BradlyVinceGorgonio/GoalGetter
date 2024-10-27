@@ -105,7 +105,6 @@
                 android:layout_height="30dp"
                 android:layout_gravity="bottom"
                 android:src="@drawable/deleteic"
-
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         </LinearLayout>
     </LinearLayout>
