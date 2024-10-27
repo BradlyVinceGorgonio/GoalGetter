@@ -1,25 +1,19 @@
-// File: UserAdapter.java
-package com.example.goalgetter.adapters;
+package com.example.goalgetter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.goalgetter.models.User;
 import java.util.List;
-import com.example.goalgetter.R;
-
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
-    private final Context context;
-    private final List<User> userList;
-    private final OnUserSelectedListener listener;
-
-    public interface OnUserSelectedListener {
-        void onUserSelected(List<User> selectedUsers);
-    }
+    private Context context;
+    private List<User> userList;
+    private OnUserSelectedListener listener;
 
     public UserAdapter(Context context, List<User> userList, OnUserSelectedListener listener) {
         this.context = context;
@@ -36,6 +30,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+        User user = userList.get(position);
+        holder.nameTextView.setText(user.getName());
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                listener.onUserSelected(user);
+            } else {
+                listener.onUserDeselected(user);
+            }
+        });
     }
 
     @Override
@@ -43,9 +46,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return userList.size();
     }
 
-    static class UserViewHolder extends RecyclerView.ViewHolder {
+    public interface OnUserSelectedListener {
+        void onUserSelected(User user);
+        void onUserDeselected(User user);
+    }
+
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
+        TextView nameTextView;
+        CheckBox checkBox;
+
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
+            nameTextView = itemView.findViewById(R.id.userName);
+            checkBox = itemView.findViewById(R.id.userCheckBox);
         }
     }
 }

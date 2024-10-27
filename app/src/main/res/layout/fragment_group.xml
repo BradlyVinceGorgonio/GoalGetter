@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CalendarFragment">
+    tools:context=".GroupFragment">
 
     <ImageView
         android:id="@+id/background_image"
@@ -69,5 +69,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@android:color/white" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_group_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/chat_heading"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

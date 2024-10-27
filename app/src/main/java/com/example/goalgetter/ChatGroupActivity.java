@@ -5,14 +5,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
-import com.example.goalgetter.Message;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +33,8 @@ public class ChatGroupActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private String currentUserId;
     private String currentUserName;
-    private ImageButton backButton;
+    private String chatRoomId;
+    private TextView groupNameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +44,14 @@ public class ChatGroupActivity extends AppCompatActivity {
         messagesRecyclerView = findViewById(R.id.messages_recycler_view);
         messageInput = findViewById(R.id.message_input);
         sendButton = findViewById(R.id.send_button);
-        backButton = findViewById(R.id.back_button);
+        groupNameTextView = findViewById(R.id.group_chat_name);
 
+        ImageButton backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> finish());
+
+        chatRoomId = getIntent().getStringExtra("groupId");
+        String groupName = getIntent().getStringExtra("groupName");
+        groupNameTextView.setText(groupName);
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
@@ -63,88 +66,69 @@ public class ChatGroupActivity extends AppCompatActivity {
         messagesRef = FirebaseDatabase.getInstance().getReference("messages");
 
         messageList = new ArrayList<>();
-        messageAdapter = new MessageAdapter(this, messageList);
-        messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        messageAdapter = new MessageAdapter(this, messageList, currentUserId);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
+        messagesRecyclerView.setLayoutManager(layoutManager);
         messagesRecyclerView.setAdapter(messageAdapter);
 
         retrieveCurrentUserName();
-
         sendButton.setOnClickListener(v -> sendMessage());
         loadMessages();
     }
 
     private void retrieveCurrentUserName() {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserId);
-        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        messagesRef.child(currentUserId).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    currentUserName = dataSnapshot.child("name").getValue(String.class);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    currentUserName = snapshot.getValue(String.class);
                     Log.d(TAG, "Current user name: " + currentUserName);
                 } else {
-                    Log.e(TAG, "User data not found for ID: " + currentUserId);
-                    Toast.makeText(ChatGroupActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "User name not found.");
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Error fetching user data: " + databaseError.getMessage());
-                Toast.makeText(ChatGroupActivity.this, "Error fetching user data", Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Error retrieving user name: " + error.getMessage());
             }
         });
     }
 
     private void sendMessage() {
-        String messageText = messageInput.getText().toString().trim();
-        if (!messageText.isEmpty() && currentUserName != null) {
-            String messageId = messagesRef.push().getKey();
+        String messageContent = messageInput.getText().toString().trim();
+        if (!messageContent.isEmpty()) {
             long timestamp = System.currentTimeMillis();
+            String receiverId = "someReceiverId";
 
-            Message message = new Message(currentUserId, currentUserName, "", messageText, timestamp);
+            Message message = new Message(currentUserId, currentUserName, receiverId, messageContent, timestamp);
 
-            messagesRef.child(messageId).setValue(message)
-                    .addOnSuccessListener(aVoid -> {
-                        Log.d(TAG, "Message sent successfully");
-                        messageInput.setText("");
-                        messageList.add(message);
-                        messageAdapter.notifyItemInserted(messageList.size() - 1);
-                        messagesRecyclerView.scrollToPosition(messageList.size() - 1);
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e(TAG, "Error sending message: " + e.getMessage());
-                        Toast.makeText(ChatGroupActivity.this, "Error sending message", Toast.LENGTH_SHORT).show();
-                    });
-        } else if (currentUserName == null) {
-            Log.e(TAG, "Current user name is null");
-            Toast.makeText(this, "User name not loaded yet", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Message cannot be empty", Toast.LENGTH_SHORT).show();
+            messagesRef.child(chatRoomId).push().setValue(message);
+
+            messageInput.setText("");
         }
     }
 
     private void loadMessages() {
-        messagesRef.addValueEventListener(new ValueEventListener() {
+        messagesRef.child(chatRoomId).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 messageList.clear();
-                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
                     Message message = messageSnapshot.getValue(Message.class);
                     if (message != null) {
                         messageList.add(message);
-                        Log.d(TAG, "Loaded message: " + message.getMessageText());
                     }
                 }
                 messageAdapter.notifyDataSetChanged();
-                if (!messageList.isEmpty()) {
-                    messagesRecyclerView.scrollToPosition(messageList.size() - 1);
-                }
+                messagesRecyclerView.scrollToPosition(messageList.size() - 1);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Error loading messages: " + databaseError.getMessage());
-                Toast.makeText(ChatGroupActivity.this, "Error loading messages", Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Error loading messages: " + error.getMessage());
             }
         });
     }

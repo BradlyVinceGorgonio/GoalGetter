@@ -1,33 +1,38 @@
 package com.example.goalgetter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Message {
-    private String userId;
-    private String userName;
-    private String imageUrl;
+    private String senderId;
+    private String senderName;  // This will store the sender's username
+    private String receiverId;
     private String messageText;
     private long timestamp;
 
     public Message() {
+        // Default constructor required for calls to DataSnapshot.getValue(Message.class)
     }
 
-    public Message(String userId, String userName, String imageUrl, String messageText, long timestamp) {
-        this.userId = userId;
-        this.userName = userName;
-        this.imageUrl = imageUrl;
+    public Message(String senderId, String senderName, String receiverId, String messageText, long timestamp) {
+        this.senderId = senderId;
+        this.senderName = senderName;
+        this.receiverId = receiverId;
         this.messageText = messageText;
         this.timestamp = timestamp;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getSenderId() {
+        return senderId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getSenderName() {
+        return senderName;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getReceiverId() {
+        return receiverId;
     }
 
     public String getMessageText() {
@@ -36,5 +41,14 @@ public class Message {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public String getUserName() {
+        return senderName;
+    }
+
+    public String getFormattedTimestamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        return sdf.format(new Date(timestamp));
     }
 }
