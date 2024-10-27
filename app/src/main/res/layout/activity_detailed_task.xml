@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateTask">
+    tools:context=".DetailedTask">
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -57,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:text="Creating a To-Do list Task"
+                        android:text="Pending Task Overview"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="17dp"
@@ -294,11 +295,10 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
                 android:backgroundTint="@android:color/black"
-            android:textColor="@android:color/white"
+                android:textColor="@android:color/white"
                 tools:ignore="HardcodedText" />
 
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
