@@ -44,8 +44,8 @@
 
                     <ImageButton
                         android:id="@+id/back_button"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:background="@drawable/back"
                         android:contentDescription="Back"
                         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -183,10 +183,11 @@
                 <ImageView
                     android:id="@+id/uploadImageView"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                android:layout_gravity="center"
+                    android:layout_height="330dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
                     android:background="@drawable/border_bg"
-                android:contentDescription="Uploaded Image" />
+                    android:contentDescription="Uploaded Image" />
 
                 <Button
                     android:id="@+id/uploadImageButton"
