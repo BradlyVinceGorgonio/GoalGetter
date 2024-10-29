@@ -226,7 +226,10 @@ public class CreateTask extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Task Uploaded", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(CreateTask.this, bottomNavigation.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+                    finish(); // Close the CreateTask activity completely
+
                 }
             }
         });
@@ -362,25 +365,40 @@ public class CreateTask extends AppCompatActivity {
         return Uri.parse(path);
     }
 
-    // Step 7: Upload Image to Firebase and get file name
     private void uploadImageToFirebase(Uri imageUri) {
         if (imageUri != null) {
-            // Generate a random file name
             imageFileName = UUID.randomUUID().toString();
             StorageReference storageReference = FirebaseStorage.getInstance().getReference()
                     .child("solotasksimages/" + imageFileName);
 
-            // Start the upload when "Upload Task" is clicked
+            // Start the upload
             storageReference.putFile(imageUri)
                     .addOnSuccessListener(taskSnapshot -> {
                         Toast.makeText(this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                        // Add further actions if needed, like updating your database with `imageFileName`
+
+                        // Delete the image from device storage after successful upload
+                        deleteImageFromDevice(imageUri);
+
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show();
                     });
         }
     }
+
+    // Method to delete the image from the device
+    private void deleteImageFromDevice(Uri imageUri) {
+        if (imageUri != null) {
+            try {
+                getContentResolver().delete(imageUri, null, null);
+                Toast.makeText(this, "Image deleted from device", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Failed to delete image from device", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     // Getter for the uploaded file name
     public String getImageFileName() {
