@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,24 +11,25 @@
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/back"
+        android:layout_gravity="start"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Back"
         android:padding="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_gravity="start"/>
+        android:src="@drawable/back"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:src="@drawable/profileic"
-        android:background="@drawable/circle_background"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Group Profile"
         android:scaleType="centerCrop"/>
 
 
     <TextView
-        android:id="groupname"
+        android:id="@+id/groupname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Group 2"
@@ -61,24 +63,26 @@
         android:paddingVertical="12dp">
 
         <TextView
-            android:id="sharetaskstatus"
+            android:id="@+id/sharetaskstatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Shared task status"
-            android:textSize="16sp"
             android:clickable="true"
+            android:paddingVertical="12dp"
+            android:text="Shared task status"
             android:textColor="#000000"
-            android:paddingVertical="12dp"/>
+            android:textSize="16sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/task_list_add"
             android:scaleType="centerCrop"
-            android:tint="@android:color/black"
+            android:tint="@color/black"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Shared Task Icon"/>
+            android:contentDescription="Shared Task Icon"
+            tools:ignore="UseAppTint" />
     </LinearLayout>
 
     <LinearLayout
@@ -88,24 +92,25 @@
         android:gravity="center_vertical"
         android:paddingVertical="12dp">
 
-    <TextView
-        android:id="leavegc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Leave the group"
-        android:clickable="true"
-        android:textSize="16sp"
-        android:textColor="#000000"
-        android:paddingVertical="12dp"/>
+        <TextView
+            android:id="@+id/leavegc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:paddingVertical="12dp"
+            android:text="Leave the group"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/deleteic"
             android:scaleType="centerCrop"
-            android:tint="@android:color/black"
+            android:tint="@color/black"
             android:background="?attr/selectableItemBackgroundBorderless"
-            />
+            tools:ignore="UseAppTint" />
     </LinearLayout>
 </LinearLayout>

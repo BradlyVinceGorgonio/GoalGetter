@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/editprofile"
+        android:title="Edit Profile"
+        android:icon="@drawable/perosinic"></item>
+    <item
+        android:id="@+id/priorityModelist"
+        android:title="Priority Mode List"
+        android:icon="@drawable/prioritylevelic"/>
+    <item
+        android:id="@+id/logout"
+        android:title="Logout"
+        android:icon="@drawable/logoutic"/>
+</menu>

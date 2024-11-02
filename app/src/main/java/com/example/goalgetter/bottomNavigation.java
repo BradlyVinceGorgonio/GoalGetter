@@ -1,9 +1,11 @@
 package com.example.goalgetter;
 
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -14,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
+import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class bottomNavigation extends AppCompatActivity {
@@ -42,6 +44,20 @@ public class bottomNavigation extends AppCompatActivity {
 
         profileButton.setOnClickListener(v -> {
             loadFragment(new ProfileFragment(), false);
+        });
+
+
+        profileButton.setOnClickListener(view ->{
+
+            PopupMenu popupMenu = new PopupMenu(this, profileButton);
+            MenuInflater inflater = popupMenu.getMenuInflater();
+            inflater.inflate(R.menu.profile_menu, popupMenu.getMenu());
+
+
+            // Handle menu item clicks
+            popupMenu.setOnMenuItemClickListener(this::onProfileMenuItemClick);
+            popupMenu.show();
+
         });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -76,6 +92,8 @@ public class bottomNavigation extends AppCompatActivity {
 
 
 
+
+
 //
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
 //            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -83,6 +101,30 @@ public class bottomNavigation extends AppCompatActivity {
 //            return insets;
 //        });
     }
+
+
+
+    private boolean onProfileMenuItemClick(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.editprofile) {
+            // Handle edit profile action
+            Toast.makeText(this, "Edit Profile clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (itemId == R.id.priorityModelist) {
+            // Handle priority mode list action
+            Toast.makeText(this, "Priority Mode List clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (itemId == R.id.logout) {
+            // Handle logout action
+            Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
     private void loadFragment (Fragment fragment, boolean isAppInitialized)
     {
