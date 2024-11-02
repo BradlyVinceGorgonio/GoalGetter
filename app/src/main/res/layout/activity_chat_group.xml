@@ -45,8 +45,8 @@
 
         <ImageButton
             android:id="@+id/settings_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:scaleType="centerCrop"
             android:src="@drawable/settings"
             android:contentDescription="Settings"
@@ -55,8 +55,8 @@
 
         <ImageButton
             android:id="@+id/create_task_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:scaleType="centerCrop"
             android:src="@drawable/task_list_add"
             android:contentDescription="Create Task"
@@ -81,8 +81,8 @@
 
         <ImageButton
             android:id="@+id/photo_selector_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/image_select"
             android:scaleType="centerCrop"
             android:contentDescription="Select Photo"
@@ -90,8 +90,8 @@
 
         <ImageButton
             android:id="@+id/take_photo_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/camera"
             android:scaleType="centerCrop"
             android:contentDescription="Take Photo"
@@ -99,15 +99,18 @@
 
         <EditText
             android:id="@+id/message_input"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="10dp"
+            android:layout_height="35dp"
             android:layout_weight="1"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="4dp"
             android:hint="Type a message" />
+
 
         <ImageButton
             android:id="@+id/send_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:scaleType="centerCrop"
             android:src="@drawable/sent_mess"
             android:contentDescription="Send"
