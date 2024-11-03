@@ -55,19 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/chat_heading"
             app:layout_constraintBottom_toBottomOf="@id/chat_heading" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="25dp"
-            android:layout_marginBottom="25dp"
-            android:clickable="true"
-            android:src="@android:drawable/ic_input_add"
-            app:backgroundTint="@android:color/holo_red_dark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@android:color/white" />
+        
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chat_group_recycler_view"

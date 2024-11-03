@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.goalgetter.ChatSettings;
+
+
 
 public class ChatGroupActivity extends AppCompatActivity {
 
@@ -34,6 +38,7 @@ public class ChatGroupActivity extends AppCompatActivity {
     private String currentUserId;
     private String currentUserName;
     private String chatRoomId;
+    private String groupName;
     private TextView groupNameTextView;
 
     @Override
@@ -46,8 +51,25 @@ public class ChatGroupActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.send_button);
         groupNameTextView = findViewById(R.id.group_chat_name);
 
+        chatRoomId = getIntent().getStringExtra("groupId");
+        groupName = getIntent().getStringExtra("groupName");
+        if (groupName != null) {
+            groupNameTextView.setText(groupName);
+        } else {
+            Log.e(TAG, "Group name is null");
+        }
+
+
         ImageButton backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> finish());
+
+        ImageButton settingsButton = findViewById(R.id.settings_button);
+        settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatGroupActivity.this, ChatSettings.class);
+            intent.putExtra("groupName", groupName);
+            startActivity(intent);
+        });
+
 
         chatRoomId = getIntent().getStringExtra("groupId");
         String groupName = getIntent().getStringExtra("groupName");
