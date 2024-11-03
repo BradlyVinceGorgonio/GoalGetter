@@ -80,7 +80,7 @@ public class GroupFragment extends Fragment {
     }
 
     private void fetchUsers() {
-        CollectionReference usersCollection = firestore.collection("users");
+        CollectionReference usersCollection = firestore.collection("students");
 
         usersCollection.get()
                 .addOnCompleteListener(task -> {
@@ -91,7 +91,7 @@ public class GroupFragment extends Fragment {
                             String email = document.getString("email");
                             String name = document.getString("name");
 
-                            if (!uid.equals(currentUserId)) { 
+                            if (!uid.equals(currentUserId)) {
                                 users.add(new User(uid, email, name));
                             }
                         }
@@ -125,7 +125,7 @@ public class GroupFragment extends Fragment {
 
     private void createGroupWithSelectedUsers(List<User> selectedUsers, String groupName) {
         String groupId = firestore.collection("chatGroups").document().getId();
-        GroupChat groupChat = new GroupChat(groupId, groupName, selectedUsers);
+        GroupChat groupChat = new GroupChat(groupId, groupName, selectedUsers, "", 0);
 
         firestore.collection("chatGroups").document(groupId)
                 .set(groupChat)

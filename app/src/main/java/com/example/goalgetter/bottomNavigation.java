@@ -19,6 +19,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class bottomNavigation extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
@@ -108,21 +116,23 @@ public class bottomNavigation extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.editprofile) {
-            // Handle edit profile action
             Toast.makeText(this, "Edit Profile clicked", Toast.LENGTH_SHORT).show();
             return true;
         } else if (itemId == R.id.priorityModelist) {
-            // Handle priority mode list action
             Toast.makeText(this, "Priority Mode List clicked", Toast.LENGTH_SHORT).show();
             return true;
         } else if (itemId == R.id.logout) {
-            // Handle logout action
-            Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(this, Login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
             return true;
         } else {
             return false;
         }
     }
+
 
 
 

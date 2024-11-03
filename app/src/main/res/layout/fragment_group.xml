@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/chat_heading"
             app:layout_constraintBottom_toBottomOf="@id/chat_heading" />
-        
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chat_group_recycler_view"
