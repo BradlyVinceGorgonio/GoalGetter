@@ -4,9 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -56,18 +58,26 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView messageText;
         TextView userNameText;
         TextView timestampText;
+        ImageView messageImage;
 
         LeftMessageViewHolder(View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.message_text);
             userNameText = itemView.findViewById(R.id.user_name);
             timestampText = itemView.findViewById(R.id.timestamp);
+            messageImage = itemView.findViewById(R.id.image_message);
         }
 
         void bind(Message message) {
             userNameText.setText(message.getUserName());
             messageText.setText(message.getMessageText());
             timestampText.setText(message.getFormattedTimestamp());
+            if (message.getImageUrl() != null && !message.getImageUrl().isEmpty()) {
+                messageImage.setVisibility(View.VISIBLE);
+                Picasso.get().load(message.getImageUrl()).into(messageImage);
+            } else {
+                messageImage.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -75,18 +85,26 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView messageText;
         TextView userNameText;
         TextView timestampText;
+        ImageView messageImage;
 
         RightMessageViewHolder(View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.message_text);
             userNameText = itemView.findViewById(R.id.user_name);
             timestampText = itemView.findViewById(R.id.timestamp);
+            messageImage = itemView.findViewById(R.id.image_message);
         }
 
         void bind(Message message) {
             userNameText.setText(message.getUserName());
             messageText.setText(message.getMessageText());
             timestampText.setText(message.getFormattedTimestamp());
+            if (message.getImageUrl() != null && !message.getImageUrl().isEmpty()) {
+                messageImage.setVisibility(View.VISIBLE);
+                Picasso.get().load(message.getImageUrl()).into(messageImage);
+            } else {
+                messageImage.setVisibility(View.GONE);
+            }
         }
     }
 }

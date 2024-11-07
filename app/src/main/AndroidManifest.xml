@@ -17,6 +17,9 @@
         android:theme="@style/Theme.GoalGetter"
         tools:targetApi="31">
         <activity
+            android:name=".FullImageActivity"
+            android:exported="false" />
+        <activity
             android:name=".LeaderTaskOverview"
             android:exported="false" />
         <activity

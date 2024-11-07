@@ -11,7 +11,7 @@ public class Task {
     private String taskType;
     private String dateDue;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d-M-yyyy", Locale.US);
-    private static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat("MMMM d EEEE", Locale.US); 
+    private static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat("MMMM d EEEE", Locale.US);
 
     public Task() {}
 
