@@ -27,7 +27,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = taskList.get(position);
         holder.courseNameTextView.setText(task.getCourseName());
-        holder.dateTextView.setText(task.getDateDue());
+        holder.dateTextView.setText(task.getFormattedDate());
         holder.taskTypeTextView.setText(task.getTaskType());
     }
 

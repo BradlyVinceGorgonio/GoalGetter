@@ -10,7 +10,8 @@ public class Task {
     private String courseName;
     private String taskType;
     private String dateDue;
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d-M-yyyy", Locale.US);
+    private static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat("MMMM d EEEE", Locale.US); 
 
     public Task() {}
 
@@ -53,13 +54,21 @@ public class Task {
         }
     }
 
+    public String getFormattedDate() {
+        Date date = getDateDueAsDate();
+        if (date != null) {
+            return DISPLAY_DATE_FORMAT.format(date);
+        }
+        return "";
+    }
+
     public boolean isOnDate(int day, int month, int year) {
         Date dueDate = getDateDueAsDate();
         if (dueDate != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(dueDate);
             int taskDay = calendar.get(Calendar.DAY_OF_MONTH);
-            int taskMonth = calendar.get(Calendar.MONTH) + 1; // Month is zero-indexed
+            int taskMonth = calendar.get(Calendar.MONTH) + 1;
             int taskYear = calendar.get(Calendar.YEAR);
             return (taskDay == day && taskMonth == month && taskYear == year);
         }
