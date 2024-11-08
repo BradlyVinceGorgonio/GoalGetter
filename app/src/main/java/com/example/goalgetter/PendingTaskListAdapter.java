@@ -1,6 +1,7 @@
 package com.example.goalgetter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,12 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
         holder.taskTypeTextView.setText("Task Type: " + task.getTaskType());
         holder.duetimeTextView.setText("Due time: " + task.getDueTime());
 
+        // Set an onClickListener for each task item
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailedTask.class);
+            intent.putExtra("taskID", task.getTaskID()); // Pass the task ID to the new activity
+            context.startActivity(intent);
+        });
         // Set the priority image based on priorityMode
         if (task.getPriorityMode().equals("Yes")) {
             holder.priorityLevelImageView.setImageResource(R.drawable.prioritylevelicred); // High priority image
