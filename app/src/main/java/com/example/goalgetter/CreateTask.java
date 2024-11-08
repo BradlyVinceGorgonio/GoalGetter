@@ -267,6 +267,8 @@ public class CreateTask extends AppCompatActivity {
         taskData.put("dateDue", dateDue);
         taskData.put("alarmTime", alarmTime);
         taskData.put("fileName", fileName);
+        taskData.put("uid", currentUid);  // Add UID of the user who added it
+        taskData.put("isGroup", false);   // Set isGroup to false
 
         // Parse dateDue and alarmTime to create Deadline Due timestamp
         try {
@@ -282,14 +284,15 @@ public class CreateTask extends AppCompatActivity {
             System.out.println("Error parsing date and time: " + e.getMessage());
         }
 
-        // Reference to the "solotask" subcollection under the current UID
-        db.collection("students")
-                .document(currentUid)
-                .collection("solotask")
+        // Reference to the "allTasks" collection
+        db.collection("allTasks")
                 .add(taskData)  // Add document with auto-generated ID
                 .addOnSuccessListener(documentReference -> {
                     // Retrieve the auto-generated document ID
                     String generatedTaskId = documentReference.getId();
+
+                    // Add the taskId to the task document
+                    documentReference.update("taskId", generatedTaskId);
 
                     // You can use generatedTaskId here as needed
                     System.out.println("Task added with ID: " + generatedTaskId);
@@ -298,6 +301,7 @@ public class CreateTask extends AppCompatActivity {
                     System.out.println("Error adding task: " + e.getMessage());
                 });
     }
+
 
     private void selectImageSource() {
         String[] options = {"Camera", "Gallery"};
