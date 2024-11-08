@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,7 +25,7 @@ public class HomeFragment extends Fragment {
     private PendingTaskListAdapter pendingTaskListAdapter;
     private List<PendingTaskList> pendingTaskLists;
     private FirebaseFirestore db;
-
+    private AutoCompleteTextView pendingTasksTextView; // Add this reference for the AutoCompleteTextView
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,10 +40,11 @@ public class HomeFragment extends Fragment {
         // Initialize RecyclerView and taskList
         recyclerView = view.findViewById(R.id.pendingTaskrecyclerView);
         pendingTaskLists = new ArrayList<>();
+        pendingTasksTextView = view.findViewById(R.id.pendingTasksTextView);  // Initialize AutoCompleteTextView
 
         // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        pendingTaskListAdapter = new PendingTaskListAdapter(pendingTaskLists,getContext());
+        pendingTaskListAdapter = new PendingTaskListAdapter(pendingTaskLists, getContext());
         recyclerView.setAdapter(pendingTaskListAdapter);
 
         // Fetch tasks from Firestore
@@ -62,6 +64,7 @@ public class HomeFragment extends Fragment {
                     if (task.isSuccessful()) {
                         // Clear the previous task list to avoid duplicate entries
                         pendingTaskLists.clear();
+                        int taskCount = 0; // Variable to count the tasks
 
                         // Iterate through each document in the Firestore collection
                         for (QueryDocumentSnapshot document : task.getResult()) {
@@ -79,7 +82,14 @@ public class HomeFragment extends Fragment {
 
                             // Add the new task object to the task list
                             pendingTaskLists.add(taskData);
+
+                            // Increment the task count
+                            taskCount++;
                         }
+
+                        // Update the AutoCompleteTextView with the task count
+                        String taskMessage = "You have a total of " + taskCount + " pending tasks";
+                        pendingTasksTextView.setText(taskMessage);
 
                         // Notify the adapter that the data has changed
                         pendingTaskListAdapter.notifyDataSetChanged();
@@ -88,5 +98,4 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
-
 }
