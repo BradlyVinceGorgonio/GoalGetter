@@ -54,7 +54,7 @@ public class TodoFragment extends Fragment {
         filterAutoCompleteTextView = view.findViewById(R.id.filtertodolist);
 
         // Set up AutoCompleteTextView with filter options
-        String[] filters = {"All Tasks", "Pending Tasks", "Completed Tasks", "Group Tasks"};
+        String[] filters = {"Pending Tasks", "Completed Tasks", "Group Tasks"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, filters);
         filterAutoCompleteTextView.setAdapter(adapter);
 
@@ -65,7 +65,7 @@ public class TodoFragment extends Fragment {
         });
 
         // Initial fetch of all tasks
-        updateRecyclerView("All Tasks");
+        updateRecyclerView("Pending Tasks");
 
 
         return view;
@@ -76,9 +76,9 @@ public class TodoFragment extends Fragment {
         pendingTaskLists.clear();
 
         switch (filter) {
-            case "All Tasks":
-                AllTasks();
-                break;
+            //case "All Tasks":
+                //AllTasks();
+                //break;
             case "Pending Tasks":
                 PendingTasks();
                 break;
@@ -190,6 +190,7 @@ public class TodoFragment extends Fragment {
                 });
     }
 
+    /*
     private void AllTasks() {
         String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
@@ -236,6 +237,8 @@ public class TodoFragment extends Fragment {
                     }
                 });
     }
+
+     */
 
     private void CompletedTasks() {
         String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();

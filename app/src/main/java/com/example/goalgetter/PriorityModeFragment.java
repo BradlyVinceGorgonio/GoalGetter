@@ -56,7 +56,7 @@ public class PriorityModeFragment extends Fragment {
         filterAutoCompleteTextView = view.findViewById(R.id.filterPriorityModeList);
 
         // Set up AutoCompleteTextView with filter options
-        String[] filters = {"All Priority Tasks", "Pending Priority Tasks", "Completed Priority Tasks", "Group Priority Tasks"};
+        String[] filters = {"Pending Priority Tasks", "Completed Priority Tasks", "Group Priority Tasks"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, filters);
         filterAutoCompleteTextView.setAdapter(adapter);
 
@@ -67,7 +67,7 @@ public class PriorityModeFragment extends Fragment {
         });
 
         // Initial fetch of all tasks
-        updateRecyclerView("All Priority Tasks");
+        updateRecyclerView("Pending Priority Tasks");
 
         return view;
     }
@@ -77,9 +77,9 @@ public class PriorityModeFragment extends Fragment {
         pendingTaskLists.clear();
 
         switch (filter) {
-            case "All Priority Tasks":
-                AllPriorityTasks();
-                break;
+            //case "All Priority Tasks":
+                //AllPriorityTasks();
+                //break;
             case "Pending Priority Tasks":
                 PendingPriorityTasks();
                 break;
@@ -193,6 +193,7 @@ public class PriorityModeFragment extends Fragment {
                     }
                 });
     }
+    /*
     private void AllPriorityTasks() {
         String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
@@ -240,6 +241,8 @@ public class PriorityModeFragment extends Fragment {
                     }
                 });
     }
+
+     */
     private void CompletedPriorityTasks() {
         String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
