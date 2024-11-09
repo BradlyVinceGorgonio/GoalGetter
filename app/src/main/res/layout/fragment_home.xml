@@ -24,13 +24,13 @@
         app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintVertical_bias="0.104" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="7dp"
         android:elevation="15dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
@@ -85,8 +85,10 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/poetsenone_regular"
                     android:text="Quote of the month"
+                    android:gravity="center"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
@@ -127,15 +129,15 @@
             android:padding="5dp"
             android:text="You have a total of pending tasks"
             android:textAlignment="center"
-            android:textSize="15sp"
+            android:textSize="12.5sp"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="410dp"
-        android:layout_margin="16dp"
+        android:layout_height="387dp"
+        android:layout_margin="7dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -147,10 +149,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.593"
@@ -190,8 +192,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/pendingTaskrecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

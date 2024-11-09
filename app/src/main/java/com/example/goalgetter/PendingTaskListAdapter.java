@@ -54,9 +54,9 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
 
         // You can handle the delete and edit buttons here (no changes needed for these buttons as per your request)
         // For example, setting listeners to handle clicks:
-        holder.editImageButton.setOnClickListener(v -> {
+     //   holder.editImageButton.setOnClickListener(v -> {
             // Handle Edit button click
-        });
+      //  });
 
         holder.deleteImageButton.setOnClickListener(v -> {
             // Handle Delete button click
@@ -80,7 +80,7 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
             dueDateTextView = itemView.findViewById(R.id.dueDateTextView);
             taskTypeTextView = itemView.findViewById(R.id.taskTypeTextView);
             duetimeTextView = itemView.findViewById(R.id.duetimeTextView);
-            editImageButton = itemView.findViewById(R.id.editImageButton);
+         //   editImageButton = itemView.findViewById(R.id.editImageButton);
             deleteImageButton = itemView.findViewById(R.id.deleteImageButton);
         }
     }
