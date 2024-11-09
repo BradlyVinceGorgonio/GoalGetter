@@ -104,9 +104,6 @@ public class TodoFragment extends Fragment {
                         pendingTaskLists.clear();
                         int taskCount = 0;
 
-                        // Get today's date
-                        Date currentDate = new Date();
-
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String courseName = document.getString("courseName");
                             String taskType = document.getString("taskType");
@@ -121,13 +118,11 @@ public class TodoFragment extends Fragment {
                                 Date dateStart = dateFormat.parse(startDate);
                                 Date dateDue = dateFormat.parse(dueDate);
 
-                                // Check if current date is on or after the start date
-                                if (currentDate.compareTo(dateStart) >= 0) {
-                                    PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
-                                    taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
-                                    pendingTaskLists.add(taskData);
-                                    taskCount++;
-                                }
+                                // Add task to the list without filtering by start date
+                                PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
+                                taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
+                                pendingTaskLists.add(taskData);
+                                taskCount++;
                             } catch (ParseException e) {
                                 Log.e("HomeFragment", "Date parsing error: ", e);
                             }
@@ -142,6 +137,7 @@ public class TodoFragment extends Fragment {
                     }
                 });
     }
+
     private void PendingTasks() {
         String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
