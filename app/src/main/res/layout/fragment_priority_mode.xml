@@ -59,33 +59,52 @@
                 app:layout_constraintVertical_bias="0.149">
 
                 <LinearLayout
+                    android:id="@+id/linearLayout4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="25dp"
+
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                    app:layout_constraintVertical_bias="0.0">
 
                     <TextView
-                        android:id="@+id/pendingTaskTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="8dp"
+                        android:text="Filter:"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Task"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:hint="Pending task"
+                        tools:ignore="HardcodedText">
 
-                    <TextView
-                        android:id="@+id/classScheduleTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Schedule"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        <AutoCompleteTextView
+                            android:id="@+id/filterPriorityModeList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:dropDownHeight="wrap_content"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:textSize="11sp"
+                            tools:ignore="Autofill,LabelFor,TextContrastCheck,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                 </LinearLayout>
+
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/priorityModeTaskrecyclerView"

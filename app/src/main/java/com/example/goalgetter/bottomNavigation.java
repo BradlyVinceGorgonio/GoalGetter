@@ -119,6 +119,7 @@ public class bottomNavigation extends AppCompatActivity {
             Toast.makeText(this, "Edit Profile clicked", Toast.LENGTH_SHORT).show();
             return true;
         } else if (itemId == R.id.priorityModelist) {
+            loadFragment(new PriorityModeFragment(), false);
             Toast.makeText(this, "Priority Mode List clicked", Toast.LENGTH_SHORT).show();
             return true;
         } else if (itemId == R.id.logout) {
