@@ -2,47 +2,65 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/transparent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="25dp"
-        android:elevation="15dp">
+        android:padding="5dp"
+        android:layout_marginTop="25dp">
 
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Goal Getter"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/podkova_medium"
-            android:textStyle="bold"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true" />
+            app:cardElevation="14dp"
+            app:cardMaxElevation="20dp"
+           >
 
-        <ImageButton
-            android:id="@+id/notificationButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/notificationic"
-            android:contentDescription="Notification Button"
-            tools:ignore="TouchTargetSizeCheck" />
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
 
-        <ImageButton
-            android:id="@+id/profileButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:layout_toStartOf="@id/notificationButton"
-            android:background="@drawable/profileic"
-            android:contentDescription="Profile Button"
-            tools:ignore="TouchTargetSizeCheck" />
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Goal Getter"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/podkova_medium"
+                    android:textStyle="bold"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" />
+
+                <ImageButton
+                    android:id="@+id/profileButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/profileic"
+                    android:contentDescription="Profile Button"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <ImageButton
+                    android:id="@+id/notificationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/profileButton"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/notificationic"
+                    android:contentDescription="Notification Button"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
     </RelativeLayout>
 </RelativeLayout>

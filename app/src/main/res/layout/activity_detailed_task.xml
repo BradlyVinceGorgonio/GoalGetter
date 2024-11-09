@@ -89,6 +89,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
+                    android:clickable="false"
+                    android:focusable="false"
                     tools:ignore="Autofill,LabelFor,TextContrastCheck,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,6 +115,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
+                    android:clickable="false"
+                    android:focusable="false"
                     tools:ignore="Autofill,LabelFor,TextContrastCheck,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,6 +142,8 @@
                     android:inputType="textMultiLine"
                     android:maxLines="5"
                     android:minLines="3"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:overScrollMode="ifContentScrolls"
                     android:scrollbars="vertical"
                     tools:ignore="Autofill,LabelFor,TextContrastCheck,VisualLintTextFieldSize" />
@@ -166,6 +172,7 @@
                     android:id="@+id/priorityModeCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="false"
                     android:layout_gravity="center_vertical" />
 
             </LinearLayout>

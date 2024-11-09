@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:elevation="35dp"
     android:padding="5dp"
     app:cardCornerRadius="10dp"
@@ -18,10 +18,11 @@
         <ImageView
             android:id="@+id/priorityLevelImageView"
             android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_height="31dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="-5dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/prioritylevelic"
-    />
+            android:src="@drawable/prioritylevelic" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -43,7 +44,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Course Name"
-                android:textSize="13sp"
+                android:textSize="9sp"
+                android:layout_marginRight="15dp"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
@@ -53,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="Due date: date"
                 android:textColor="@color/black"
-                android:textSize="13sp"
+                android:textSize="9sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -68,9 +70,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="25dp"
                 android:textColor="@color/black"
                 android:text="Task Type:"
-                android:textSize="13sp" />
+                android:textSize="9sp" />
 
             <TextView
                 android:id="@+id/duetimeTextView"
@@ -78,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Due time: 00:00"
-                android:textSize="13sp" />
+                android:textSize="9sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -86,6 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginRight="-10dp"
             android:layout_marginLeft="10dp">
 
             <ImageButton
