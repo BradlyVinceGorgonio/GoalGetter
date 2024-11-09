@@ -91,7 +91,8 @@ public class HomeFragment extends Fragment {
 
                                 // Check if current date is within start and due dates
                                 if (currentDate.compareTo(dateStart) >= 0 && currentDate.compareTo(dateDue) <= 0) {
-                                    PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID);
+                                    PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID,dateDue);
+                                    taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
                                     pendingTaskLists.add(taskData);
                                     taskCount++;
                                 }
@@ -99,6 +100,9 @@ public class HomeFragment extends Fragment {
                                 Log.e("HomeFragment", "Date parsing error: ", e);
                             }
                         }
+
+                        // Sort tasks by due date (earliest due date at the top)
+                        pendingTaskLists.sort((task1, task2) -> task1.getDateDue().compareTo(task2.getDateDue()));
 
                         String taskMessage = "You have a total of " + taskCount + " pending tasks";
                         pendingTasksTextView.setText(taskMessage);
@@ -108,6 +112,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
     public void displayMonthlyQuote(View view) {
         // Get current month (0 = January, 11 = December)
         int month = Calendar.getInstance().get(Calendar.MONTH);

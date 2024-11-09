@@ -1,5 +1,7 @@
 package com.example.goalgetter;
 
+import java.util.Date;
+
 public class PendingTaskList {
     private String priorityMode;  //YES OR NO
     private String courseName;
@@ -8,9 +10,10 @@ public class PendingTaskList {
     private String dueTime;
     private String UID;  // User ID
     private String taskID;  // Task ID
+    private Date dateDue;
 
     // Constructor
-    public PendingTaskList(String priorityMode, String courseName, String dueDate, String taskType, String dueTime, String UID, String taskID) {
+    public PendingTaskList(String priorityMode, String courseName, String dueDate, String taskType, String dueTime, String UID, String taskID, Date dateDue) {
         this.priorityMode = priorityMode;
         this.courseName = courseName;
         this.dueDate = dueDate;
@@ -18,6 +21,15 @@ public class PendingTaskList {
         this.dueTime = dueTime;
         this.UID = UID;
         this.taskID = taskID;
+        this.dateDue = dateDue;
+    }
+
+    public Date getDateDue() {
+        return dateDue;
+    }
+
+    public void setDateDue(Date dateDue) {
+        this.dateDue = dateDue;
     }
 
     // Getters and setters
