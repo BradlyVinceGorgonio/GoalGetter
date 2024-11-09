@@ -149,7 +149,6 @@ public class TodoFragment extends Fragment {
         db.collection("allTasks")
                 .whereEqualTo("uid", currentUserUID)
                 .whereEqualTo("isCompleted", false) // Filter for incomplete tasks
-                .whereEqualTo("isGroup", false) // Filter for group tasks
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
