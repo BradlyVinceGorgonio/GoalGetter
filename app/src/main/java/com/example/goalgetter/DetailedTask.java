@@ -1,10 +1,15 @@
 package com.example.goalgetter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -12,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -25,6 +31,8 @@ public class DetailedTask extends AppCompatActivity {
     private ImageView uploadImageView;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+
+    Button taskCompletedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,34 @@ public class DetailedTask extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        taskCompletedButton = findViewById(R.id.taskCompletedButton);
+        taskCompletedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // When the button is clicked, set the isCompleted field to true
+                if (taskID != null) {
+                    // Reference to the task document in Firestore
+                    DocumentReference taskRef = db.collection("allTasks").document(taskID);
+
+                    // Update the isCompleted field to true
+                    taskRef.update("isCompleted", true)
+                            .addOnSuccessListener(aVoid -> {
+                                // Successfully updated the task as completed
+                                Toast.makeText(DetailedTask.this, "Task marked as completed", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(DetailedTask.this, bottomNavigation.class);
+
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish(); // Close the CreateTask activity completely
+                            })
+                            .addOnFailureListener(e -> {
+                                // Handle failure to update the task
+                                Toast.makeText(DetailedTask.this, "Error updating task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }
+            }
         });
     }
 
