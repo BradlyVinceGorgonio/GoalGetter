@@ -89,9 +89,9 @@ public class HomeFragment extends Fragment {
                                 Date dateStart = dateFormat.parse(startDate);
                                 Date dateDue = dateFormat.parse(dueDate);
 
-                                // Check if current date is within start and due dates
-                                if (currentDate.compareTo(dateStart) >= 0 && currentDate.compareTo(dateDue) <= 0) {
-                                    PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID,dateDue);
+                                // Check if current date is on or after the start date
+                                if (currentDate.compareTo(dateStart) >= 0) {
+                                    PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
                                     taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
                                     pendingTaskLists.add(taskData);
                                     taskCount++;
@@ -112,6 +112,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
 
     public void displayMonthlyQuote(View view) {
         // Get current month (0 = January, 11 = December)
