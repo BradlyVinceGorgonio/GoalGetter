@@ -8,8 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -17,10 +22,12 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
 
     private List<PendingTaskList> taskList;
     private Context context;
+    private FirebaseFirestore db;
 
     public PendingTaskListAdapter(List<PendingTaskList> taskList, Context context) {
         this.taskList = taskList;
         this.context = context;
+        this.db = FirebaseFirestore.getInstance(); // Initialize Firestore
     }
 
     @Override
@@ -59,8 +66,53 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
       //  });
 
         holder.deleteImageButton.setOnClickListener(v -> {
-            // Handle Delete button click
+            String taskId = task.getTaskID();
+
+            // First, fetch the document from Firestore to get the fileName
+            db.collection("allTasks").document(taskId).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String fileName = documentSnapshot.getString("fileName");
+
+                            // Delete the Firestore document
+                            db.collection("allTasks").document(taskId)
+                                    .delete()
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(context, "Task deleted successfully", Toast.LENGTH_SHORT).show();
+
+                                        // If fileName exists, delete the image from Firebase Storage
+                                        if (fileName != null && !fileName.isEmpty()) {
+                                            StorageReference imageRef = FirebaseStorage.getInstance()
+                                                    .getReference().child("solotasksimages/" + fileName);
+
+                                            imageRef.delete()
+                                                    .addOnSuccessListener(aVoid1 -> {
+                                                        Toast.makeText(context, "Image deleted successfully", Toast.LENGTH_SHORT).show();
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        Toast.makeText(context, "Failed to delete image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    });
+                                        }
+
+                                        // Update the task list and notify the adapter
+                                        taskList.remove(position);
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position, taskList.size());
+
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(context, "Failed to delete task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    });
+                        } else {
+                            Toast.makeText(context, "Task document not found", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Failed to fetch task details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         });
+
+
     }
 
     @Override
