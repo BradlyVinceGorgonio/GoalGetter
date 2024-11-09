@@ -269,21 +269,8 @@ public class CreateTask extends AppCompatActivity {
         taskData.put("fileName", fileName);
         taskData.put("uid", currentUid);  // Add UID of the user who added it
         taskData.put("isGroup", false);   // Set isGroup to false
-
-        // Parse dateDue and alarmTime to create Deadline Due timestamp
-        try {
-            String deadlineString = dateDue + " " + alarmTime; // Combine dateDue and alarmTime
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm"); // Define the format
-            Date deadlineDate = format.parse(deadlineString); // Parse into Date object
-            Timestamp deadlineDueTimestamp = new Timestamp(deadlineDate); // Convert Date to Timestamp
-
-            // Add Deadline Due timestamp to the task data
-            taskData.put("deadlineDue", deadlineDueTimestamp);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            System.out.println("Error parsing date and time: " + e.getMessage());
-        }
-
+        taskData.put("isCompleted", false);
+        
         // Reference to the "allTasks" collection
         db.collection("allTasks")
                 .add(taskData)  // Add document with auto-generated ID
