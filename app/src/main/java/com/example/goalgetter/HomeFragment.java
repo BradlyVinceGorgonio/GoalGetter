@@ -1,5 +1,7 @@
 package com.example.goalgetter;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -58,44 +60,48 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchTasksFromFirestore() {
-        // Get the current authenticated user's UID
         String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
 
         db.collection("allTasks")
-                .whereEqualTo("uid", currentUserUID)  // Filter tasks by the current user's UID
+                .whereEqualTo("uid", currentUserUID)
+                .whereEqualTo("isCompleted", false) // Filter for incomplete tasks
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Clear the previous task list to avoid duplicate entries
                         pendingTaskLists.clear();
-                        int taskCount = 0; // Variable to count the tasks
+                        int taskCount = 0;
 
-                        // Iterate through each document in the Firestore collection
+                        // Get today's date
+                        Date currentDate = new Date();
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Extract the necessary fields from the document
                             String courseName = document.getString("courseName");
                             String taskType = document.getString("taskType");
                             String dueDate = document.getString("dateDue");
+                            String startDate = document.getString("dateStart");
                             String dueTime = document.getString("alarmTime");
                             String priorityMode = document.getString("priorityMode");
                             String UID = document.getString("uid");
-                            String taskID = document.getId();  // Firestore document ID
+                            String taskID = document.getId();
 
-                            // Create a new PendingTaskList object
-                            PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID);
+                            try {
+                                Date dateStart = dateFormat.parse(startDate);
+                                Date dateDue = dateFormat.parse(dueDate);
 
-                            // Add the new task object to the task list
-                            pendingTaskLists.add(taskData);
-
-                            // Increment the task count
-                            taskCount++;
+                                // Check if current date is within start and due dates
+                                if (currentDate.compareTo(dateStart) >= 0 && currentDate.compareTo(dateDue) <= 0) {
+                                    PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID);
+                                    pendingTaskLists.add(taskData);
+                                    taskCount++;
+                                }
+                            } catch (ParseException e) {
+                                Log.e("HomeFragment", "Date parsing error: ", e);
+                            }
                         }
 
-                        // Update the AutoCompleteTextView with the task count
                         String taskMessage = "You have a total of " + taskCount + " pending tasks";
                         pendingTasksTextView.setText(taskMessage);
-
-                        // Notify the adapter that the data has changed
                         pendingTaskListAdapter.notifyDataSetChanged();
                     } else {
                         Log.d("HomeFragment", "Error getting tasks: ", task.getException());
