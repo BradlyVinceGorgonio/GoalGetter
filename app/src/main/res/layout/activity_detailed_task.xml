@@ -295,7 +295,7 @@
 
 
             <Button
-                android:id="@+id/createTaskButton"
+                android:id="@+id/taskCompletedButton"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="Task Completed"
