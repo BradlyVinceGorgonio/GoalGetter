@@ -11,15 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List;import java.util.Calendar;
 
 public class HomeFragment extends Fragment {
+
 
     private RecyclerView recyclerView;
     private PendingTaskListAdapter pendingTaskListAdapter;
@@ -47,6 +49,8 @@ public class HomeFragment extends Fragment {
         pendingTaskListAdapter = new PendingTaskListAdapter(pendingTaskLists, getContext());
         recyclerView.setAdapter(pendingTaskListAdapter);
 
+        //Display Month Quotes
+        displayMonthlyQuote(view);
         // Fetch tasks from Firestore
         fetchTasksFromFirestore();
 
@@ -97,5 +101,74 @@ public class HomeFragment extends Fragment {
                         Log.d("HomeFragment", "Error getting tasks: ", task.getException());
                     }
                 });
+    }
+    public void displayMonthlyQuote(View view) {
+        // Get current month (0 = January, 11 = December)
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+
+        // Initialize the views
+        TextView monthTextView = view.findViewById(R.id.monthTextView);
+        TextView quoteTextView = view.findViewById(R.id.quoteTextView);
+
+
+
+        // Set the month name and quote based on the current month
+        String monthName = "";
+        String quote = "";
+
+        switch (month) {
+            case 0: // January
+                monthName = "Month of January: Hope";
+                quote = "“Hope is the pillar that holds up the world.”";
+                break;
+            case 1: // February
+                monthName = "Month of February: Love";
+                quote = "“Love is the bridge between you and everything.”";
+                break;
+            case 2: // March
+                monthName = "Month of March: Commitment";
+                quote = "“Commitment unlocks the doors of imagination.”";
+                break;
+            case 3: // April
+                monthName = "Month of April: Cooperation";
+                quote = "“Cooperation is the thorough conviction that nobody can get there unless everybody gets there.”";
+                break;
+            case 4: // May
+                monthName = "Month of May: Ambition";
+                quote = "“Ambition is the first step to success.”";
+                break;
+            case 5: // June
+                monthName = "Month of June: Friendliness";
+                quote = "“A warm smile is the universal language of kindness.”";
+                break;
+            case 6: // July
+                monthName = "Month of July: Self-discipline";
+                quote = "“Self-discipline is the magic power that makes you virtually unstoppable.”";
+                break;
+            case 7: // August
+                monthName = "Month of August: Respect";
+                quote = "“Respect is earned. Honesty is appreciated. Trust is gained. Loyalty is returned.”";
+                break;
+            case 8: // September
+                monthName = "Month of September: Aspiration";
+                quote = "“Aspire to inspire before we expire.”";
+                break;
+            case 9: // October
+                monthName = "Month of October: Faith and Humility";
+                quote = "“Just as love is a verb, so is faith.”";
+                break;
+            case 10: // November
+                monthName = "Month of November: Forgiveness";
+                quote = "“Forgiveness is the fragrance that the violet sheds on the heel that has crushed it.”";
+                break;
+            case 11: // December
+                monthName = "Month of December: Charity and Service";
+                quote = "“Service to others is the rent you pay for your room here on earth.”";
+                break;
+        }
+
+        // Set the text for the TextViews
+        monthTextView.setText(monthName);
+        quoteTextView.setText(quote);
     }
 }
