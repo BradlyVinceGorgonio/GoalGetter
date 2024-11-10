@@ -119,7 +119,7 @@ public class HomeFragment extends Fragment {
                                     // Only set alarm if the alarm time is in the future
                                     if (alarmDate != null && alarmDate.after(currentDate)) {
                                         // Set the alarm for this task
-                                        scheduleTaskAlarm(courseName, dueDate, dueTime, taskType);
+                                        scheduleTaskAlarm(courseName, dueDate, dueTime, taskType, taskID);
 
                                         // Show a Toast confirming the alarm is set
                                         Toast.makeText(getActivity(), "Alarm set for: " + courseName + " due on " + dueDate, Toast.LENGTH_SHORT).show();
@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment {
 
 
 
-    private void scheduleTaskAlarm(String courseName, String dueDate, String alarmTime, String taskType) {
+    private void scheduleTaskAlarm(String courseName, String dueDate, String alarmTime, String taskType, String taskID) {
         try {
             // Parse due date and alarm time
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
@@ -159,6 +159,7 @@ public class HomeFragment extends Fragment {
             intent.putExtra("courseName", courseName);
             intent.putExtra("dueDate", dueDate);
             intent.putExtra("taskType", taskType); // Add taskType to the intent
+            intent.putExtra("taskID", taskID); // Add taskID to the intent
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
