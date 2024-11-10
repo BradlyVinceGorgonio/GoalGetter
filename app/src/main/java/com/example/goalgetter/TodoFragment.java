@@ -95,7 +95,7 @@ public class TodoFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
 
         db.collection("allTasks")
-                .whereEqualTo("uid", currentUserUID)
+                .whereArrayContains("uids", currentUserUID)
                 .whereEqualTo("isCompleted", false) // Filter for incomplete tasks
                 .whereEqualTo("isGroup", true) // Filter for group tasks
                 .get()
@@ -143,7 +143,7 @@ public class TodoFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
 
         db.collection("allTasks")
-                .whereEqualTo("uid", currentUserUID)
+                .whereArrayContains("uids", currentUserUID)
                 .whereEqualTo("isCompleted", false) // Filter for incomplete tasks
                 .get()
                 .addOnCompleteListener(task -> {
@@ -245,7 +245,7 @@ public class TodoFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
 
         db.collection("allTasks")
-                .whereEqualTo("uid", currentUserUID)
+                .whereArrayContains("uids", currentUserUID)
                 .whereEqualTo("isCompleted", true) // Filter for completed tasks
                 .get()
                 .addOnCompleteListener(task -> {

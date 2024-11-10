@@ -46,8 +46,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -257,6 +259,9 @@ public class CreateTask extends AppCompatActivity {
         // Get the current user's UID
         String currentUid = auth.getCurrentUser().getUid();
 
+        List<String> userIds = new ArrayList<>();
+        userIds.add(currentUid);
+
         // Define task data in a map
         Map<String, Object> taskData = new HashMap<>();
         taskData.put("courseName", courseName);
@@ -267,10 +272,10 @@ public class CreateTask extends AppCompatActivity {
         taskData.put("dateDue", dateDue);
         taskData.put("alarmTime", alarmTime);
         taskData.put("fileName", fileName);
-        taskData.put("uid", currentUid);  // Add UID of the user who added it
-        taskData.put("isGroup", false);   // Set isGroup to false
+        taskData.put("uids", userIds);  // Add UID of the user who added it
+        taskData.put("isGroup", userIds.size() > 1);   // Set isGroup to false
         taskData.put("isCompleted", false);
-        
+
         // Reference to the "allTasks" collection
         db.collection("allTasks")
                 .add(taskData)  // Add document with auto-generated ID

@@ -64,7 +64,7 @@ public class HomeFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
 
         db.collection("allTasks")
-                .whereEqualTo("uid", currentUserUID)
+                .whereArrayContains("uids", currentUserUID)
                 .whereEqualTo("isCompleted", false) // Filter for incomplete tasks
                 .get()
                 .addOnCompleteListener(task -> {

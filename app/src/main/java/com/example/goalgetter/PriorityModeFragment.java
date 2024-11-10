@@ -97,7 +97,7 @@ public class PriorityModeFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
 
         db.collection("allTasks")
-                .whereEqualTo("uid", currentUserUID)
+                .whereArrayContains("uids", currentUserUID)
                 .whereEqualTo("isCompleted", false) // Filter for incomplete tasks
                 .whereEqualTo("isGroup", true) // Filter for group tasks
                 .whereEqualTo("priorityMode", "Yes")
@@ -146,7 +146,7 @@ public class PriorityModeFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
 
         db.collection("allTasks")
-                .whereEqualTo("uid", currentUserUID)
+                .whereArrayContains("uids", currentUserUID)
                 .whereEqualTo("isCompleted", false) // Filter for incomplete tasks
                 .whereEqualTo("priorityMode", "Yes")
                 .get()
@@ -248,7 +248,7 @@ public class PriorityModeFragment extends Fragment {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Match your date format
 
         db.collection("allTasks")
-                .whereEqualTo("uid", currentUserUID)
+                .whereArrayContains("uids", currentUserUID)
                 .whereEqualTo("isCompleted", true) // Filter for completed tasks
                 .whereEqualTo("priorityMode", "Yes")
                 .get()
