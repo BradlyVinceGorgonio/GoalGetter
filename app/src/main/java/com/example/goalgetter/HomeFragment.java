@@ -1,9 +1,23 @@
 package com.example.goalgetter;
+import static android.content.Context.ALARM_SERVICE;
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -95,6 +110,22 @@ public class HomeFragment extends Fragment {
                                     taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
                                     pendingTaskLists.add(taskData);
                                     taskCount++;
+
+                                    // Parse the alarm time and due date
+                                    SimpleDateFormat alarmDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                                    String alarmDateString = dueDate + " " + dueTime;  // Combine dueDate and alarmTime to form the full alarm datetime
+                                    Date alarmDate = alarmDateFormat.parse(alarmDateString);
+
+                                    // Only set alarm if the alarm time is in the future
+                                    if (alarmDate != null && alarmDate.after(currentDate)) {
+                                        // Set the alarm for this task
+                                        scheduleTaskAlarm(courseName, dueDate, dueTime, taskType);
+
+                                        // Show a Toast confirming the alarm is set
+                                        Toast.makeText(getActivity(), "Alarm set for: " + courseName + " due on " + dueDate, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Log.d("HomeFragment", "Skipping alarm for: " + courseName + " as it is already past due time");
+                                    }
                                 }
                             } catch (ParseException e) {
                                 Log.e("HomeFragment", "Date parsing error: ", e);
@@ -112,6 +143,37 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
+
+
+    private void scheduleTaskAlarm(String courseName, String dueDate, String alarmTime, String taskType) {
+        try {
+            // Parse due date and alarm time
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            String alarmDateString = dueDate + " " + alarmTime;  // Combine dueDate and alarmTime to form the full alarm datetime
+            Date alarmDate = dateFormat.parse(alarmDateString);
+
+            // Set up the alarm using AlarmManager
+            AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getActivity(), AlarmReceiver.class); // Use getActivity() to get the context for the intent
+            intent.putExtra("courseName", courseName);
+            intent.putExtra("dueDate", dueDate);
+            intent.putExtra("taskType", taskType); // Add taskType to the intent
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            // Set the alarm to trigger at the due date and alarm time
+            if (alarmManager != null) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmDate.getTime(), pendingIntent);
+            }
+
+        } catch (ParseException e) {
+            Log.e("HomeFragment", "Error parsing alarm time: ", e);
+        }
+    }
+
+
+
 
 
     public void displayMonthlyQuote(View view) {
@@ -183,4 +245,6 @@ public class HomeFragment extends Fragment {
         monthTextView.setText(monthName);
         quoteTextView.setText(quote);
     }
+
+
 }
