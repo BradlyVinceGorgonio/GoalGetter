@@ -161,7 +161,8 @@ public class HomeFragment extends Fragment {
             intent.putExtra("taskType", taskType); // Add taskType to the intent
             intent.putExtra("taskID", taskID); // Add taskID to the intent
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+
 
             // Set the alarm to trigger at the due date and alarm time
             if (alarmManager != null) {
