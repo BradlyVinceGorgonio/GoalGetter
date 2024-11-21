@@ -52,6 +52,9 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+
+
         // Initialize Firestore and FirebaseAuth
         db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -166,7 +169,7 @@ public class HomeFragment extends Fragment {
 
             // Set the alarm to trigger at the due date and alarm time
             if (alarmManager != null) {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmDate.getTime(), pendingIntent);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDate.getTime(), pendingIntent);
             }
 
         } catch (ParseException e) {

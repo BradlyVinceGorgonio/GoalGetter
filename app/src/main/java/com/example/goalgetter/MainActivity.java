@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.provider.Settings;
 
 import androidx.activity.EdgeToEdge;
@@ -27,20 +28,46 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        checkPermissions();
+    }
 
-        // Check and request exact alarm permission on Android 12 (API 31) or higher
+    private void checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             if (!alarmManager.canScheduleExactAlarms()) {
-                // Launch the settings screen to request permission
                 Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
-                startActivity(intent);
+                startActivityForResult(intent, 1001);  // Use a request code to track the result
+                return;  // Wait for user interaction
             }
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (!powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
+                Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                startActivityForResult(intent, 1002);  // Use a request code to track the result
+                return;  // Wait for user interaction
+            }
+        }
+
+        proceedToLogin();  // Proceed only after permissions are handled
+    }
+
+    private void proceedToLogin() {
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(MainActivity.this, Login.class);
             startActivity(intent);
             finish();  // Optional: Close MainActivity so it's not in the back stack
-        }, 3000);  // 3000ms = 3 seconds delay
+        }, 3000);  // Optional delay for any splash-like experience
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Check if all permissions are granted after returning from settings
+        if (requestCode == 1001 || requestCode == 1002) {
+            checkPermissions();  // Recheck permissions and proceed if granted
+        }
     }
 }
