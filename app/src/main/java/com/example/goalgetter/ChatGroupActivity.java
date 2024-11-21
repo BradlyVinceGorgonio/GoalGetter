@@ -87,6 +87,14 @@ public class ChatGroupActivity extends AppCompatActivity {
         sendButton.setOnClickListener(v -> sendMessage());
         imageButton.setOnClickListener(v -> openGallery());
         loadMessages();
+
+        ImageButton button = findViewById(R.id.create_task_button);
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatGroupActivity.this, LeaderTaskCreation.class);
+            intent.putExtra("groupChatId", chatRoomId);
+            intent.putExtra("groupChatName", groupName);
+            startActivity(intent);
+        });
     }
 
     private void retrieveCurrentUserName() {
