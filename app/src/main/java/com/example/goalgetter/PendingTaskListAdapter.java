@@ -42,16 +42,44 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
 
         // Set data to the views
         holder.courseNameTextView.setText(task.getCourseName());
-        holder.dueDateTextView.setText("Due date: " + task.getDueDate());
-        holder.taskTypeTextView.setText("Task Type: " + task.getTaskType());
-        holder.duetimeTextView.setText("Due time: " + task.getDueTime());
+        holder.dueDateTextView.setText(task.getDueDate());
+        holder.taskTypeTextView.setText(task.getTaskType());
+        holder.duetimeTextView.setText(task.getDueTime());
 
         // Set an onClickListener for each task item
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, DetailedTask.class);
-            intent.putExtra("taskID", task.getTaskID()); // Pass the task ID to the new activity
-            context.startActivity(intent);
+            // Fetch the task ID to fetch the 'isGroup' field from Firestore
+            String taskId = task.getTaskID();
+
+            // Fetch the document from Firestore
+            db.collection("allTasks").document(taskId).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Check the 'isGroup' field
+                            boolean isGroup = documentSnapshot.getBoolean("isGroup");
+
+                            // Open different activities based on 'isGroup'
+                            Intent intent;
+                            if (isGroup) {
+                                // If 'isGroup' is true, open GroupTaskActivity
+                                intent = new Intent(context, CreatedGroupTask.class);
+                            } else {
+                                // If 'isGroup' is false, open DetailedTask activity
+                                intent = new Intent(context, DetailedTask.class);
+                            }
+
+                            // Pass the task ID to the new activity
+                            intent.putExtra("taskID", taskId);
+                            context.startActivity(intent);
+                        } else {
+                            Toast.makeText(context, "Task document not found", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Failed to fetch task details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         });
+
         // Set the priority image based on priorityMode
         if (task.getPriorityMode().equals("Yes")) {
             holder.priorityLevelImageView.setImageResource(R.drawable.prioritylevelicred); // High priority image
@@ -59,12 +87,7 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
             holder.priorityLevelImageView.setImageResource(R.drawable.prioritylevelic); // Normal priority image
         }
 
-        // You can handle the delete and edit buttons here (no changes needed for these buttons as per your request)
-        // For example, setting listeners to handle clicks:
-     //   holder.editImageButton.setOnClickListener(v -> {
-            // Handle Edit button click
-      //  });
-
+        // Handle delete button click
         holder.deleteImageButton.setOnClickListener(v -> {
             String taskId = task.getTaskID();
 
@@ -80,17 +103,28 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
                                     .addOnSuccessListener(aVoid -> {
                                         Toast.makeText(context, "Task deleted successfully", Toast.LENGTH_SHORT).show();
 
-                                        // If fileName exists, delete the image from Firebase Storage
+                                        // If fileName exists, attempt to delete the image from Firebase Storage
                                         if (fileName != null && !fileName.isEmpty()) {
+                                            // Try deleting from "solotasksimages/"
                                             StorageReference imageRef = FirebaseStorage.getInstance()
                                                     .getReference().child("solotasksimages/" + fileName);
 
                                             imageRef.delete()
                                                     .addOnSuccessListener(aVoid1 -> {
-                                                        Toast.makeText(context, "Image deleted successfully", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(context, "Image deleted successfully from solotasksimages", Toast.LENGTH_SHORT).show();
                                                     })
                                                     .addOnFailureListener(e -> {
-                                                        Toast.makeText(context, "Failed to delete image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        // If deletion fails in "solotasksimages/", try "task_files/"
+                                                        StorageReference fallbackRef = FirebaseStorage.getInstance()
+                                                                .getReference().child("task_files/" + fileName);
+
+                                                        fallbackRef.delete()
+                                                                .addOnSuccessListener(aVoid2 -> {
+                                                                    Toast.makeText(context, "Image deleted successfully from task_files", Toast.LENGTH_SHORT).show();
+                                                                })
+                                                                .addOnFailureListener(e2 -> {
+                                                                    Toast.makeText(context, "Failed to delete image from both directories: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                });
                                                     });
                                         }
 
@@ -111,9 +145,8 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
                         Toast.makeText(context, "Failed to fetch task details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
-
-
     }
+
 
     @Override
     public int getItemCount() {

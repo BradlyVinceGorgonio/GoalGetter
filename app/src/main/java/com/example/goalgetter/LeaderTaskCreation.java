@@ -243,7 +243,8 @@ public class LeaderTaskCreation extends AppCompatActivity {
         // Define task data in a map
         Map<String, Object> taskData = new HashMap<>();
         taskData.put("groupId", chatRoomId);
-        taskData.put("taskTitle", taskTitle);
+        taskData.put("courseName", taskTitle);
+        taskData.put("taskType", "Group Task");
         taskData.put("description", description);
         taskData.put("dateStart", dateStart);
         taskData.put("dateDue", dateDue);
