@@ -199,7 +199,7 @@
                     android:id="@+id/uploadImageTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Upload File"
+                    android:text="Task File"
                     android:textSize="18sp"
                     android:textColor="@color/black"
                     android:gravity="center"
@@ -208,17 +208,32 @@
 
 
                 <Button
-                    android:id="@+id/uploadImageButton"
+                    android:id="@+id/ViewGroupTaskFIle"
                     android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:backgroundTint="@android:color/holo_red_dark"
-                    android:text="Upload File"
+                    android:text="View Group Task File"
                     android:layout_marginStart="20dp"
                     android:layout_marginBottom="10dp"
                     android:textColor="@android:color/white"
                     tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
             </LinearLayout>
+
+
+            <Button
+                android:id="@+id/SubmittedFileTask"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/darker_gray"
+                android:text="Submit File Task"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textColor="@android:color/white"
+                tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
+
+
 
             <com.google.android.material.textfield.TextInputLayout
 
