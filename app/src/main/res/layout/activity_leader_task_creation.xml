@@ -321,6 +321,21 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
+
+        <Button
+            android:id="@+id/CreateGroupTaskButton"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Create Group Task"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@android:color/black"
+            android:textColor="@android:color/white"
+            tools:ignore="HardcodedText" />
+
+
     </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
