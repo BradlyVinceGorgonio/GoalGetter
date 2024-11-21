@@ -253,6 +253,7 @@ public class LeaderTaskCreation extends AppCompatActivity {
         taskData.put("leaderId", currentUid); // Add UID of the user who added it
         taskData.put("isGroup", true);       // Assuming this is not a group task
         taskData.put("isCompleted", false);  // Default to not completed
+        taskData.put("isApproved", false);
         taskData.put("uids", selectedUserIds);
 
         // Reference to the "tasks" collection
