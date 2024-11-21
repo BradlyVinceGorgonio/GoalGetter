@@ -166,7 +166,7 @@ public class HomeFragment extends Fragment {
 
             // Set the alarm to trigger at the due date and alarm time
             if (alarmManager != null) {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmDate.getTime(), pendingIntent);
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDate.getTime(), pendingIntent);
             }
 
         } catch (ParseException e) {

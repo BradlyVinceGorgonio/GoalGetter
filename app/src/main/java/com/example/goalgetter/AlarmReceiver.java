@@ -46,7 +46,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         stackBuilder.addNextIntent(detailedTaskIntent);  // Add the DetailedTask activity to the stack
 
         // Create a PendingIntent that will open the DetailedTask activity when the notification is clicked
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 
         // Create the notification
