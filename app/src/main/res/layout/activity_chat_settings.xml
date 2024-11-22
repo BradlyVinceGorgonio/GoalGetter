@@ -77,13 +77,14 @@
             tools:ignore="TouchTargetSizeCheck" />
 
         <ImageView
+            android:id="@+id/sharedTaskStatusBtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/task_list_add"
-            android:scaleType="centerCrop"
-            android:tint="@color/black"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Shared Task Icon"
+            android:scaleType="centerCrop"
+            android:src="@drawable/task_list_add"
+            android:tint="@color/black"
             tools:ignore="UseAppTint" />
     </LinearLayout>
 
