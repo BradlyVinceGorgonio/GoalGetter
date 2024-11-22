@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+
 import android.provider.OpenableColumns;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -15,6 +16,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import android.view.View;
+import android.widget.ImageButton;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -59,6 +64,7 @@ public class CreatedGroupTask extends AppCompatActivity {
             return insets;
         });
 
+
         taskTitleEditText = findViewById(R.id.taskTitleEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
         dateStartedEditText = findViewById(R.id.dateStartedEditText);
@@ -83,45 +89,14 @@ public class CreatedGroupTask extends AppCompatActivity {
             }
         });
 
+        ImageButton backButton = findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
         String taskID = getIntent().getStringExtra("taskID");
 
         FinishedTaskButton.setOnClickListener(new View.OnClickListener() {

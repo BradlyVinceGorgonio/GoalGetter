@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -15,10 +16,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<Message> messageList;
     private String currentUserId;
+    private FirebaseFirestore db;
 
     public MessageAdapter(Context context, List<Message> messages, String currentUserId) {
         this.messageList = messages;
         this.currentUserId = currentUserId;
+        this.db = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -69,7 +72,18 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         void bind(Message message) {
-            userNameText.setText(message.getUserName());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("students").document(message.getSenderId()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    String userName = task.getResult().getString("name");
+                    if (userName == null || userName.isEmpty()) {
+                        userName = "Unknown User";
+                    }
+                    userNameText.setText(userName);
+                } else {
+                    userNameText.setText("Unknown User");
+                }
+            });
             messageText.setText(message.getMessageText());
             timestampText.setText(message.getFormattedTimestamp());
             if (message.getImageUrl() != null && !message.getImageUrl().isEmpty()) {
@@ -96,7 +110,18 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         void bind(Message message) {
-            userNameText.setText(message.getUserName());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("students").document(message.getSenderId()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    String userName = task.getResult().getString("name");
+                    if (userName == null || userName.isEmpty()) {
+                        userName = "Unknown User";
+                    }
+                    userNameText.setText(userName);
+                } else {
+                    userNameText.setText("Unknown User");
+                }
+            });
             messageText.setText(message.getMessageText());
             timestampText.setText(message.getFormattedTimestamp());
             if (message.getImageUrl() != null && !message.getImageUrl().isEmpty()) {

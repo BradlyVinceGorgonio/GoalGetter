@@ -98,7 +98,8 @@ public class ChatGroupActivity extends AppCompatActivity {
     }
 
     private void retrieveCurrentUserName() {
-        messagesRef.child(currentUserId).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+        usersRef.child(currentUserId).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.exists()) {
@@ -196,5 +197,4 @@ public class ChatGroupActivity extends AppCompatActivity {
             Toast.makeText(this, "No image available", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
