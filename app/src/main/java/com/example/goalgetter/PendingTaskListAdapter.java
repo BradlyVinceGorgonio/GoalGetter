@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -58,13 +59,33 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
                             // Check the 'isGroup' field
                             boolean isGroup = documentSnapshot.getBoolean("isGroup");
 
+                            boolean isCompleted = documentSnapshot.getBoolean("isCompleted");
+                            String leaderId = documentSnapshot.getString("leaderId");
+                            boolean isApproved = documentSnapshot.getBoolean("isApproved");
                             // Open different activities based on 'isGroup'
                             Intent intent;
                             if (isGroup) {
                                 // If 'isGroup' is true, open GroupTaskActivity
-                                intent = new Intent(context, CreatedGroupTask.class);
+
+
+                                // FOR LEADERS APPROVING
+                                if(isCompleted && !isApproved && leaderId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    intent = new Intent(context, LeaderTaskOverview.class);
+                                }
+                                // FOR LEADERS APPROVED ALREADY
+                                else if(isCompleted && isApproved){
+                                    intent = new Intent(context, ApprovedGroupTask.class);
+                                }
+                                else {
+                                    //Normal Group access
+                                    intent = new Intent(context, CreatedGroupTask.class);
+                                }
+
                             } else {
                                 // If 'isGroup' is false, open DetailedTask activity
+//                                if (isCompleted && !isGroup){
+//                                    intent = new Intent(context, CompletedNoneTasks.class);
+//                                }
                                 intent = new Intent(context, DetailedTask.class);
                             }
 
