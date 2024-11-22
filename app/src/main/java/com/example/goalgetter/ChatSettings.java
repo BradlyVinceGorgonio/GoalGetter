@@ -26,6 +26,7 @@ public class ChatSettings extends AppCompatActivity {
         ImageButton backButton = findViewById(R.id.back_button);
 
         String groupName = getIntent().getStringExtra("groupName");
+        String chatRoomId = getIntent().getStringExtra("groupChatId");
         if (groupName != null) {
             groupNameTextView.setText(groupName);
         } else {
@@ -39,6 +40,10 @@ public class ChatSettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChatSettings.this, SharedTaskStatus.class);
+                String groupName = getIntent().getStringExtra("groupName");
+                String chatRoomId = getIntent().getStringExtra("groupChatId");
+                intent.putExtra("groupChatId", chatRoomId);
+                intent.putExtra("groupName", groupName);
                 startActivity(intent);
             }
         });

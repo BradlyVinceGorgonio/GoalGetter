@@ -60,6 +60,7 @@ public class ChatGroupActivity extends AppCompatActivity {
         ImageButton settingsButton = findViewById(R.id.settings_button);
         settingsButton.setOnClickListener(v -> {
             Intent intent = new Intent(ChatGroupActivity.this, ChatSettings.class);
+            intent.putExtra("groupChatId", chatRoomId);
             intent.putExtra("groupName", groupName);
             startActivity(intent);
         });
