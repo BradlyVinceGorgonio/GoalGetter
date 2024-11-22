@@ -216,7 +216,7 @@
 
         <Button
             android:id="@+id/uploadGroupTaskFile"
-            android:layout_width="230dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:backgroundTint="@android:color/holo_red_dark"
