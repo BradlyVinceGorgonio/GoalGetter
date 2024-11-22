@@ -31,7 +31,7 @@
             android:id="@+id/cardView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="7dp"
+            android:layout_margin="3dp"
             android:elevation="15dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
@@ -121,7 +121,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="7dp"
+            android:layout_margin="3dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
@@ -164,30 +164,30 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="330dp"
+        android:layout_marginTop="315dp"
         android:layout_gravity="bottom">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="3dp">
 
             <!-- Card Views and Other Content -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="7dp"
+                android:layout_margin="3dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
+                    android:layout_margin="1dp"
                     android:orientation="vertical"
-                    android:padding="5dp">
+                    android:padding="1dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/pendingTaskrecyclerView"
