@@ -77,7 +77,7 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
                                     intent = new Intent(context, ApprovedGroupTask.class);
                                 }
                                 else {
-                                    //Normal Group access
+                                    //Users Accessing Group Work
                                     intent = new Intent(context, CreatedGroupTask.class);
                                 }
 
