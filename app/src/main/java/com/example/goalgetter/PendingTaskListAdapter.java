@@ -59,33 +59,27 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
                             // Check the 'isGroup' field
                             boolean isGroup = documentSnapshot.getBoolean("isGroup");
 
-                            boolean isCompleted = documentSnapshot.getBoolean("isCompleted");
-                            String leaderId = documentSnapshot.getString("leaderId");
-                            boolean isApproved = documentSnapshot.getBoolean("isApproved");
                             // Open different activities based on 'isGroup'
                             Intent intent;
                             if (isGroup) {
                                 // If 'isGroup' is true, open GroupTaskActivity
+                                boolean isCompleted = documentSnapshot.getBoolean("isCompleted");
+                                String leaderId = documentSnapshot.getString("leaderId");
+                                Boolean isApproved = documentSnapshot.getBoolean("isApproved");
 
-
-                                // FOR LEADERS APPROVING
-                                if(isCompleted && !isApproved && leaderId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-                                    intent = new Intent(context, LeaderTaskOverview.class);
-                                }
-                                // FOR LEADERS APPROVED ALREADY
-                                else if(isCompleted && isApproved){
+                                if(isCompleted && isApproved && leaderId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                                     intent = new Intent(context, ApprovedGroupTask.class);
                                 }
+                                else if(isCompleted && !isApproved && leaderId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    intent = new Intent(context, LeaderTaskOverview.class);
+                                }
+
                                 else {
-                                    //Users Accessing Group Work
                                     intent = new Intent(context, CreatedGroupTask.class);
                                 }
 
                             } else {
                                 // If 'isGroup' is false, open DetailedTask activity
-//                                if (isCompleted && !isGroup){
-//                                    intent = new Intent(context, CompletedNoneTasks.class);
-//                                }
                                 intent = new Intent(context, DetailedTask.class);
                             }
 
@@ -103,9 +97,9 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
 
         // Set the priority image based on priorityMode
         if (task.getPriorityMode().equals("Yes")) {
-            holder.priorityLevelImageView.setImageResource(R.drawable.flag_duotone_linered); // High priority image
+            holder.priorityLevelImageView.setImageResource(R.drawable.prioritylevelicred); // High priority image
         } else {
-            holder.priorityLevelImageView.setImageResource(R.drawable.flag_duotone_line); // Normal priority image
+            holder.priorityLevelImageView.setImageResource(R.drawable.prioritylevelic); // Normal priority image
         }
 
         // Handle delete button click
