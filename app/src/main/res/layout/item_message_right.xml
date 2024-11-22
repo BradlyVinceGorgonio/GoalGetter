@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:textColor="#000"
         android:textStyle="bold"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:layout_gravity="end"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -23,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bubble_right"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:layout_gravity="end">
 
             <ImageView
                 android:id="@+id/image_message"
@@ -50,5 +52,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#888"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:layout_gravity="end"/>
 </LinearLayout>

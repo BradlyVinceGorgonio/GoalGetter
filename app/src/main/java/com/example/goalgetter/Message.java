@@ -73,11 +73,11 @@ public class Message {
     }
 
     public String getFormattedTimestamp() {
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM dd, yyyy HH:mm a", java.util.Locale.getDefault());
-        return sdf.format(new java.util.Date(timestamp));
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy HH:mm a", Locale.getDefault());
+        return sdf.format(new Date(timestamp));
     }
 
     public String getUserName() {
-        return senderName;
+        return senderName != null && !senderName.isEmpty() ? senderName : "Unknown User";
     }
 }
