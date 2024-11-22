@@ -113,6 +113,12 @@ public class CreatedGroupTask extends AppCompatActivity {
                 uploadFileToFirebase();
                 String taskID = getIntent().getStringExtra("taskID");
                 updateTask(generatedFileName, taskID);
+
+                Intent intent = new Intent(CreatedGroupTask.this, bottomNavigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish(); // Close the CreateTask activity completely
+
             }
         });
 
