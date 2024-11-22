@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -66,6 +69,8 @@ public class TodoFragment extends Fragment {
 
         // Initial fetch of all tasks
         updateRecyclerView("Pending Tasks");
+
+        updateProgressBar(view);
 
 
         return view;
@@ -286,6 +291,64 @@ public class TodoFragment extends Fragment {
                     }
                 });
     }
+
+    private void updateProgressBar(View view) {
+        String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // Retrieve all tasks for the user
+        db.collection("allTasks")
+                .whereArrayContains("uids", currentUserUID)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int totalTasks = 0;
+                        int completedTasks = 0;
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            totalTasks++; // Count total tasks
+                            Boolean isCompleted = document.getBoolean("isCompleted");
+                            if (isCompleted != null && isCompleted) {
+                                completedTasks++; // Count completed tasks
+                            }
+                        }
+
+                        // Calculate progress percentage
+                        int progress = (totalTasks > 0) ? (completedTasks * 100 / totalTasks) : 0;
+
+                        // Update ProgressBar
+                        ProgressBar progressBar = view.findViewById(R.id.progressBar);
+                        progressBar.setProgress(progress);
+
+                        // Update Indicator TextView
+                        TextView indicatorTextView = view.findViewById(R.id.indicatorTextView);
+                        indicatorTextView.setText(progress + "%");
+
+                        // Adjust the position of the indicator dynamically
+                        progressBar.post(() -> {
+                            int progressBarWidth = progressBar.getWidth();
+                            int indicatorWidth = indicatorTextView.getWidth();
+                            int indicatorPosition = (int) ((progress / 100.0) * progressBarWidth);
+
+                            // Clamp position to avoid overflow
+                            int clampedPosition = Math.min(
+                                    progressBarWidth - indicatorWidth / 2,
+                                    Math.max(indicatorWidth / 2, indicatorPosition)
+                            );
+
+                            // Set the margin of the indicator dynamically
+                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) indicatorTextView.getLayoutParams();
+                            params.leftMargin = clampedPosition - (indicatorWidth / 2);
+                            indicatorTextView.setLayoutParams(params);
+                        });
+
+                        Log.d("ProgressBar", "Progress updated to " + progress + "%");
+                    } else {
+                        Log.d("HomeFragment", "Error getting tasks: ", task.getException());
+                    }
+                });
+    }
+
+
 
 
 
