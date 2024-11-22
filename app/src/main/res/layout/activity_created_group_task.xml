@@ -102,13 +102,14 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
-                android:text="Select Members:"
+                android:text="Members:"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 tools:ignore="HardcodedText" />
 
             <LinearLayout
+                android:id="@+id/checkBoxContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
