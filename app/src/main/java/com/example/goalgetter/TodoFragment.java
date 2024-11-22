@@ -327,18 +327,28 @@ public class TodoFragment extends Fragment {
                         progressBar.post(() -> {
                             int progressBarWidth = progressBar.getWidth();
                             int indicatorWidth = indicatorTextView.getWidth();
-                            int indicatorPosition = (int) ((progress / 100.0) * progressBarWidth);
+
+                            // Convert the 20dp margin to pixels based on screen density
+                            float density = view.getContext().getResources().getDisplayMetrics().density;
+                            int marginInPixels = (int) (0 * density); // 20dp converted to pixels
+
+                            int indicatorPosition = (int) ((progress / 100.0) * (progressBarWidth - (2 * marginInPixels)));
 
                             // Clamp position to avoid overflow
                             int clampedPosition = Math.min(
-                                    progressBarWidth - indicatorWidth / 2,
-                                    Math.max(indicatorWidth / 2, indicatorPosition)
+                                    progressBarWidth - indicatorWidth / 2 - marginInPixels,
+                                    Math.max(indicatorWidth / 2 + marginInPixels, indicatorPosition)
                             );
 
-                            // Set the margin of the indicator dynamically
-                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) indicatorTextView.getLayoutParams();
-                            params.leftMargin = clampedPosition - (indicatorWidth / 2);
-                            indicatorTextView.setLayoutParams(params);
+                            // Adjust the layout parameters
+                            ViewGroup.LayoutParams layoutParams = indicatorTextView.getLayoutParams();
+                            if (layoutParams instanceof RelativeLayout.LayoutParams) {
+                                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layoutParams;
+                                params.leftMargin = clampedPosition - (indicatorWidth / 2);
+                                indicatorTextView.setLayoutParams(params);
+                            } else {
+                                Log.w("ProgressBar", "Unsupported layout type. Unable to adjust indicator position.");
+                            }
                         });
 
                         Log.d("ProgressBar", "Progress updated to " + progress + "%");

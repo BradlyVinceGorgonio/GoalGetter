@@ -141,7 +141,7 @@
             android:clickable="false"
             android:focusable="false"
             android:padding="5dp"
-            android:text="You have a total of pending tasks"
+            android:text="You have a total of 0 pending tasks"
             android:textAlignment="center"
             android:textSize="12.5sp"
             tools:ignore="TouchTargetSizeCheck" />
