@@ -97,9 +97,9 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
 
         // Set the priority image based on priorityMode
         if (task.getPriorityMode().equals("Yes")) {
-            holder.priorityLevelImageView.setImageResource(R.drawable.prioritylevelicred); // High priority image
+            holder.priorityLevelImageView.setImageResource(R.drawable.flag_duotone_linered); // High priority image
         } else {
-            holder.priorityLevelImageView.setImageResource(R.drawable.prioritylevelic); // Normal priority image
+            holder.priorityLevelImageView.setImageResource(R.drawable.flag_duotone_line); // Normal priority image
         }
 
         // Handle delete button click
