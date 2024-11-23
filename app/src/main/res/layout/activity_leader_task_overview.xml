@@ -134,6 +134,7 @@
                 tools:ignore="HardcodedText" />
 
             <LinearLayout
+                android:id="@+id/checkBoxContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
