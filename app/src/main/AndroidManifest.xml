@@ -23,6 +23,15 @@
         android:theme="@style/Theme.GoalGetter"
         tools:targetApi="31">
         <activity
+            android:name=".CompletedApprovedGroupTask"
+            android:exported="false" />
+        <activity
+            android:name=".UnapprovedGroupTask"
+            android:exported="false" />
+        <activity
+            android:name=".CompletedSoloTaskOverview"
+            android:exported="false" />
+        <activity
             android:name=".ApprovedGroupTask"
             android:exported="false" />
         <activity

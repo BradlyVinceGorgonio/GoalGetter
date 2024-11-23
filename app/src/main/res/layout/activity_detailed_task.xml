@@ -51,7 +51,7 @@
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/back"
                         android:contentDescription="Back"
-                        tools:ignore="HardcodedText,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                        tools:ignore="HardcodedText,RtlHardcoded,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 
                     <TextView
@@ -64,7 +64,7 @@
                         android:textColor="@color/black"
                         android:textSize="17dp"
                         android:textStyle="bold"
-                        tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck"></TextView>
+                        tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

@@ -5,60 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreatedGroupTask">
+    tools:context=".CompletedSoloTaskOverview">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-
-            <ImageButton
-                android:id="@+id/back_button"
-                android:layout_width="25dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/back"
-                android:contentDescription="Back"
-                tools:ignore="HardcodedText,RtlHardcoded,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:text="Group Task Overview"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="17dp"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck"></TextView>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,13 +26,56 @@
             tools:ignore="ScrollViewSize">
 
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.042">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:orientation="horizontal">
+
+
+                    <ImageButton
+                        android:id="@+id/back_button"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/back"
+                        android:contentDescription="Back"
+                        tools:ignore="HardcodedText,RtlHardcoded,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:text="Completed Task Overview"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText,RtlHardcoded,SpUsage,TextSizeCheck" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
-                android:hint=" Group Name"
+                android:hint=" Course Name"
                 app:endIconMode="clear_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -84,12 +86,12 @@
                 tools:ignore="HardcodedText">
 
                 <EditText
-                    android:id="@+id/GroupName"
+                    android:id="@+id/courseNameEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:clickable="false"
                     android:focusable="false"
-                    android:inputType="text"
                     tools:ignore="Autofill,LabelFor,TextContrastCheck,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,61 +102,24 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="25dp"
-                android:hint=" Task Title"
+                android:hint=" Task Type"
                 app:endIconMode="clear_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
                 app:layout_constraintVertical_bias="0.0"
                 tools:ignore="HardcodedText">
 
                 <EditText
-                    android:id="@+id/taskTitleEditText"
+                    android:id="@+id/taskTypeEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:clickable="false"
                     android:focusable="false"
-                    android:inputType="text"
                     tools:ignore="Autofill,LabelFor,TextContrastCheck,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="25dp"
-                android:text="Members:"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
-
-            <LinearLayout
-                android:id="@+id/checkBoxContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
-                android:orientation="vertical">
-
-                <CheckBox
-                    android:id="@+id/selectedGroupMember"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:text="Member 1"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    tools:ignore="HardcodedText,VisualLintButtonSize" />
-
-            </LinearLayout>
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -175,94 +140,89 @@
                     android:id="@+id/descriptionEditText"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
-                    android:clickable="false"
-                    android:focusable="false"
                     android:inputType="textMultiLine"
                     android:maxLines="5"
                     android:minLines="3"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:overScrollMode="ifContentScrolls"
                     android:scrollbars="vertical"
                     tools:ignore="Autofill,LabelFor,TextContrastCheck,VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:orientation="horizontal"
                 android:layout_marginTop="15dp"
-                android:layout_marginRight="25dp"
-                android:orientation="horizontal">
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp">
 
                 <TextView
                     android:id="@+id/priorityModeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Priority Mode"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="10dp"
-                    android:text="Priority Mode"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
                     tools:ignore="HardcodedText" />
 
                 <CheckBox
                     android:id="@+id/priorityModeCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:clickable="false"
-                    android:focusable="false" />
+                    android:focusable="false"
+                    android:layout_gravity="center_vertical" />
 
             </LinearLayout>
+
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="25dp"
-                android:orientation="horizontal">
+                android:layout_marginRight="25dp">
 
                 <TextView
                     android:id="@+id/uploadImageTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="center"
-                    android:text="Task File"
-                    android:textColor="@color/black"
+                    android:text="Upload Image"
                     android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="10dp"
                     tools:ignore="HardcodedText" />
 
+                <ImageView
+                    android:id="@+id/uploadImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitXY"
+                    android:background="@drawable/border_bg"
+                    android:contentDescription="Uploaded Image"
+                    tools:ignore="HardcodedText" />
 
                 <Button
-                    android:id="@+id/ViewGroupTaskFIle"
-                    android:layout_width="match_parent"
+                    android:id="@+id/uploadImageButton"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="15dp"
                     android:backgroundTint="@android:color/holo_red_dark"
-                    android:text="View Group Task File"
+                    android:text="Upload Image"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:textColor="@android:color/white"
-                    tools:ignore="HardcodedText,DuplicateSpeakableTextCheck,TouchTargetSizeCheck,VisualLintButtonSize" />
+                    tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
             </LinearLayout>
-
-
-            <Button
-                android:id="@+id/SubmitFileTask"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@android:color/holo_blue_light"
-                android:text="Submit File Task"
-                android:textColor="@android:color/white"
-                tools:ignore="HardcodedText,DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintButtonSize">
-
-            </Button>
 
             <com.google.android.material.textfield.TextInputLayout
 
@@ -310,6 +270,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutSetAlarm"
                 android:layout_width="match_parent"
@@ -333,20 +294,22 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+
+
+
             <Button
-                android:id="@+id/FinishedTaskButton"
+                android:id="@+id/deleteCompletedButton"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
+                android:text="Delete Task"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
                 android:backgroundTint="@android:color/black"
-                android:text="Task Completed"
                 android:textColor="@android:color/white"
                 tools:ignore="HardcodedText" />
 
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

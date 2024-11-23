@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreatedGroupTask">
+    tools:context=".CompletedApprovedGroupTask">
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -39,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="20dp"
-                android:text="Group Task Overview"
+                android:text="Approved Group Task Overview"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="17dp"
@@ -265,7 +266,6 @@
             </Button>
 
             <com.google.android.material.textfield.TextInputLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
@@ -334,19 +334,20 @@
 
 
             <Button
-                android:id="@+id/FinishedTaskButton"
+                android:id="@+id/ApprovedTaskButton"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
-                android:backgroundTint="@android:color/black"
-                android:text="Task Completed"
+                android:backgroundTint="@android:color/holo_green_light"
+                android:clickable="false"
+                android:focusable="false"
+                android:text="Successfully Approved!"
                 android:textColor="@android:color/white"
                 tools:ignore="HardcodedText" />
 
 
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
