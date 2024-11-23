@@ -125,20 +125,45 @@ public class GroupFragment extends Fragment {
 
     private void createGroupWithSelectedUsers(List<User> selectedUsers, String groupName) {
         String groupId = firestore.collection("chatGroups").document().getId();
-        GroupChat groupChat = new GroupChat(groupId, groupName, selectedUsers, "", 0);
+        String leaderId = currentUserId;
 
-        firestore.collection("chatGroups").document(groupId)
-                .set(groupChat)
-                .addOnSuccessListener(aVoid -> {
-                    Intent intent = new Intent(getContext(), ChatGroupActivity.class);
-                    intent.putExtra("groupId", groupId);
-                    intent.putExtra("groupName", groupName);
-                    startActivity(intent);
+        firestore.collection("students").document(leaderId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String leaderName = documentSnapshot.getString("name");
+                        String leaderEmail = documentSnapshot.getString("email");
+
+                        selectedUsers.removeIf(user -> user.getUid().equals(leaderId));
+
+                        User leaderUser = new User(leaderId, leaderEmail, leaderName);
+                        selectedUsers.add(0, leaderUser);
+
+                        GroupChat groupChat = new GroupChat(groupId, groupName, selectedUsers, leaderId, leaderName, leaderEmail, "", 0);
+                        
+                        firestore.collection("chatGroups").document(groupId)
+                                .set(groupChat)
+                                .addOnSuccessListener(aVoid -> {
+                                    Intent intent = new Intent(getContext(), ChatGroupActivity.class);
+                                    intent.putExtra("groupId", groupId);
+                                    intent.putExtra("groupName", groupName);
+                                    startActivity(intent);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(getContext(), "Error creating chat group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        Toast.makeText(getContext(), "Failed to fetch creator details from Firestore.", Toast.LENGTH_SHORT).show();
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Error creating chat group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Error fetching creator details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
+
+
+
 
     private void fetchGroupChats(String currentUserId) {
         CollectionReference chatGroupsCollection = firestore.collection("chatGroups");
