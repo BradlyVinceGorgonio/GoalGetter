@@ -43,15 +43,7 @@
             android:maxLines="1"
             android:ellipsize="end" />
 
-        <ImageButton
-            android:id="@+id/settings_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/settings"
-            android:contentDescription="Settings"
-            android:tint="@android:color/white"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+
 
         <ImageButton
             android:id="@+id/create_task_button"
@@ -60,6 +52,16 @@
             android:scaleType="centerCrop"
             android:src="@drawable/task_list_add"
             android:contentDescription="Create Task"
+            android:tint="@android:color/white"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+        <ImageButton
+            android:id="@+id/settings_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/settings"
+            android:contentDescription="Settings"
             android:tint="@android:color/white"
             android:background="?attr/selectableItemBackgroundBorderless" />
     </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.goalgetter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -89,13 +91,45 @@ public class ChatGroupActivity extends AppCompatActivity {
         imageButton.setOnClickListener(v -> openGallery());
         loadMessages();
 
-        ImageButton button = findViewById(R.id.create_task_button);
-        button.setOnClickListener(v -> {
+        ImageButton createTaskButton = findViewById(R.id.create_task_button);
+        createTaskButton.setVisibility(View.GONE); // Initially hide the button
+        checkLeaderAndUpdateButton(createTaskButton);
+        Log.d("CHECKER", "current user: " + currentUserId);
+        createTaskButton.setOnClickListener(v -> {
             Intent intent = new Intent(ChatGroupActivity.this, LeaderTaskCreation.class);
             intent.putExtra("groupChatId", chatRoomId);
             intent.putExtra("groupChatName", groupName);
             startActivity(intent);
         });
+    }
+
+    private void checkLeaderAndUpdateButton(ImageButton createTaskButton) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance(); // Firestore instance
+        String taskID = chatRoomId; // Assuming chatRoomId is used as the taskID
+        Log.d("CHECKER", "chat " + chatRoomId);
+        db.collection("chatGroups")
+                .document(taskID)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String leaderId = documentSnapshot.getString("leaderId");
+                        Log.d("CHECKER", "leader " + leaderId);
+                        // Compare leaderId with the current user's ID
+                        if (leaderId != null && leaderId.equals(currentUserId)) {
+                            createTaskButton.setVisibility(View.VISIBLE); // Show button if leader
+                        } else {
+                            createTaskButton.setVisibility(View.GONE); // Hide button if not leader
+                        }
+                    } else {
+                        // Document doesn't exist, keep the button hidden
+                        createTaskButton.setVisibility(View.GONE);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Log error and hide button on failure
+                    Toast.makeText(ChatGroupActivity.this, "Error fetching task info: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    createTaskButton.setVisibility(View.GONE);
+                });
     }
 
     private void retrieveCurrentUserName() {
