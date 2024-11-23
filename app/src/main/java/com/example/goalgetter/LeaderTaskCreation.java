@@ -182,6 +182,9 @@ public class LeaderTaskCreation extends AppCompatActivity {
         chatRoomId = getIntent().getStringExtra("groupChatId");
         groupName = getIntent().getStringExtra("groupChatName");
 
+        EditText groupNameEditText = findViewById(R.id.GroupName);
+        groupNameEditText.setText(groupName);
+
         Log.d("KUPAL", "onCreate: " + chatRoomId + " KUPAL " + groupName);
 
         // Fetch users in the selected group chat
@@ -265,6 +268,7 @@ public class LeaderTaskCreation extends AppCompatActivity {
         taskData.put("isCompleted", false);  // Default to not completed
         taskData.put("isApproved", false);
         taskData.put("uids", selectedUserIds);
+        taskData.put("groupName", groupName);
 
         // Reference to the "tasks" collection
         db.collection("allTasks")

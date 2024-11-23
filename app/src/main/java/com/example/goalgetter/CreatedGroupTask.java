@@ -49,6 +49,7 @@ public class CreatedGroupTask extends AppCompatActivity {
     CheckBox priorityModeCheckBox;
     String fileName;
     String leaderFile;
+    EditText GroupName;
     private static final int PICK_FILE_REQUEST = 1;
     private Uri fileUri;
     private String generatedFileName;
@@ -64,12 +65,13 @@ public class CreatedGroupTask extends AppCompatActivity {
             return insets;
         });
 
-
+        GroupName = findViewById(R.id.GroupName);
         taskTitleEditText = findViewById(R.id.taskTitleEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
         dateStartedEditText = findViewById(R.id.dateStartedEditText);
         deadlineEditText = findViewById(R.id.deadlineEditText);
         alarmEditText = findViewById(R.id.alarmEditText);
+
 
         priorityModeCheckBox = findViewById(R.id.priorityModeCheckBox);
 
@@ -182,14 +184,14 @@ public class CreatedGroupTask extends AppCompatActivity {
                         String alarmTime = documentSnapshot.getString("alarmTime");
                         String priorityMode = documentSnapshot.getString("priorityMode");
                         leaderFile = documentSnapshot.getString("fileName");
-
+                        String groupName = documentSnapshot.getString("groupName");
                         // Display the data in the EditTexts
                         taskTitleEditText.setText(taskTitle);
                         descriptionEditText.setText(description);
                         dateStartedEditText.setText(dateStart);
                         deadlineEditText.setText(dateDue);
                         alarmEditText.setText(alarmTime);
-
+                        GroupName.setText(groupName);
                         priorityModeCheckBox.setChecked("Yes".equalsIgnoreCase(priorityMode));
 
                     } else {
