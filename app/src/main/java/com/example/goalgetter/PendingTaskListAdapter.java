@@ -18,6 +18,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
+import java.util.Map;
 
 public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskListAdapter.TaskViewHolder> {
 
@@ -59,28 +60,66 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
                             // Check the 'isGroup' field
                             boolean isGroup = documentSnapshot.getBoolean("isGroup");
 
+                            // If 'isGroup' is true, open GroupTaskActivity
+                            boolean isCompleted = documentSnapshot.getBoolean("isCompleted");
+                            String leaderId = documentSnapshot.getString("leaderId");
+                            Boolean isApproved = documentSnapshot.getBoolean("isApproved");
+                            List<Map<String, Object>> users = (List<Map<String, Object>>) documentSnapshot.get("users");
+
+                            // Get current user's UID
+                            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                            // Check if the current user is part of the 'users' array
+                            boolean isCurrentUserInGroup = false;
+                            if (users != null) {
+                                for (Map<String, Object> userMap : users) {
+                                    String uid = (String) userMap.get("uid");
+                                    if (currentUserId.equals(uid)) {
+                                        isCurrentUserInGroup = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            //
+
+
                             // Open different activities based on 'isGroup'
                             Intent intent;
                             if (isGroup) {
-                                // If 'isGroup' is true, open GroupTaskActivity
-                                boolean isCompleted = documentSnapshot.getBoolean("isCompleted");
-                                String leaderId = documentSnapshot.getString("leaderId");
-                                Boolean isApproved = documentSnapshot.getBoolean("isApproved");
 
+                                // Leader - Completed
                                 if(isCompleted && isApproved && leaderId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                                     intent = new Intent(context, ApprovedGroupTask.class);
                                 }
+                                // Leader - Pending
                                 else if(isCompleted && !isApproved && leaderId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
                                     intent = new Intent(context, LeaderTaskOverview.class);
                                 }
+                                // Member / Non Member - Pending
+                                else if(isCompleted && !isApproved && !leaderId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    intent = new Intent(context, UnapprovedGroupTask.class);
+                                }
+                                // Member / Non Member - Completed
+                                else if(isCompleted && isApproved && !leaderId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                                    intent = new Intent(context, CompletedApprovedGroupTask.class);
+                                }
 
+                                // Member - Ongoing
                                 else {
                                     intent = new Intent(context, CreatedGroupTask.class);
                                 }
 
                             } else {
-                                // If 'isGroup' is false, open DetailedTask activity
-                                intent = new Intent(context, DetailedTask.class);
+                                // Solo - Completed
+                                if(isCompleted){
+                                    intent = new Intent(context, CompletedSoloTaskOverview.class);
+                                }
+                                // Solo - Ongoing
+                                else{
+                                    intent = new Intent(context, DetailedTask.class);
+                                }
+
                             }
 
                             // Pass the task ID to the new activity
