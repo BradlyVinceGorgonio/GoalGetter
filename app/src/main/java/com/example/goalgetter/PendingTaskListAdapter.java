@@ -150,6 +150,7 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
                             String fileName = documentSnapshot.getString("fileName");
+                            String teamTaskFile = documentSnapshot.getString("TeamTaskFile");
 
                             // Delete the Firestore document
                             db.collection("allTasks").document(taskId)
@@ -182,6 +183,20 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
                                                     });
                                         }
 
+                                        // If teamTaskFile exists, attempt to delete the file from Firebase Storage
+                                        if (teamTaskFile != null && !teamTaskFile.isEmpty()) {
+                                            StorageReference teamTaskRef = FirebaseStorage.getInstance()
+                                                    .getReference().child("task_files/" + teamTaskFile);
+
+                                            teamTaskRef.delete()
+                                                    .addOnSuccessListener(aVoid1 -> {
+                                                        Toast.makeText(context, "Team task file deleted successfully", Toast.LENGTH_SHORT).show();
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        Toast.makeText(context, "Failed to delete team task file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    });
+                                        }
+
                                         // Update the task list and notify the adapter
                                         taskList.remove(position);
                                         notifyItemRemoved(position);
@@ -199,6 +214,7 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
                         Toast.makeText(context, "Failed to fetch task details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
+
     }
 
 
