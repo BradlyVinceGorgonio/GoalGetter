@@ -39,6 +39,19 @@ public class ChatSettings extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
 
         leaveGroupTextView.setOnClickListener(v -> confirmGroupDeletion());
+
+        ImageView sharedTaskStatusBtn = findViewById(R.id.sharedTaskStatusBtn);
+        sharedTaskStatusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChatSettings.this, SharedTaskStatus.class);
+                String groupName = getIntent().getStringExtra("groupName");
+                String chatRoomId = getIntent().getStringExtra("groupChatId");
+                intent.putExtra("groupChatId", chatRoomId);
+                intent.putExtra("groupName", groupName);
+                startActivity(intent);
+            }
+        });
     }
 
     private void confirmGroupDeletion() {
