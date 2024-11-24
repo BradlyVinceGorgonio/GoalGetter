@@ -141,14 +141,7 @@
                 android:layout_marginRight="25dp"
                 android:orientation="vertical">
 
-                <CheckBox
-                    android:id="@+id/member1CheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Member 1"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    tools:ignore="HardcodedText" />
+                
 
             </LinearLayout>
 
