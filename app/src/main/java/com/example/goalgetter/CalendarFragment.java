@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Intent;
-import android.widget.CalendarView;
+
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +22,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
+
+import android.graphics.drawable.Drawable;
+import androidx.core.content.ContextCompat;
+
+import java.util.Calendar;
+
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
+
+import android.graphics.drawable.Drawable;
+import androidx.core.content.ContextCompat;
+
+import java.util.Calendar;
 
 public class CalendarFragment extends Fragment {
     private FirebaseFirestore db;
@@ -30,6 +45,7 @@ public class CalendarFragment extends Fragment {
     private RecyclerView recyclerView;
     private PendingTaskListAdapter pendingTaskListAdapter;
     private List<PendingTaskList> pendingTaskLists;
+    private List<EventDay> eventDays; // List to store events
     private SimpleDateFormat dateFormat;
 
     @Override
@@ -41,17 +57,23 @@ public class CalendarFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         dateFormat = new SimpleDateFormat("dd-MM-yyyy"); // Date format for filtering
         pendingTaskLists = new ArrayList<>();
+        eventDays = new ArrayList<>(); // Initialize event list
         pendingTaskListAdapter = new PendingTaskListAdapter(pendingTaskLists, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(pendingTaskListAdapter);
 
-        // Fetch tasks for the current day on fragment opening
-        String currentDate = dateFormat.format(new Date());
-        fetchTasksFromFirestore(currentDate);
+        // Fetch and highlight tasks
+        fetchAndHighlightTasks();
+
+        // Automatically fetch tasks for the current day
+        Calendar today = Calendar.getInstance();
+        String currentDate = dateFormat.format(today.getTime());
+        fetchTasksFromFirestore(currentDate); // Fetch tasks for the current day
 
         // Filter tasks when a date is selected
-        calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-            String selectedDate = String.format("%02d-%02d-%d", dayOfMonth, month + 1, year);
+        calendarView.setOnDayClickListener(eventDay -> {
+            Calendar clickedDay = eventDay.getCalendar();
+            String selectedDate = dateFormat.format(clickedDay.getTime());
             fetchTasksFromFirestore(selectedDate);
         });
 
@@ -63,6 +85,40 @@ public class CalendarFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void fetchAndHighlightTasks() {
+        String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("allTasks")
+                .whereArrayContains("uids", currentUserUID)
+                .whereEqualTo("isCompleted", false) // Filter for incomplete tasks
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        eventDays.clear(); // Clear previous events
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String dueDate = document.getString("dateDue");
+
+                            try {
+                                Date dateDue = dateFormat.parse(dueDate);
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime(dateDue);
+
+                                // Highlight day with a custom drawable
+                                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_event_day);
+                                eventDays.add(new EventDay(calendar, drawable));
+                            } catch (ParseException e) {
+                                Toast.makeText(getActivity(), "Date parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        // Update the calendar with highlighted days
+                        calendarView.setEvents(eventDays);
+                    } else {
+                        Toast.makeText(getActivity(), "Error fetching tasks: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void fetchTasksFromFirestore(String filterDate) {
