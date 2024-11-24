@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -37,6 +38,7 @@ import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
 
 import java.util.Calendar;
+import java.util.Map;
 
 public class CalendarFragment extends Fragment {
     private FirebaseFirestore db;
@@ -97,29 +99,49 @@ public class CalendarFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         eventDays.clear(); // Clear previous events
+
+                        // Group tasks by due date and check for priorityMode 'Yes' in one loop
+                        Map<String, Boolean> priorityMap = new HashMap<>();
+
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String dueDate = document.getString("dateDue");
+                            String priorityMode = document.getString("priorityMode");
+
+                            // Track if any task on this date has priorityMode 'Yes'
+                            priorityMap.put(dueDate, "Yes".equals(priorityMode) || priorityMap.getOrDefault(dueDate, false));
+                        }
+
+                        // Process each unique due date
+                        for (Map.Entry<String, Boolean> entry : priorityMap.entrySet()) {
+                            String dueDate = entry.getKey();
+                            boolean isPriorityDay = entry.getValue();
 
                             try {
+                                // Parse the due date to a calendar
                                 Date dateDue = dateFormat.parse(dueDate);
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.setTime(dateDue);
 
-                                // Highlight day with a custom drawable
-                                Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_event_day);
-                                eventDays.add(new EventDay(calendar, drawable));
+                                // Set the drawable based on priority status
+                                int drawableRes = isPriorityDay ? R.drawable.ic_event_day : R.drawable.ic_event_black;
+                                Drawable drawable = ContextCompat.getDrawable(getContext(), drawableRes);
+
+                                eventDays.add(new EventDay(calendar, drawable)); // Add the event with the appropriate drawable
                             } catch (ParseException e) {
                                 Toast.makeText(getActivity(), "Date parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
-                        // Update the calendar with highlighted days
+                        // Update the calendar with highlighted events
                         calendarView.setEvents(eventDays);
                     } else {
                         Toast.makeText(getActivity(), "Error fetching tasks: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
+
+
 
     private void fetchTasksFromFirestore(String filterDate) {
         String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
