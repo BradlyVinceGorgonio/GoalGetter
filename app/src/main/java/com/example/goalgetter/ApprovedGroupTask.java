@@ -82,6 +82,40 @@ public class ApprovedGroupTask extends AppCompatActivity {
             }
         });
 
+        Button DeleteTaskButton = findViewById(R.id.DeleteTaskButton);
+        DeleteTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String taskID = getIntent().getStringExtra("taskID"); // Get taskID from Intent
+
+                if (taskID != null) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+
+                    // Delete the Firestore document
+                    db.collection("allTasks").document(taskID)
+                            .delete()
+                            .addOnSuccessListener(aVoid -> {
+                                Log.d("DELETE_TASK", "Task document deleted successfully.");
+
+                                // Delete the two images from Firebase Storage
+                                deleteFileFromStorage("task_files/" + leaderFile, storageRef);
+                                deleteFileFromStorage("task_files/" + teamTaskFile, storageRef);
+
+                                Toast.makeText(ApprovedGroupTask.this, "Task deleted successfully.", Toast.LENGTH_SHORT).show();
+                                finish(); // Close the activity
+                            })
+                            .addOnFailureListener(e -> {
+                                Log.e("DELETE_TASK", "Failed to delete task document: " + e.getMessage());
+                                Toast.makeText(ApprovedGroupTask.this, "Failed to delete task.", Toast.LENGTH_SHORT).show();
+                            });
+                } else {
+                    Log.e("DELETE_TASK", "Task ID is null.");
+                    Toast.makeText(ApprovedGroupTask.this, "Unable to delete task: Task ID is missing.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         ViewGroupTaskFIle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +133,18 @@ public class ApprovedGroupTask extends AppCompatActivity {
         fetchTaskData(taskID);
         //FOR CHECKBOXES
         fetchAndDisplayUserCheckboxes(taskID);
+    }
+
+    private void deleteFileFromStorage(String filePath, StorageReference storageRef) {
+        if (filePath != null && !filePath.isEmpty()) {
+            StorageReference fileRef = storageRef.child(filePath);
+
+            fileRef.delete()
+                    .addOnSuccessListener(aVoid -> Log.d("DELETE_FILE", "File " + filePath + " deleted successfully."))
+                    .addOnFailureListener(e -> Log.e("DELETE_FILE", "Failed to delete file " + filePath + ": " + e.getMessage()));
+        } else {
+            Log.w("DELETE_FILE", "File path is null or empty: " + filePath);
+        }
     }
 
 
