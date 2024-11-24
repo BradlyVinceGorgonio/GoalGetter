@@ -174,7 +174,7 @@ public class HomeFragment extends Fragment {
 
                     Intent intent = new Intent(getActivity(), AlarmReceiver.class);
                     intent.putExtra("courseName", courseName);
-                    intent.putExtra("dueDate", currentDay);
+                    intent.putExtra("dueDate", dueDate);
                     intent.putExtra("taskType", taskType);
                     intent.putExtra("taskID", taskID);
                     intent.putExtra("priorityMode", priorityMode);
