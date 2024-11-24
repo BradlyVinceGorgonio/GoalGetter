@@ -34,37 +34,46 @@ public class AlarmReceiver extends BroadcastReceiver {
         String courseName = intent.getStringExtra("courseName");
         String dueDate = intent.getStringExtra("dueDate");
         String taskType = intent.getStringExtra("taskType");
-        String taskID = intent.getStringExtra("taskID");  // Add taskID or any other necessary data
+        String taskID = intent.getStringExtra("taskID");
+        String priorityMode = intent.getStringExtra("priorityMode");
 
         // Create an Intent for DetailedTask activity
         Intent detailedTaskIntent = new Intent(context, DetailedTask.class);
-        detailedTaskIntent.putExtra("taskID", taskID);  // Pass task data to the DetailedTask activity
+        detailedTaskIntent.putExtra("taskID", taskID);
 
-        // Use TaskStackBuilder to ensure the correct activity stack behavior
+        // Use TaskStackBuilder to ensure correct activity stack behavior
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(DetailedTask.class); // Add the parent activity to the stack (if any)
-        stackBuilder.addNextIntent(detailedTaskIntent);  // Add the DetailedTask activity to the stack
+        stackBuilder.addParentStack(DetailedTask.class);
+        stackBuilder.addNextIntent(detailedTaskIntent);
 
-        // Create a PendingIntent that will open the DetailedTask activity when the notification is clicked
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+        // Create notification text
+        String notificationText = "Task Type: " + taskType + " | Due Date: " + dueDate;
+        if ("Yes".equalsIgnoreCase(priorityMode)) {
+            notificationText = "PRIORITY TASK!\n" + notificationText;
+        }
 
-        // Create the notification
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new NotificationCompat.Builder(context, "taskReminderChannel")
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "taskReminderChannel")
                 .setContentTitle(courseName)
-                .setContentText("Task Type: " + taskType + " | Due Date: " + dueDate)
+                .setContentText(notificationText)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(notificationText)) // Use BigTextStyle for longer text
                 .setSmallIcon(R.drawable.baseline_access_alarm_24)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
-                .setContentIntent(pendingIntent)  // Set the PendingIntent on the notification
-                .build();
+                .setContentIntent(pendingIntent);
 
-        // Log and show toast for debugging
-        Log.d("AlarmReceiver", "Alarm triggered for: " + courseName);
-        Toast.makeText(context, "Alarm triggered for: " + courseName, Toast.LENGTH_SHORT).show();
+        // Highlight priority tasks with red text
+        if ("Yes".equalsIgnoreCase(priorityMode)) {
+            builder.setColor(context.getResources().getColor(android.R.color.holo_red_light)) // Set red color
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText("PRIORITY TASK!\n" + "Task Type: " + taskType + " | Due Date: " + dueDate)); // Large priority text
+        }
 
         // Show the notification
-        notificationManager.notify(0, notification);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(taskID.hashCode(), builder.build());
     }
+
 }

@@ -122,7 +122,8 @@ public class HomeFragment extends Fragment {
                                     // Only set alarm if the alarm time is in the future
                                     if (alarmDate != null && alarmDate.after(currentDate)) {
                                         // Set the alarm for this task
-                                        scheduleTaskAlarm(courseName, dueDate, dueTime, taskType, taskID);
+                                        scheduleTaskAlarm(courseName, startDate, dueDate, dueTime, taskType, taskID, priorityMode);
+
 
                                         // Show a Toast confirming the alarm is set
                                         Toast.makeText(getActivity(), "Alarm set for: " + courseName + " due on " + dueDate, Toast.LENGTH_SHORT).show();
@@ -149,33 +150,55 @@ public class HomeFragment extends Fragment {
 
 
 
-    private void scheduleTaskAlarm(String courseName, String dueDate, String alarmTime, String taskType, String taskID) {
+    private void scheduleTaskAlarm(String courseName, String startDate, String dueDate, String alarmTime, String taskType, String taskID, String priorityMode) {
         try {
-            // Parse due date and alarm time
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-            String alarmDateString = dueDate + " " + alarmTime;  // Combine dueDate and alarmTime to form the full alarm datetime
-            Date alarmDate = dateFormat.parse(alarmDateString);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-            // Set up the alarm using AlarmManager
-            AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(getActivity(), AlarmReceiver.class); // Use getActivity() to get the context for the intent
-            intent.putExtra("courseName", courseName);
-            intent.putExtra("dueDate", dueDate);
-            intent.putExtra("taskType", taskType); // Add taskType to the intent
-            intent.putExtra("taskID", taskID); // Add taskID to the intent
+            Date start = dateFormat.parse(startDate);
+            Date due = dateFormat.parse(dueDate);
 
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(start);
+
+            // Loop through each day from startDate to dueDate
+            while (!calendar.getTime().after(due)) {
+                String currentDay = dateFormat.format(calendar.getTime());
+                String alarmDateString = currentDay + " " + alarmTime;
+
+                Date alarmDate = dateTimeFormat.parse(alarmDateString);
+
+                // Check if the alarm is still in the future
+                if (alarmDate != null && alarmDate.after(new Date())) {
+                    AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
+
+                    Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+                    intent.putExtra("courseName", courseName);
+                    intent.putExtra("dueDate", currentDay);
+                    intent.putExtra("taskType", taskType);
+                    intent.putExtra("taskID", taskID);
+                    intent.putExtra("priorityMode", priorityMode);
 
 
-            // Set the alarm to trigger at the due date and alarm time
-            if (alarmManager != null) {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDate.getTime(), pendingIntent);
+                    int requestCode = (int) (taskID.hashCode() + calendar.getTimeInMillis()); // Ensure unique request code for each alarm
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+
+                    // Schedule the alarm
+                    if (alarmManager != null) {
+                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmDate.getTime(), pendingIntent);
+                    }
+
+                    Log.d("HomeFragment", "Alarm set for: " + courseName + " on " + currentDay);
+                }
+
+                // Move to the next day
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
             }
-
         } catch (ParseException e) {
             Log.e("HomeFragment", "Error parsing alarm time: ", e);
         }
     }
+
 
 
 
