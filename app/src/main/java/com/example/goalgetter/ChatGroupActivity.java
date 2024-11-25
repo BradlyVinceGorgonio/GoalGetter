@@ -3,7 +3,6 @@ package com.example.goalgetter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -92,9 +91,8 @@ public class ChatGroupActivity extends AppCompatActivity {
         loadMessages();
 
         ImageButton createTaskButton = findViewById(R.id.create_task_button);
-        createTaskButton.setVisibility(View.GONE); // Initially hide the button
+        createTaskButton.setVisibility(View.GONE);
         checkLeaderAndUpdateButton(createTaskButton);
-        Log.d("CHECKER", "current user: " + currentUserId);
         createTaskButton.setOnClickListener(v -> {
             Intent intent = new Intent(ChatGroupActivity.this, LeaderTaskCreation.class);
             intent.putExtra("groupChatId", chatRoomId);
@@ -104,60 +102,48 @@ public class ChatGroupActivity extends AppCompatActivity {
     }
 
     private void checkLeaderAndUpdateButton(ImageButton createTaskButton) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance(); // Firestore instance
-        String taskID = chatRoomId; // Assuming chatRoomId is used as the taskID
-        Log.d("CHECKER", "chat " + chatRoomId);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("chatGroups")
-                .document(taskID)
+                .document(chatRoomId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String leaderId = documentSnapshot.getString("leaderId");
-                        Log.d("CHECKER", "leader " + leaderId);
-                        // Compare leaderId with the current user's ID
                         if (leaderId != null && leaderId.equals(currentUserId)) {
-                            createTaskButton.setVisibility(View.VISIBLE); // Show button if leader
+                            createTaskButton.setVisibility(View.VISIBLE);
                         } else {
-                            createTaskButton.setVisibility(View.GONE); // Hide button if not leader
+                            createTaskButton.setVisibility(View.GONE);
                         }
                     } else {
-                        // Document doesn't exist, keep the button hidden
                         createTaskButton.setVisibility(View.GONE);
                     }
                 })
-                .addOnFailureListener(e -> {
-                    // Log error and hide button on failure
-                    Toast.makeText(ChatGroupActivity.this, "Error fetching task info: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    createTaskButton.setVisibility(View.GONE);
-                });
+                .addOnFailureListener(e -> createTaskButton.setVisibility(View.GONE));
     }
 
     private void retrieveCurrentUserName() {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
-        usersRef.child(currentUserId).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    currentUserName = snapshot.getValue(String.class);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-            }
-        });
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("students")
+                .document(currentUserId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        currentUserName = documentSnapshot.getString("name");
+                    } else {
+                        currentUserName = "Unknown User";
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    currentUserName = "Unknown User";
+                });
     }
 
     private void sendMessage() {
         String messageContent = messageInput.getText().toString().trim();
-        String imageUrl = "";
-
         if (!messageContent.isEmpty()) {
             long timestamp = System.currentTimeMillis();
-            Message message = new Message(currentUserId, currentUserName, "", messageContent, imageUrl, timestamp);
-
+            Message message = new Message(currentUserId, currentUserName, groupName, messageContent, "", timestamp, "text");
             messagesRef.child(chatRoomId).push().setValue(message);
-
             messageInput.setText("");
         }
     }
@@ -165,20 +151,17 @@ public class ChatGroupActivity extends AppCompatActivity {
     private void uploadImageToFirebase(Uri imageUri) {
         if (imageUri != null) {
             StorageReference storageRef = FirebaseStorage.getInstance().getReference("chat_images");
-            final StorageReference imageRef = storageRef.child(System.currentTimeMillis() + ".jpg");
-
+            StorageReference imageRef = storageRef.child(System.currentTimeMillis() + ".jpg");
             UploadTask uploadTask = imageRef.putFile(imageUri);
             uploadTask.addOnSuccessListener(taskSnapshot -> {
-                imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                    sendImageMessage(uri.toString());
-                });
-            }).addOnFailureListener(e -> Toast.makeText(ChatGroupActivity.this, "Image upload failed", Toast.LENGTH_SHORT).show());
+                imageRef.getDownloadUrl().addOnSuccessListener(uri -> sendImageMessage(uri.toString()));
+            });
         }
     }
 
     private void sendImageMessage(String imageUrl) {
         long timestamp = System.currentTimeMillis();
-        Message message = new Message(currentUserId, currentUserName, "", "", imageUrl, timestamp);
+        Message message = new Message(currentUserId, currentUserName, groupName, "", imageUrl, timestamp, "image");
         messagesRef.child(chatRoomId).push().setValue(message);
     }
 
@@ -200,9 +183,9 @@ public class ChatGroupActivity extends AppCompatActivity {
     private void loadMessages() {
         messagesRef.child(chatRoomId).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 messageList.clear();
-                for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
+                for (DataSnapshot messageSnapshot : dataSnapshot.getChildren()) {
                     Message message = messageSnapshot.getValue(Message.class);
                     if (message != null) {
                         messageList.add(message);
@@ -213,23 +196,8 @@ public class ChatGroupActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
-    }
-
-    public void openFullImage(View view) {
-        int position = messagesRecyclerView.getChildAdapterPosition(view);
-        Message message = messageList.get(position);
-
-        String imageUrl = message.getImageUrl();
-
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            Intent intent = new Intent(this, FullImageActivity.class);
-            intent.putExtra("image_url", imageUrl);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "No image available", Toast.LENGTH_SHORT).show();
-        }
     }
 }
