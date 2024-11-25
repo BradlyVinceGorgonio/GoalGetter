@@ -106,9 +106,20 @@ public class CalendarFragment extends Fragment {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String dueDate = document.getString("dateDue");
                             String priorityMode = document.getString("priorityMode");
+                            String startDate = document.getString("dateStart");
 
-                            // Track if any task on this date has priorityMode 'Yes'
-                            priorityMap.put(dueDate, "Yes".equals(priorityMode) || priorityMap.getOrDefault(dueDate, false));
+                            try {
+                                Date dateStart = dateFormat.parse(startDate);
+                                Date currentDate = new Date();  // Current date and time
+
+                                // Only process tasks whose startDate has passed or is the current date
+                                if (dateStart.before(currentDate) || dateStart.equals(currentDate)) {
+                                    // Track if any task on this date has priorityMode 'Yes'
+                                    priorityMap.put(dueDate, "Yes".equals(priorityMode) || priorityMap.getOrDefault(dueDate, false));
+                                }
+                            } catch (ParseException e) {
+                                Toast.makeText(getActivity(), "Date parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         // Process each unique due date
@@ -126,7 +137,8 @@ public class CalendarFragment extends Fragment {
                                 int drawableRes = isPriorityDay ? R.drawable.ic_event_day : R.drawable.ic_event_black;
                                 Drawable drawable = ContextCompat.getDrawable(getContext(), drawableRes);
 
-                                eventDays.add(new EventDay(calendar, drawable)); // Add the event with the appropriate drawable
+                                // Add the event with the appropriate drawable
+                                eventDays.add(new EventDay(calendar, drawable));
                             } catch (ParseException e) {
                                 Toast.makeText(getActivity(), "Date parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -139,6 +151,7 @@ public class CalendarFragment extends Fragment {
                     }
                 });
     }
+
 
 
 
@@ -166,12 +179,20 @@ public class CalendarFragment extends Fragment {
                             try {
                                 Date dateStart = dateFormat.parse(startDate);
                                 Date dateDue = dateFormat.parse(dueDate);
+                                Date filterDateParsed = dateFormat.parse(filterDate);
 
-                                // Filter tasks based on the filter date
-                                if (filterDate != null && dueDate.equals(filterDate)) {
-                                    PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
-                                    taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
-                                    pendingTaskLists.add(taskData);
+                                // Get the current time to compare with start date and time
+                                Calendar currentTime = Calendar.getInstance();
+                                currentTime.setTime(new Date());
+
+                                // Ensure startDate is before or equal to the current time and dueDate matches filterDate
+                                if (dateStart.before(currentTime.getTime()) || dateStart.equals(currentTime.getTime())) {
+                                    // Ensure dueDate matches the selected filterDate
+                                    if (dueDate.equals(filterDate)) {
+                                        PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
+                                        taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
+                                        pendingTaskLists.add(taskData);
+                                    }
                                 }
                             } catch (ParseException e) {
                                 Toast.makeText(getActivity(), "Date parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -186,4 +207,5 @@ public class CalendarFragment extends Fragment {
                     }
                 });
     }
+
 }
