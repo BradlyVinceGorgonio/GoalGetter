@@ -17,13 +17,17 @@ public class GroupNotification {
         this.timestamp = timestamp;
     }
 
-    // Getters and Equals/HashCode for comparison in List
+    // Getters and Setters
     public String getGroupId() {
         return groupId;
     }
 
     public String getGroupName() {
         return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public String getMessageId() {
