@@ -252,7 +252,7 @@
 
                 <Button
                     android:id="@+id/ViewGroupTaskFIle"
-                    android:layout_width="230dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:backgroundTint="@android:color/holo_red_dark"
@@ -269,8 +269,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:backgroundTint="@android:color/darker_gray"
-                android:text="Submit File Task"
+                android:backgroundTint="@android:color/holo_blue_light"
+                android:text="Submitted File Task"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:textColor="@android:color/white"

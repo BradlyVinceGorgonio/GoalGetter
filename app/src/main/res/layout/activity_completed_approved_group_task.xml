@@ -231,7 +231,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
-                    android:text="Task File"
+                    android:text="Task File: "
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     tools:ignore="HardcodedText" />
@@ -259,7 +259,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@android:color/holo_blue_light"
-                android:text="Submit File Task"
+                android:text="Submitted File Task"
                 android:textColor="@android:color/white"
                 tools:ignore="HardcodedText,DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintButtonSize">
 
