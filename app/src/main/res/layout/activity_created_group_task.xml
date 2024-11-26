@@ -230,7 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
-                    android:text="Task File"
+                    android:text="Task File: "
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     tools:ignore="HardcodedText" />

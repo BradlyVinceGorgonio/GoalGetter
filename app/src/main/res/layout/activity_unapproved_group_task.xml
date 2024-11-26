@@ -259,7 +259,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@android:color/holo_blue_light"
-                android:text="Submit File Task"
+                android:text="Submitted File Task"
                 android:textColor="@android:color/white"
                 tools:ignore="HardcodedText,DuplicateSpeakableTextCheck,TextContrastCheck,VisualLintButtonSize">
 

@@ -192,7 +192,7 @@
                     android:id="@+id/uploadImageTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Upload Image"
+                    android:text="Uploaded Image"
                     android:textSize="18sp"
                     android:textColor="@color/black"
                     android:layout_gravity="start"
@@ -209,16 +209,7 @@
                     android:contentDescription="Uploaded Image"
                     tools:ignore="HardcodedText" />
 
-                <Button
-                    android:id="@+id/uploadImageButton"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:backgroundTint="@android:color/holo_red_dark"
-                    android:text="Upload Image"
-                    android:textColor="@android:color/white"
-                    tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
+
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout

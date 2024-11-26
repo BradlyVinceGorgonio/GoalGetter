@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:gravity="center"
-                    android:text="Task File"
+                    android:text="Task File: "
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     tools:ignore="HardcodedText" />
@@ -232,13 +232,13 @@
 
                 <Button
                     android:id="@+id/ViewGroupTaskFIle"
-                    android:layout_width="230dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="20dp"
                     android:layout_marginBottom="10dp"
                     android:backgroundTint="@android:color/holo_red_dark"
-                    android:text="View Group Task File"
+                    android:text="View uploaded File"
                     android:textColor="@android:color/white"
                     tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
             </LinearLayout>
@@ -251,8 +251,8 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:backgroundTint="@android:color/darker_gray"
-                android:text="Submit File Task"
+                android:backgroundTint="@android:color/holo_blue_light"
+                android:text="View Submitted Task File"
                 android:textColor="@android:color/white"
                 tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
 
@@ -339,7 +339,7 @@
                     android:id="@+id/completeTaskCard"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="100dp"
+                    android:layout_marginEnd="90dp"
                     android:backgroundTint="@android:color/holo_green_light"
                     android:clickable="true"
                     android:focusable="true"
