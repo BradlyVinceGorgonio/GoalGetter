@@ -101,6 +101,7 @@ public class HomeFragment extends Fragment {
                             String dueTime = document.getString("alarmTime");
                             String priorityMode = document.getString("priorityMode");
                             String UID = document.getString("uid");
+                            boolean isGroup = document.getBoolean("isGroup");
                             String taskID = document.getId();
 
                             try {
@@ -122,7 +123,7 @@ public class HomeFragment extends Fragment {
                                     // Only set alarm if the alarm time is in the future
                                     if (alarmDate != null && alarmDate.after(currentDate)) {
                                         // Set the alarm for this task
-                                        scheduleTaskAlarm(courseName, startDate, dueDate, dueTime, taskType, taskID, priorityMode);
+                                        scheduleTaskAlarm(courseName, startDate, dueDate, dueTime, taskType, taskID, priorityMode, isGroup);
 
 
                                         // Show a Toast confirming the alarm is set
@@ -150,7 +151,7 @@ public class HomeFragment extends Fragment {
 
 
 
-    private void scheduleTaskAlarm(String courseName, String startDate, String dueDate, String alarmTime, String taskType, String taskID, String priorityMode) {
+    private void scheduleTaskAlarm(String courseName, String startDate, String dueDate, String alarmTime, String taskType, String taskID, String priorityMode, boolean isGroup) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
@@ -178,7 +179,7 @@ public class HomeFragment extends Fragment {
                     intent.putExtra("taskType", taskType);
                     intent.putExtra("taskID", taskID);
                     intent.putExtra("priorityMode", priorityMode);
-
+                    intent.putExtra("isGroup", isGroup);
 
                     int requestCode = (int) (taskID.hashCode() + calendar.getTimeInMillis()); // Ensure unique request code for each alarm
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);

@@ -36,15 +36,19 @@ public class AlarmReceiver extends BroadcastReceiver {
         String taskType = intent.getStringExtra("taskType");
         String taskID = intent.getStringExtra("taskID");
         String priorityMode = intent.getStringExtra("priorityMode");
+        boolean isGroupTask = intent.getBooleanExtra("isGroup", false);
 
-        // Create an Intent for DetailedTask activity
-        Intent detailedTaskIntent = new Intent(context, DetailedTask.class);
-        detailedTaskIntent.putExtra("taskID", taskID);
+        // Choose the appropriate activity based on isGroupTask
+        Class<?> targetActivity = isGroupTask ? CreatedGroupTask.class : DetailedTask.class;
+
+        // Create an Intent for the selected activity
+        Intent targetIntent = new Intent(context, targetActivity);
+        targetIntent.putExtra("taskID", taskID);
 
         // Use TaskStackBuilder to ensure correct activity stack behavior
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(DetailedTask.class);
-        stackBuilder.addNextIntent(detailedTaskIntent);
+        stackBuilder.addParentStack(targetActivity);
+        stackBuilder.addNextIntent(targetIntent);
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
