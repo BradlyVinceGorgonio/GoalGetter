@@ -37,36 +37,6 @@ public class Login extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        //FirebaseAuth.getInstance().signOut();
-
-
-        // Check and request exact alarm permission on Android 12 (API 31) or higher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            if (!alarmManager.canScheduleExactAlarms()) {
-                // Launch the settings screen to request permission
-                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
-                startActivity(intent);
-            }
-        }
-        // Check and request notification permission (Android 13+)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestNotificationPermissionLauncher = registerForActivityResult(
-                    new ActivityResultContracts.RequestPermission(),
-                    isGranted -> {
-                        if (!isGranted) {
-                            // Handle the case where the user denied the notification permission
-                            showToast("Notification permission is required for task reminders.");
-                        }
-                    }
-            );
-
-            if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
-                // Request the POST_NOTIFICATIONS permission
-                requestNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
-            }
-        }
-
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
@@ -95,10 +65,55 @@ public class Login extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        permissions();
 
     }
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public void permissions(){
+
+
+        // Check and request notification permission (Android 13+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestNotificationPermissionLauncher = registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    isGranted -> {
+                        if (!isGranted) {
+                            // Handle the case where the user denied the notification permission
+                            Toast.makeText(this, "Notification permission is required for task reminders.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+
+            if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+                // Request the POST_NOTIFICATIONS permission
+                requestNotificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+
+        // Check and request exact alarm permission (Android 12+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            if (!alarmManager.canScheduleExactAlarms()) {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent);
+            }
+        }
+
+        // Open "Manage Notifications" settings if needed
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // Android 8.0 (Oreo) or higher
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            if (!notificationManager.areNotificationsEnabled()) {
+                // Navigate to the app's notification settings
+                Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                startActivity(intent);
+            }
+        }
+
     }
 
     private void loginUser(String email, String password) {
