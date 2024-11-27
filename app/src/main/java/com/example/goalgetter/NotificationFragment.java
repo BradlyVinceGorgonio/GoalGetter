@@ -1,6 +1,7 @@
 package com.example.goalgetter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -156,10 +157,11 @@ public class NotificationFragment extends Fragment {
             GroupNotification notification = notifications.get(position);
 
             holder.groupNameTextView.setText(notification.getGroupName());
-            holder.messageTextView.setText(notification.getMessageText());
+            holder.messageTextView.setText("Message: " + notification.getMessageText());
             holder.senderNameTextView.setText(notification.getSenderName());
 
-            String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date(notification.getTimestamp()));
+            String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                    .format(new Date(notification.getTimestamp()));
             holder.timestampTextView.setText(timestamp);
 
             if (notification.getTimestamp() == getLatestTimestamp(notification.getGroupId())) {
@@ -168,8 +170,19 @@ public class NotificationFragment extends Fragment {
                 holder.newMessageIcon.setVisibility(View.GONE);
             }
 
-            holder.itemView.setOnClickListener(v -> listener.onNotificationClick(notification));
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ChatGroupActivity.class);
+                intent.putExtra("groupId", notification.getGroupId());
+                intent.putExtra("groupName", notification.getGroupName());
+                intent.putExtra("senderName", notification.getSenderName());
+                intent.putExtra("messageId", notification.getMessageId());
+                intent.putExtra("messageText", notification.getMessageText());
+                intent.putExtra("timestamp", notification.getTimestamp());
+                context.startActivity(intent);
+            });
         }
+
+
 
         private long getLatestTimestamp(String groupId) {
             long latestTimestamp = 0;

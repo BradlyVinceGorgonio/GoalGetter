@@ -2,6 +2,8 @@ package com.example.goalgetter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +56,7 @@ public class GroupFragment extends Fragment {
         recyclerView = popupView.findViewById(R.id.recycler_view);
         Button selectButton = popupView.findViewById(R.id.select_button);
         EditText groupNameEditText = popupView.findViewById(R.id.group_name_edit_text);
+        EditText searchEditText = popupView.findViewById(R.id.search_edit_text);
 
         fetchUsers();
 
@@ -63,6 +66,18 @@ public class GroupFragment extends Fragment {
 
         final androidx.appcompat.app.AlertDialog dialog = builder.create();
         dialog.show();
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
 
         selectButton.setOnClickListener(v -> {
             if (selectedUsers.size() < 2) {
@@ -82,28 +97,27 @@ public class GroupFragment extends Fragment {
     private void fetchUsers() {
         CollectionReference usersCollection = firestore.collection("students");
 
-        usersCollection.get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        List<User> users = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String uid = document.getId();
-                            String email = document.getString("email");
-                            String name = document.getString("name");
+        usersCollection.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<User> users = new ArrayList<>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    String uid = document.getId();
+                    String email = document.getString("email");
+                    String name = document.getString("name");
 
-                            if (!uid.equals(currentUserId)) {
-                                users.add(new User(uid, email, name));
-                            }
-                        }
-
-                        User currentUser = new User(currentUserId, "", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-                        selectedUsers.add(currentUser);
-
-                        setupRecyclerView(users);
-                    } else {
-                        Toast.makeText(getContext(), "Failed to fetch users: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    if (!uid.equals(currentUserId)) {
+                        users.add(new User(uid, email, name));
                     }
-                });
+                }
+
+                User currentUser = new User(currentUserId, "", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                selectedUsers.add(currentUser);
+
+                setupRecyclerView(users);
+            } else {
+                Toast.makeText(getContext(), "Failed to fetch users: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setupRecyclerView(List<User> users) {
@@ -123,47 +137,38 @@ public class GroupFragment extends Fragment {
         recyclerView.setAdapter(userAdapter);
     }
 
+
     private void createGroupWithSelectedUsers(List<User> selectedUsers, String groupName) {
         String groupId = firestore.collection("chatGroups").document().getId();
         String leaderId = currentUserId;
 
-        firestore.collection("students").document(leaderId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        String leaderName = documentSnapshot.getString("name");
-                        String leaderEmail = documentSnapshot.getString("email");
+        firestore.collection("students").document(leaderId).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                String leaderName = documentSnapshot.getString("name");
+                String leaderEmail = documentSnapshot.getString("email");
 
-                        selectedUsers.removeIf(user -> user.getUid().equals(leaderId));
+                selectedUsers.removeIf(user -> user.getUid().equals(leaderId));
 
-                        User leaderUser = new User(leaderId, leaderEmail, leaderName);
-                        selectedUsers.add(0, leaderUser);
+                User leaderUser = new User(leaderId, leaderEmail, leaderName);
+                selectedUsers.add(0, leaderUser);
 
-                        GroupChat groupChat = new GroupChat(groupId, groupName, selectedUsers, leaderId, leaderName, leaderEmail, "", 0);
-                        
-                        firestore.collection("chatGroups").document(groupId)
-                                .set(groupChat)
-                                .addOnSuccessListener(aVoid -> {
-                                    Intent intent = new Intent(getContext(), ChatGroupActivity.class);
-                                    intent.putExtra("groupId", groupId);
-                                    intent.putExtra("groupName", groupName);
-                                    startActivity(intent);
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(getContext(), "Error creating chat group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
-                    } else {
-                        Toast.makeText(getContext(), "Failed to fetch creator details from Firestore.", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Error fetching creator details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                GroupChat groupChat = new GroupChat(groupId, groupName, selectedUsers, leaderId, leaderName, leaderEmail, "", 0);
+
+                firestore.collection("chatGroups").document(groupId).set(groupChat).addOnSuccessListener(aVoid -> {
+                    Intent intent = new Intent(getContext(), ChatGroupActivity.class);
+                    intent.putExtra("groupId", groupId);
+                    intent.putExtra("groupName", groupName);
+                    startActivity(intent);
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Error creating chat group: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+            } else {
+                Toast.makeText(getContext(), "Failed to fetch creator details from Firestore.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(getContext(), "Error fetching creator details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
-
-
-
-
 
     private void fetchGroupChats(String currentUserId) {
         CollectionReference chatGroupsCollection = firestore.collection("chatGroups");

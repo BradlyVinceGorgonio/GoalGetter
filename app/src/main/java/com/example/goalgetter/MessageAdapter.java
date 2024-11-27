@@ -84,8 +84,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     userNameText.setText("Unknown User");
                 }
             });
+
             messageText.setText(message.getMessageText());
             timestampText.setText(message.getFormattedTimestamp());
+
             if (message.getImageUrl() != null && !message.getImageUrl().isEmpty()) {
                 messageImage.setVisibility(View.VISIBLE);
                 Picasso.get().load(message.getImageUrl()).into(messageImage);
@@ -93,6 +95,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 messageImage.setVisibility(View.GONE);
             }
         }
+
     }
 
     static class RightMessageViewHolder extends RecyclerView.ViewHolder {
@@ -122,8 +125,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     userNameText.setText("Unknown User");
                 }
             });
+
             messageText.setText(message.getMessageText());
             timestampText.setText(message.getFormattedTimestamp());
+
             if (message.getImageUrl() != null && !message.getImageUrl().isEmpty()) {
                 messageImage.setVisibility(View.VISIBLE);
                 Picasso.get().load(message.getImageUrl()).into(messageImage);
@@ -131,5 +136,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 messageImage.setVisibility(View.GONE);
             }
         }
+
     }
 }
