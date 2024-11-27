@@ -116,6 +116,7 @@ public class bottomNavigation extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.editprofile) {
+            loadFragment(new ProfileFragment(), false);
             Toast.makeText(this, "Edit Profile clicked", Toast.LENGTH_SHORT).show();
             return true;
         } else if (itemId == R.id.priorityModelist) {

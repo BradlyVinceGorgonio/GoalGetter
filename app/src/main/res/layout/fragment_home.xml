@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="5dp"
         android:layout_marginTop="65dp">
 
         <!-- Franciscan Virtue -->
@@ -31,7 +30,10 @@
             android:id="@+id/cardView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="15dp"
             android:elevation="15dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
@@ -85,76 +87,89 @@
         </androidx.cardview.widget.CardView>
 
         <!-- Agenda Section -->
-        <LinearLayout
-            android:id="@+id/agendaSection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Agenda"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <AutoCompleteTextView
-                android:id="@+id/pendingTasksTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/border_bg"
-                android:clickable="false"
-                android:focusable="false"
-                android:padding="5dp"
-                android:text="You have a total of 0 pending tasks"
-                android:textAlignment="center"
-                android:textSize="12.5sp"
-                tools:ignore="TouchTargetSizeCheck" />
-        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-
-
+            android:layout_marginTop="5dp"
+            app:cardElevation="15dp"
+            android:elevation="15dp"
+            android:layout_margin="1dp"
+            android:outlineSpotShadowColor="@color/light_red"
+            android:outlineAmbientShadowColor="@color/light_red"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:padding="3dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/light_red"
+                    android:padding="15dp">
 
                 <TextView
                     android:id="@+id/pendingTaskTextView"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Pending task"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/classScheduleTextView"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Class schedule"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+                </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/agendaSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="Agenda"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/pendingTasksTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/border_bg"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:padding="5dp"
+                    android:text="You have a total of 0 pending tasks"
+                    android:textAlignment="center"
+                    android:textSize="12.5sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </LinearLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -164,28 +179,28 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="315dp"
+        android:layout_marginTop="320dp"
         android:layout_gravity="bottom">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="3dp">
+            >
 
             <!-- Card Views and Other Content -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                app:cardElevation="20dp"
+                android:layout_margin="1dp"
+                android:elevation="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="1dp"
+                    android:layout_margin="2dp"
                     android:orientation="vertical"
                     android:padding="1dp">
 

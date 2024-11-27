@@ -6,9 +6,11 @@
     <color name="grey">#808080</color>
     <color name="dark_grey">#A9A9A9</color>
     <color name="red">#FF0000</color>
+    <color name="light_red">#ff0800</color>
     <color name="dark_red">#8B0000</color>
     <color name="green">#008000</color>
     <color name="dark_green">#006400</color>
     <color name="blue">#0000FF</color>
+    <color name="lightblue">#c9f0ff</color>
     <color name="dark_blue">#00008B</color>
 </resources>

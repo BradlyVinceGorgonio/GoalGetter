@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/editprofile"
-        android:title="Edit Profile"
+        android:title="Profile"
         android:icon="@drawable/perosinic"></item>
     <item
         android:id="@+id/priorityModelist"
