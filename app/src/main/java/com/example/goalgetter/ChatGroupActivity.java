@@ -67,6 +67,17 @@ public class ChatGroupActivity extends AppCompatActivity {
         groupName = getIntent().getStringExtra("groupName");
         groupNameTextView.setText(groupName);
 
+        ImageButton createTaskButton = findViewById(R.id.create_task_button);
+        createTaskButton.setVisibility(View.GONE);
+        checkLeaderAndUpdateButton(createTaskButton);
+        createTaskButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatGroupActivity.this, LeaderTaskCreation.class);
+            intent.putExtra("groupChatId", chatRoomId);
+            intent.putExtra("groupChatName", groupName);
+            startActivity(intent);
+        });
+
+
         ImageButton backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> finish());
 
@@ -142,6 +153,26 @@ public class ChatGroupActivity extends AppCompatActivity {
                 imageRef.getDownloadUrl().addOnSuccessListener(uri -> sendImageMessage(uri.toString()));
             });
         }
+    }
+
+    private void checkLeaderAndUpdateButton(ImageButton createTaskButton) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("chatGroups")
+                .document(chatRoomId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String leaderId = documentSnapshot.getString("leaderId");
+                        if (leaderId != null && leaderId.equals(currentUserId)) {
+                            createTaskButton.setVisibility(View.VISIBLE);
+                        } else {
+                            createTaskButton.setVisibility(View.GONE);
+                        }
+                    } else {
+                        createTaskButton.setVisibility(View.GONE);
+                    }
+                })
+                .addOnFailureListener(e -> createTaskButton.setVisibility(View.GONE));
     }
 
     private void sendImageMessage(String imageUrl) {
