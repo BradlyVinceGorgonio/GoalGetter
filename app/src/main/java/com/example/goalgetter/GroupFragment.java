@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -17,12 +18,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.auth.FirebaseAuth;
-import android.widget.EditText;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +32,8 @@ public class GroupFragment extends Fragment {
     private RecyclerView recyclerView;
     private ImageView backgroundImage;
     private String currentUserId;
+
+    private List<User> allUsers = new ArrayList<>();
 
     @Nullable
     @Override
@@ -72,11 +73,13 @@ public class GroupFragment extends Fragment {
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-            }
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {}
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+                String query = editable.toString().toLowerCase().trim();
+                filterUsers(query);
+            }
         });
 
         selectButton.setOnClickListener(v -> {
@@ -99,21 +102,18 @@ public class GroupFragment extends Fragment {
 
         usersCollection.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<User> users = new ArrayList<>();
+                allUsers.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     String uid = document.getId();
                     String email = document.getString("email");
                     String name = document.getString("name");
 
                     if (!uid.equals(currentUserId)) {
-                        users.add(new User(uid, email, name));
+                        allUsers.add(new User(uid, email, name));
                     }
                 }
 
-                User currentUser = new User(currentUserId, "", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-                selectedUsers.add(currentUser);
-
-                setupRecyclerView(users);
+                setupRecyclerView(allUsers);
             } else {
                 Toast.makeText(getContext(), "Failed to fetch users: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -137,6 +137,16 @@ public class GroupFragment extends Fragment {
         recyclerView.setAdapter(userAdapter);
     }
 
+    private void filterUsers(String query) {
+        List<User> filteredUsers = new ArrayList<>();
+        for (User user : allUsers) {
+            if (user.getName().toLowerCase().contains(query)) {
+                filteredUsers.add(user);
+            }
+        }
+
+        userAdapter.updateData(filteredUsers);
+    }
 
     private void createGroupWithSelectedUsers(List<User> selectedUsers, String groupName) {
         String groupId = firestore.collection("chatGroups").document().getId();
