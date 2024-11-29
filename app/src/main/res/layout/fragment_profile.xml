@@ -151,9 +151,9 @@
 
                     <TextView
                         android:id="@+id/campusName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:gravity="center|start"
                         android:textSize="14dp"
                         android:fontFamily="@font/podkova_medium"
                         android:textColor="@color/black"
@@ -181,10 +181,11 @@
 
                     <TextView
                         android:id="@+id/academicLevel"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sample Level"
                         android:textSize="14dp"
+                        android:gravity="center|start"
                         android:fontFamily="@font/podkova_medium"
                         android:textColor="@color/black">
                     </TextView>
@@ -211,10 +212,11 @@
 
                     <TextView
                         android:id="@+id/section"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sample Section"
                         android:textSize="14dp"
+                        android:gravity="center|start"
                         android:fontFamily="@font/podkova_medium"
                         android:textColor="@color/black"></TextView>
                 </LinearLayout>
@@ -239,10 +241,11 @@
 
                     <TextView
                         android:id="@+id/program"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sample Program"
                         android:textSize="14dp"
+                        android:gravity="center|start"
                         android:fontFamily="@font/podkova_medium"
                         android:textColor="@color/black"></TextView>
                 </LinearLayout>
@@ -267,10 +270,11 @@
 
                     <TextView
                         android:id="@+id/yearLevel"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Sample YearLevel"
                         android:textSize="14dp"
+                        android:gravity="center|start"
                         android:fontFamily="@font/podkova_medium"
                         android:textColor="@color/black"></TextView>
                 </LinearLayout>
@@ -294,10 +298,11 @@
 
                     <TextView
                         android:id="@+id/studentID"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="20000000000"
                         android:textSize="14dp"
+                        android:gravity="center|start"
                         android:fontFamily="@font/podkova_medium"
                         android:textColor="@color/black"></TextView>
                 </LinearLayout>

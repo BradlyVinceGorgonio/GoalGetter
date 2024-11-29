@@ -27,7 +27,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/profileic"
+            android:src="@drawable/males_group_svgrepo_com"
             android:contentDescription="Group Icon"
             android:scaleType="centerCrop"
             android:background="?attr/selectableItemBackgroundBorderless" />

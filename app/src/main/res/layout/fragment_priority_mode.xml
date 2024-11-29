@@ -6,120 +6,117 @@
     android:layout_height="match_parent"
     tools:context=".PriorityModeFragment">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp">
+        android:orientation="vertical">
+
+    <!-- Non-scrollable CardView -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="65dp"
+        app:cardElevation="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Priority Mode list"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:layout_marginTop="40dp"
-            android:textStyle="bold"
-           />
+            android:orientation="vertical"
+            android:padding="1dp"
+            >
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="7dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.461"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            app:layout_constraintVertical_bias="0.04">
-
-
+            <!-- Title Section -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:orientation="vertical"
-                android:padding="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.593"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                app:layout_constraintVertical_bias="0.149">
+                android:layout_height="50dp"
+                android:background="@color/light_red"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/linearLayout4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="25dp"
-
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                    app:layout_constraintVertical_bias="0.0">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="8dp"
-                        android:text="Filter:"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        tools:ignore="HardcodedText" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Task List"
-                        tools:ignore="HardcodedText">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/filterPriorityModeList"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:dropDownHeight="wrap_content"
-                            android:focusable="false"
-                            android:inputType="none"
-                            android:textSize="11sp"
-                            tools:ignore="Autofill,LabelFor,TextContrastCheck,VisualLintTextFieldSize,SpeakableTextPresentCheck" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
-
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/priorityModeTaskrecyclerView"
+                <TextView
+                    android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp" />
+                    android:text="Priority Mode list"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+            <!-- Filter Section -->
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="25dp"
+                android:orientation="horizontal">
 
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Filter Task"
+                    app:startIconDrawable="@drawable/search_alt_svgrepo_com">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/filterPriorityModeList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:dropDownHeight="wrap_content"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:textSize="11sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Scrollable CardView -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/priorityModeTaskrecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
+
+
+    </LinearLayout>
 
 </FrameLayout>
