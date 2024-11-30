@@ -87,7 +87,7 @@ public class NotificationFragment extends Fragment {
                     if (latestMessage != null) {
                         GroupNotification notification = new GroupNotification(
                                 groupId,
-                                "Group Name Placeholder",  // Placeholder, to be updated after fetching group name
+                                "Group Name Placeholder",
                                 latestMessage.getMessageId(),
                                 latestMessage.getMessageText(),
                                 latestMessage.getSenderName(),
@@ -181,8 +181,6 @@ public class NotificationFragment extends Fragment {
                 context.startActivity(intent);
             });
         }
-
-
 
         private long getLatestTimestamp(String groupId) {
             long latestTimestamp = 0;
