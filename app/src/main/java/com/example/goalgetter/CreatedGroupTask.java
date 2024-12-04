@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -104,26 +105,16 @@ public class CreatedGroupTask extends AppCompatActivity {
         FinishedTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // Replace this with your actual file selection logic
+                // Ensure file is selected before proceeding
                 if (fileUri == null) {
                     Toast.makeText(CreatedGroupTask.this, "Please select a file", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-
-                uploadFileToFirebase();
-                String taskID = getIntent().getStringExtra("taskID");
-                updateTask(generatedFileName, taskID);
-
-                Intent intent = new Intent(CreatedGroupTask.this, bottomNavigation.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish(); // Close the CreateTask activity completely
-
+                // Show custom confirmation dialog
+                showConfirmationDialog();
             }
         });
-
 
 
         fetchTaskData(taskID);
@@ -141,6 +132,60 @@ public class CreatedGroupTask extends AppCompatActivity {
 
 
     }
+
+
+
+
+
+
+
+    private void showConfirmationDialog() {
+        // Inflate the custom layout
+        View dialogView = getLayoutInflater().inflate(R.layout.confirm_dialog, null);
+
+        // Initialize views in the custom layout
+        Button okButton = dialogView.findViewById(R.id.okButton);
+
+        // Create the AlertDialog using the custom layout
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        // Set up the OK button action
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform the required actions when the user confirms
+                uploadFileToFirebase();
+                String taskID = getIntent().getStringExtra("taskID");
+                if (taskID != null) {
+                    updateTask(generatedFileName, taskID);
+                } else {
+                    Toast.makeText(CreatedGroupTask.this, "Task ID is missing.", Toast.LENGTH_SHORT).show();
+                }
+
+                // Navigate to the bottom navigation screen
+                Intent intent = new Intent(CreatedGroupTask.this, bottomNavigation.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                // Close the current activity completely
+                finish();
+
+                // Dismiss the dialog
+                dialog.dismiss();
+            }
+        });
+
+        // Show the dialog
+        dialog.show();
+    }
+
+
+
+
+
+
     private void updateTask( String fileName, String taskID) {
         // Initialize Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();

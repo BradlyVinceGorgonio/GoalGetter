@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,6 +24,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import android.view.LayoutInflater;
+
 
 public class DetailedTask extends AppCompatActivity {
 
@@ -83,7 +87,32 @@ public class DetailedTask extends AppCompatActivity {
         taskCompletedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // When the button is clicked, set the isCompleted field to true
+                // Show confirmation dialog before marking the task as completed
+                showConfirmationDialog(taskID);
+
+            }
+        });
+    }
+
+
+    private void showConfirmationDialog(String taskID){
+        // Inflate the custom dialog layout
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.confirm_dialog, null);
+
+        // Initialize dialog views
+        Button okButton = dialogView.findViewById(R.id.okButton);
+
+        // Create and show the dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Set the "OK" button click listener
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 if (taskID != null) {
                     // Reference to the task document in Firestore
                     DocumentReference taskRef = db.collection("allTasks").document(taskID);
@@ -97,16 +126,20 @@ public class DetailedTask extends AppCompatActivity {
 
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
-                                finish(); // Close the CreateTask activity completely
+                                finish(); // Close the activity completely
                             })
                             .addOnFailureListener(e -> {
                                 // Handle failure to update the task
                                 Toast.makeText(DetailedTask.this, "Error updating task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             });
                 }
+
+                // Dismiss the dialog after the task is marked as completed
+                dialog.dismiss();
             }
         });
     }
+
 
     private void fetchTaskDetails(String taskID) {
         db.collection("allTasks").document(taskID)
