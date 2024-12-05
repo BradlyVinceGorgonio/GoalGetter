@@ -158,13 +158,14 @@ public class SharedTaskStatus extends AppCompatActivity {
                                         String dueTime = document.getString("alarmTime");
                                         String priorityMode = document.getString("priorityMode");
                                         String UID = document.getString("uid");
+                                        boolean isGroup = document.getBoolean("isGroup");
 
                                         try {
                                             Date dateStart = dateFormat.parse(startDate);
                                             Date dateDue = dateFormat.parse(dueDate);
 
                                             // Create task data and add it to the list
-                                            PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
+                                            PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue, isGroup);
                                             taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
                                             pendingTaskLists.add(taskData);
                                             taskCount++;
@@ -235,13 +236,14 @@ public class SharedTaskStatus extends AppCompatActivity {
                                         String dueTime = document.getString("alarmTime");
                                         String priorityMode = document.getString("priorityMode");
                                         String UID = document.getString("uid");
+                                        boolean isGroup = document.getBoolean("isGroup");
 
                                         try {
                                             Date dateStart = dateFormat.parse(startDate);
                                             Date dateDue = dateFormat.parse(dueDate);
 
                                             // Create task data and add it to the list
-                                            PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
+                                            PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue, isGroup);
                                             taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
                                             pendingTaskLists.add(taskData);
                                             taskCount++;

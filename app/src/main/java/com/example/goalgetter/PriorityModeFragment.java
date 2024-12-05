@@ -115,6 +115,7 @@ public class PriorityModeFragment extends Fragment {
                             String dueTime = document.getString("alarmTime");
                             String priorityMode = document.getString("priorityMode");
                             String UID = document.getString("uid");
+                            boolean isGroup = document.getBoolean("isGroup");
                             String taskID = document.getId();
 
                             try {
@@ -122,7 +123,7 @@ public class PriorityModeFragment extends Fragment {
                                 Date dateDue = dateFormat.parse(dueDate);
 
                                 // Add task to the list without filtering by start date
-                                PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
+                                PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue, isGroup);
                                 taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
                                 pendingTaskLists.add(taskData);
                                 taskCount++;
@@ -166,6 +167,7 @@ public class PriorityModeFragment extends Fragment {
                             String dueTime = document.getString("alarmTime");
                             String priorityMode = document.getString("priorityMode");
                             String UID = document.getString("uid");
+                            boolean isGroup = document.getBoolean("isGroup");
                             String taskID = document.getId();
 
                             try {
@@ -174,7 +176,7 @@ public class PriorityModeFragment extends Fragment {
 
                                 // Check if current date is on or after the start date
                                 if (currentDate.compareTo(dateStart) >= 0) {
-                                    PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
+                                    PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue, isGroup);
                                     taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
                                     pendingTaskLists.add(taskData);
                                     taskCount++;
@@ -265,6 +267,7 @@ public class PriorityModeFragment extends Fragment {
                             String dueTime = document.getString("alarmTime");
                             String priorityMode = document.getString("priorityMode");
                             String UID = document.getString("uid");
+                            boolean isGroup = document.getBoolean("isGroup");
                             String taskID = document.getId();
 
                             try {
@@ -272,7 +275,7 @@ public class PriorityModeFragment extends Fragment {
                                 Date dateDue = dateFormat.parse(dueDate);
 
                                 // Create task data and add it to the list
-                                PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
+                                PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue, isGroup);
                                 taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
                                 pendingTaskLists.add(taskData);
                                 taskCount++;
