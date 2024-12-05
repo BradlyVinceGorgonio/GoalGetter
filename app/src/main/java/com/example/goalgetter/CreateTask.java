@@ -370,14 +370,14 @@ public class CreateTask extends AppCompatActivity {
             // Start the upload
             storageReference.putFile(imageUri)
                     .addOnSuccessListener(taskSnapshot -> {
-                        Toast.makeText(this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
 
                         // Delete the image from device storage after successful upload
                         deleteImageFromDevice(imageUri);
 
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show();
                     });
         }
     }
@@ -387,10 +387,10 @@ public class CreateTask extends AppCompatActivity {
         if (imageUri != null) {
             try {
                 getContentResolver().delete(imageUri, null, null);
-                Toast.makeText(this, "Image deleted from device", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Image deleted from device", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Failed to delete image from device", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Failed to delete image from device", Toast.LENGTH_SHORT).show();
             }
         }
     }
