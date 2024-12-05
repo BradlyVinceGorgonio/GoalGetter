@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,7 +11,7 @@
         android:orientation="horizontal"
         android:elevation="10dp"
         android:padding="8dp"
-        android:background="@android:color/holo_red_light"
+        android:background="@color/red"
         android:gravity="center_vertical">
 
         <ImageButton
@@ -25,9 +26,9 @@
 
         <ImageView
             android:id="@+id/group_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="15dp"
             android:src="@drawable/males_group_svgrepo_com"
             android:contentDescription="Group Icon"
             android:scaleType="centerCrop"
@@ -91,6 +92,7 @@
             android:src="@drawable/image_select"
             android:scaleType="centerCrop"
             android:elevation="10dp"
+            android:layout_margin="5dp"
             android:contentDescription="Select Photo"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -99,6 +101,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:elevation="10dp"
+            android:layout_margin="5dp"
             android:src="@drawable/camera"
             android:scaleType="centerCrop"
             android:contentDescription="Take Photo"
@@ -111,6 +114,7 @@
             android:layout_weight="1"
             android:background="@drawable/edit_text_rounded_corner"
             android:elevation="10dp"
+            android:layout_margin="5dp"
             android:hint="Type a message" />
 
 
@@ -120,6 +124,7 @@
             android:layout_height="40dp"
             android:scaleType="centerCrop"
             android:elevation="10dp"
+            android:layout_margin="5dp"
             android:src="@drawable/sent_mess"
             android:contentDescription="Send"
             android:background="?attr/selectableItemBackgroundBorderless" />

@@ -47,7 +47,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:fontFamily="@font/podkova_medium"
-            android:text="Deadline to comply"
+            android:text="Progress Bar"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -63,15 +63,6 @@
             android:padding="5dp"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Progress Bar:"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/podkova_medium">
-            </TextView>
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -204,7 +195,6 @@
             <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="1dp"
             app:cardElevation="15dp"
             android:elevation="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -219,7 +209,6 @@
                 android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
