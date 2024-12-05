@@ -60,9 +60,11 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/podkova_medium"
                         android:gravity="center"
+                        android:textStyle="bold"
+                        android:background="@android:color/holo_red_light"
                         android:text="Firstname, Middle Initial, LastName"
                         android:textColor="@color/white"
-                        android:textSize="17dp">
+                        android:textSize="22dp">
                     </TextView>
                 </LinearLayout>
 
