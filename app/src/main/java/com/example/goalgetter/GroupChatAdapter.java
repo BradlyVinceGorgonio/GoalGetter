@@ -1,6 +1,9 @@
 package com.example.goalgetter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +92,18 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.Grou
                             // Fetch sender's name from Firestore
                             fetchSenderName(senderId, senderName -> {
                                 String formattedTimestamp = formatTimestamp(timestamp);
-                                latestMessageTextView.setText(String.format("%s: %s", senderName, messageText));
+
+                                // Create a SpannableStringBuilder to style the senderName
+                                SpannableStringBuilder styledMessage = new SpannableStringBuilder();
+                                styledMessage.append(senderName).append(": ").append(messageText);
+
+                                // Apply bold style and black color to senderName
+                                styledMessage.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+                                        0, senderName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                styledMessage.setSpan(new android.text.style.ForegroundColorSpan(Color.BLACK),
+                                        0, senderName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                latestMessageTextView.setText(styledMessage);
                                 timestampTextView.setText(formattedTimestamp);
                             });
                         }
@@ -108,6 +122,8 @@ public class GroupChatAdapter extends RecyclerView.Adapter<GroupChatAdapter.Grou
 
             itemView.setOnClickListener(v -> listener.onGroupChatClick(groupChat));
         }
+
+
 
         private void fetchSenderName(String senderId, OnNameFetchedCallback callback) {
             if (senderId == null || senderId.isEmpty()) {

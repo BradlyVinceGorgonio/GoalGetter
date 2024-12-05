@@ -18,18 +18,20 @@
         android:layout_height="match_parent">
 
 
-
         <TextView
             android:id="@+id/chat_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chats"
+            android:layout_width="410dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="68dp"
+            android:background="@drawable/border_bg2"
+            android:text="Chats Groups"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="70dp"
-            android:layout_marginStart="16dp" />
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <ImageButton
             android:id="@+id/group_create"
