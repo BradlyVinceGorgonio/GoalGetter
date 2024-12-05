@@ -26,14 +26,14 @@
             app:layout_constraintHorizontal_bias="0.059"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.024"></TextView>
+            app:layout_constraintVertical_bias="0.047"></TextView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="15dp"
-            android:layout_margin="5dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.555"
@@ -49,7 +49,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:background="@color/light_red"
+                    android:background="@drawable/gradient_background"
                     android:orientation="horizontal"
                     android:padding="2dp">
 
@@ -61,7 +61,7 @@
                         android:fontFamily="@font/podkova_medium"
                         android:gravity="center"
                         android:textStyle="bold"
-                        android:background="@android:color/holo_red_light"
+                        android:background="@drawable/gradient_background"
                         android:text="Firstname, Middle Initial, LastName"
                         android:textColor="@color/white"
                         android:textSize="22dp">
@@ -88,7 +88,9 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textAlignment="center"
-                        android:text="Example school">
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/podkova_medium"
+                        android:text="Saint Francis of Assisi College">
                     </TextView>
 
                 </LinearLayout>
@@ -144,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="70dp"
+                        android:layout_marginEnd="40dp"
                         android:gravity="center"
                         android:drawableStart="@drawable/collegehatic"
                         android:text="  Campus: ">
@@ -159,40 +161,11 @@
                         android:textSize="14dp"
                         android:fontFamily="@font/podkova_medium"
                         android:textColor="@color/black"
-                        android:text="Sample Campus College">
+                        android:text="Saint Francis of Assisi College - Taguig Campus">
                     </TextView>
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="23.5dp"
-                        android:gravity="center"
-                        android:drawableStart="@drawable/winners_students_on_podium_svgrepo_com"
-                        android:text="  Academic Level: ">
-
-                    </TextView>
-
-                    <TextView
-                        android:id="@+id/academicLevel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Sample Level"
-                        android:textSize="14dp"
-                        android:gravity="center|start"
-                        android:fontFamily="@font/podkova_medium"
-                        android:textColor="@color/black">
-                    </TextView>
-
-                </LinearLayout>
 
 
                 <LinearLayout
@@ -207,7 +180,7 @@
                         android:layout_marginStart="5dp"
                         android:drawableStart="@drawable/classsectionic"
                         android:gravity="center"
-                        android:layout_marginEnd="75.3dp"
+                        android:layout_marginEnd="45dp"
                         android:text="  Section: ">
 
                     </TextView>
@@ -216,7 +189,7 @@
                         android:id="@+id/section"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sample Section"
+                        android:text="3"
                         android:textSize="14dp"
                         android:gravity="center|start"
                         android:fontFamily="@font/podkova_medium"
@@ -234,10 +207,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="68.8dp"
+                        android:layout_marginEnd="51dp"
                         android:drawableStart="@drawable/diploma_svgrepo_com"
                         android:gravity="center"
-                        android:text="  Program: ">
+                        android:text="  Strand: ">
 
                     </TextView>
 
@@ -245,7 +218,7 @@
                         android:id="@+id/program"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sample Program"
+                        android:text="STEM"
                         android:textSize="14dp"
                         android:gravity="center|start"
                         android:fontFamily="@font/podkova_medium"
@@ -263,7 +236,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="53.5dp"
+                        android:layout_marginEnd="22.5dp"
                         android:drawableStart="@drawable/graph_level_svgrepo_com"
                         android:gravity="center"
                         android:text="  Year Level: ">
@@ -274,7 +247,7 @@
                         android:id="@+id/yearLevel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sample YearLevel"
+                        android:text="Grade 12"
                         android:textSize="14dp"
                         android:gravity="center|start"
                         android:fontFamily="@font/podkova_medium"
@@ -291,7 +264,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="57dp"
+                        android:layout_marginEnd="26dp"
                         android:drawableStart="@drawable/id_svgrepo_com"
                         android:gravity="center"
                         android:text="  StudentID: ">
