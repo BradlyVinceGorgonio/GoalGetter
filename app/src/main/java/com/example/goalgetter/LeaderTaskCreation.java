@@ -28,6 +28,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -50,6 +52,8 @@ public class LeaderTaskCreation extends AppCompatActivity {
     private StorageReference storageReference;
     private String chatRoomId;
     private String groupName;
+    private String currentUserId;
+    private String currentUserName;
     private List<String> selectedUserIds = new ArrayList<>();
 
     EditText taskTitleEditText;
@@ -164,6 +168,22 @@ public class LeaderTaskCreation extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        currentUserId = auth.getCurrentUser().getUid();
+
+        db.collection("students").document(currentUserId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        currentUserName = documentSnapshot.getString("name");
+                    } else {
+                        currentUserName = "Unknown User";
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    currentUserName = "Unknown User";
+                });
+
         // File selection
         uploadGroupTaskFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -247,12 +267,11 @@ public class LeaderTaskCreation extends AppCompatActivity {
 
     }
     public void insertTask(String taskTitle, String description, String dateStart, String dateDue, String alarmTime, String priorityMode, String fileName) {
-        // Get the current user's UID
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("messages");
         String currentUid = auth.getCurrentUser().getUid();
 
-        // Define task data in a map
         Map<String, Object> taskData = new HashMap<>();
         taskData.put("groupId", chatRoomId);
         taskData.put("courseName", taskTitle);
@@ -263,37 +282,28 @@ public class LeaderTaskCreation extends AppCompatActivity {
         taskData.put("alarmTime", alarmTime);
         taskData.put("priorityMode", priorityMode);
         taskData.put("fileName", fileName);
-        taskData.put("leaderId", currentUid); // Add UID of the user who added it
-        taskData.put("isGroup", true);       // Assuming this is not a group task
-        taskData.put("isCompleted", false);  // Default to not completed
+        taskData.put("leaderId", currentUid);
+        taskData.put("isGroup", true);
+        taskData.put("isCompleted", false);
         taskData.put("isApproved", false);
         taskData.put("uids", selectedUserIds);
         taskData.put("groupName", groupName);
 
-        // Reference to the "tasks" collection
         db.collection("allTasks")
-                .add(taskData)  // Add document with auto-generated ID
+                .add(taskData)
                 .addOnSuccessListener(documentReference -> {
-                    // Retrieve the auto-generated document ID
                     String generatedTaskId = documentReference.getId();
-
-                    // Add the taskId to the task document
                     documentReference.update("taskId", generatedTaskId)
                             .addOnSuccessListener(aVoid -> {
-                                Log.d("INSERT_TASK", "Task added with ID: " + generatedTaskId);
+                                sendSystemMessage(taskTitle, generatedTaskId);
                                 Intent intent = new Intent(LeaderTaskCreation.this, bottomNavigation.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
-                                finish(); // Close the CreateTask activity completely
-
+                                finish();
                             })
-                            .addOnFailureListener(e -> {
-                                Log.e("INSERT_TASK", "Error updating task ID: " + e.getMessage());
-                            });
+                            .addOnFailureListener(e -> Log.e("INSERT_TASK", "Error updating task ID: " + e.getMessage()));
                 })
-                .addOnFailureListener(e -> {
-                    Log.e("INSERT_TASK", "Error adding task: " + e.getMessage());
-                });
+                .addOnFailureListener(e -> Log.e("INSERT_TASK", "Error adding task: " + e.getMessage()));
     }
 
     private void fetchUsersInGroupChat(String chatRoomId) {
@@ -427,6 +437,28 @@ public class LeaderTaskCreation extends AppCompatActivity {
 
         return fileName;
     }
+    private void sendSystemMessage(String taskTitle, String taskId) {
+        DatabaseReference messagesRef = FirebaseDatabase.getInstance().getReference("messages");
+        long timestamp = System.currentTimeMillis();
+        String messageId = messagesRef.child(chatRoomId).push().getKey();
+
+        if (messageId != null) {
+            Map<String, Object> messageData = new HashMap<>();
+            messageData.put("senderId", currentUserId);
+            messageData.put("senderName", "System");
+            messageData.put("userName", currentUserName);
+            messageData.put("messageText", "A new task '" + taskTitle + "' has been created. Check it out!");
+            messageData.put("messageType", "system");
+            messageData.put("timestamp", timestamp);
+            messageData.put("formattedTimestamp", android.text.format.DateFormat.format("MMMM dd, yyyy hh:mm a", timestamp).toString());
+            messageData.put("imageUrl", "");
+
+            messagesRef.child(chatRoomId).child(messageId).setValue(messageData)
+                    .addOnSuccessListener(aVoid -> Log.d("INSERT_MESSAGE", "Message sent successfully"))
+                    .addOnFailureListener(e -> Log.e("INSERT_MESSAGE", "Error sending message: " + e.getMessage()));
+        }
+    }
+
 }
 
 
