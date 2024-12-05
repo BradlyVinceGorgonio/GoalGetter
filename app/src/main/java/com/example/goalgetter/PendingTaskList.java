@@ -11,9 +11,10 @@ public class PendingTaskList {
     private String UID;  // User ID
     private String taskID;  // Task ID
     private Date dateDue;
+    private boolean isGroup;
 
     // Constructor
-    public PendingTaskList(String priorityMode, String courseName, String dueDate, String taskType, String dueTime, String UID, String taskID, Date dateDue) {
+    public PendingTaskList(String priorityMode, String courseName, String dueDate, String taskType, String dueTime, String UID, String taskID, Date dateDue, boolean isGroup) {
         this.priorityMode = priorityMode;
         this.courseName = courseName;
         this.dueDate = dueDate;
@@ -22,7 +23,17 @@ public class PendingTaskList {
         this.UID = UID;
         this.taskID = taskID;
         this.dateDue = dateDue;
+        this.isGroup = isGroup;
     }
+
+    public boolean isGroup() {
+        return isGroup;
+    }
+
+    public void setGroup(boolean group) {
+        isGroup = group;
+    }
+
 
     public Date getDateDue() {
         return dateDue;

@@ -162,6 +162,7 @@ public class CalendarFragment extends Fragment {
                             String dueTime = document.getString("alarmTime");
                             String priorityMode = document.getString("priorityMode");
                             String UID = document.getString("uid");
+                            boolean isGroup = document.getBoolean("isGroup");
                             String taskID = document.getId();
 
                             try {
@@ -171,7 +172,7 @@ public class CalendarFragment extends Fragment {
 
                                 if (dateStart.before(new Date()) || dateStart.equals(new Date())) {
                                     if (dateDue.equals(filterDateParsed)) {
-                                        PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
+                                        PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue, isGroup);
                                         taskData.setDateDue(dateDue);
                                         pendingTaskLists.add(taskData);
                                     }

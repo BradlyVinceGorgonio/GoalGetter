@@ -34,7 +34,15 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+        // Inflate the appropriate layout based on whether the task is a group task or not
+        View view;
+        if (viewType == 1) {
+            // If it's a group task, use groupmember_list_item.xml
+            view = LayoutInflater.from(context).inflate(R.layout.groupmember_list_item, parent, false);
+        } else {
+            // Otherwise, use list_item.xml
+            view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+        }
         return new TaskViewHolder(view);
     }
 
@@ -142,79 +150,80 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
         }
 
         // Handle delete button click
-        holder.deleteImageButton.setOnClickListener(v -> {
-            String taskId = task.getTaskID();
+        if (holder.deleteImageButton != null) {
+            holder.deleteImageButton.setOnClickListener(v -> {
+                String taskId = task.getTaskID();
 
-            // First, fetch the document from Firestore to get the fileName
-            db.collection("allTasks").document(taskId).get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            String fileName = documentSnapshot.getString("fileName");
-                            String teamTaskFile = documentSnapshot.getString("TeamTaskFile");
+                // First, fetch the document from Firestore to get the fileName
+                db.collection("allTasks").document(taskId).get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                String fileName = documentSnapshot.getString("fileName");
+                                String teamTaskFile = documentSnapshot.getString("TeamTaskFile");
 
-                            // Delete the Firestore document
-                            db.collection("allTasks").document(taskId)
-                                    .delete()
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(context, "Task deleted successfully", Toast.LENGTH_SHORT).show();
+                                // Delete the Firestore document
+                                db.collection("allTasks").document(taskId)
+                                        .delete()
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(context, "Task deleted successfully", Toast.LENGTH_SHORT).show();
 
-                                        // If fileName exists, attempt to delete the image from Firebase Storage
-                                        if (fileName != null && !fileName.isEmpty()) {
-                                            // Try deleting from "solotasksimages/"
-                                            StorageReference imageRef = FirebaseStorage.getInstance()
-                                                    .getReference().child("solotasksimages/" + fileName);
+                                            // If fileName exists, attempt to delete the image from Firebase Storage
+                                            if (fileName != null && !fileName.isEmpty()) {
+                                                // Try deleting from "solotasksimages/"
+                                                StorageReference imageRef = FirebaseStorage.getInstance()
+                                                        .getReference().child("solotasksimages/" + fileName);
 
-                                            imageRef.delete()
-                                                    .addOnSuccessListener(aVoid1 -> {
-                                                        Toast.makeText(context, "Image deleted successfully from solotasksimages", Toast.LENGTH_SHORT).show();
-                                                    })
-                                                    .addOnFailureListener(e -> {
-                                                        // If deletion fails in "solotasksimages/", try "task_files/"
-                                                        StorageReference fallbackRef = FirebaseStorage.getInstance()
-                                                                .getReference().child("task_files/" + fileName);
+                                                imageRef.delete()
+                                                        .addOnSuccessListener(aVoid1 -> {
+                                                            Toast.makeText(context, "Image deleted successfully from solotasksimages", Toast.LENGTH_SHORT).show();
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            // If deletion fails in "solotasksimages/", try "task_files/"
+                                                            StorageReference fallbackRef = FirebaseStorage.getInstance()
+                                                                    .getReference().child("task_files/" + fileName);
 
-                                                        fallbackRef.delete()
-                                                                .addOnSuccessListener(aVoid2 -> {
-                                                                    Toast.makeText(context, "Image deleted successfully from task_files", Toast.LENGTH_SHORT).show();
-                                                                })
-                                                                .addOnFailureListener(e2 -> {
-                                                                    Toast.makeText(context, "Failed to delete image from both directories: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
-                                                                });
-                                                    });
-                                        }
+                                                            fallbackRef.delete()
+                                                                    .addOnSuccessListener(aVoid2 -> {
+                                                                        Toast.makeText(context, "Image deleted successfully from task_files", Toast.LENGTH_SHORT).show();
+                                                                    })
+                                                                    .addOnFailureListener(e2 -> {
+                                                                        Toast.makeText(context, "Failed to delete image from both directories: " + e2.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                    });
+                                                        });
+                                            }
 
-                                        // If teamTaskFile exists, attempt to delete the file from Firebase Storage
-                                        if (teamTaskFile != null && !teamTaskFile.isEmpty()) {
-                                            StorageReference teamTaskRef = FirebaseStorage.getInstance()
-                                                    .getReference().child("task_files/" + teamTaskFile);
+                                            // If teamTaskFile exists, attempt to delete the file from Firebase Storage
+                                            if (teamTaskFile != null && !teamTaskFile.isEmpty()) {
+                                                StorageReference teamTaskRef = FirebaseStorage.getInstance()
+                                                        .getReference().child("task_files/" + teamTaskFile);
 
-                                            teamTaskRef.delete()
-                                                    .addOnSuccessListener(aVoid1 -> {
-                                                        Toast.makeText(context, "Team task file deleted successfully", Toast.LENGTH_SHORT).show();
-                                                    })
-                                                    .addOnFailureListener(e -> {
-                                                        Toast.makeText(context, "Failed to delete team task file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                    });
-                                        }
+                                                teamTaskRef.delete()
+                                                        .addOnSuccessListener(aVoid1 -> {
+                                                            Toast.makeText(context, "Team task file deleted successfully", Toast.LENGTH_SHORT).show();
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            Toast.makeText(context, "Failed to delete team task file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        });
+                                            }
 
-                                        // Update the task list and notify the adapter
-                                        taskList.remove(position);
-                                        notifyItemRemoved(position);
-                                        notifyItemRangeChanged(position, taskList.size());
+                                            // Update the task list and notify the adapter
+                                            taskList.remove(position);
+                                            notifyItemRemoved(position);
+                                            notifyItemRangeChanged(position, taskList.size());
 
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(context, "Failed to delete task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    });
-                        } else {
-                            Toast.makeText(context, "Task document not found", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(context, "Failed to fetch task details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        });
-
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(context, "Failed to delete task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
+                                Toast.makeText(context, "Task document not found", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(context, "Failed to fetch task details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+            });
+        }
     }
 
 
@@ -238,5 +247,11 @@ public class PendingTaskListAdapter extends RecyclerView.Adapter<PendingTaskList
          //   editImageButton = itemView.findViewById(R.id.editImageButton);
             deleteImageButton = itemView.findViewById(R.id.deleteImageButton);
         }
+    }
+    @Override
+    public int getItemViewType(int position) {
+        // Check if the task is a group task, return 1 for group tasks, 0 for non-group tasks
+        PendingTaskList task = taskList.get(position);
+        return task.isGroup() ? 1 : 0;
     }
 }
