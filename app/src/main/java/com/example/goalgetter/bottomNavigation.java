@@ -32,6 +32,7 @@ public class bottomNavigation extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
     private long lastClickTime = 0;  // Track the last click time
+    private boolean isFragmentTransactionInProgress = false; // Flag to check fragment transaction state
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class bottomNavigation extends AppCompatActivity {
 
         loadFragment(new HomeFragment(), true);
     }
-
+asdoasdoasdowasdowwdoasddowaderrerereeerttrutrutrtturtutrturturturturturrrturturtrtuttrutrutrtutrt  trtu rtu rt rutrtrtutrutrturturturturrrturturrtrtu
     private boolean onProfileMenuItemClick(MenuItem item) {
         int itemId = item.getItemId();
 
@@ -115,6 +116,13 @@ public class bottomNavigation extends AppCompatActivity {
     }
 
     private void loadFragment(Fragment fragment, boolean isAppInitialized) {
+        // Prevent starting a new transaction while one is in progress
+        if (isFragmentTransactionInProgress) {
+            return;
+        }
+
+        isFragmentTransactionInProgress = true;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -123,6 +131,25 @@ public class bottomNavigation extends AppCompatActivity {
         } else {
             fragmentTransaction.replace(R.id.frameLayout, fragment);
         }
-        fragmentTransaction.commit();
+
+        // Use commitAllowingStateLoss for fragments to avoid crashes
+        fragmentTransaction.commitAllowingStateLoss();
+
+        // Reset the transaction flag once it's committed
+        fragmentTransaction.runOnCommit(() -> isFragmentTransactionInProgress = false);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Cancel any ongoing Firebase operations here
+        // If you're using Firebase listeners, remove them here to prevent crashes on fragment transitions
+        // Example: firebaseQuery.removeEventListener(firebaseListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Clean up any Firebase operations or data listeners if necessary
     }
 }
