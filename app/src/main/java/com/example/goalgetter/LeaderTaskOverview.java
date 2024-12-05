@@ -108,7 +108,7 @@ public class LeaderTaskOverview extends AppCompatActivity {
                 String taskID = getIntent().getStringExtra("taskID");
                 updateTask(taskID);
 
-                Intent intent = new Intent(LeaderTaskOverview.this, SharedTaskStatus.class);
+                Intent intent = new Intent(LeaderTaskOverview.this, bottomNavigation.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish(); // Close the CreateTask activity completely
@@ -123,7 +123,7 @@ public class LeaderTaskOverview extends AppCompatActivity {
                 String taskID = getIntent().getStringExtra("taskID");
                 reviseTask(taskID);
 
-                Intent intent = new Intent(LeaderTaskOverview.this, SharedTaskStatus.class);
+                Intent intent = new Intent(LeaderTaskOverview.this, bottomNavigation.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish(); // Close the CreateTask activity completely

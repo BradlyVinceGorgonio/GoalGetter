@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment {
 
 
                                         // Show a Toast confirming the alarm is set
-                                        Toast.makeText(getActivity(), "Alarm set for: " + courseName + " due on " + dueDate, Toast.LENGTH_SHORT).show();
+                                        ///Toast.makeText(getActivity(), "Alarm set for: " + courseName + " due on " + dueDate, Toast.LENGTH_SHORT).show();
                                     } else {
                                         Log.d("HomeFragment", "Skipping alarm for: " + courseName + " as it is already past due time");
                                     }
