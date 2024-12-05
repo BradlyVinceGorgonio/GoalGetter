@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="3dp"
     android:elevation="6dp"
@@ -79,7 +79,9 @@
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        tools:ignore="HardcodedText,TextSizeCheck"></TextView>
+                        tools:ignore="HardcodedText,TextSizeCheck">
+
+                    </TextView>
                 </LinearLayout>
 
                 <LinearLayout
@@ -154,6 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <ImageView
