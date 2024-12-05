@@ -99,8 +99,6 @@ public class CalendarFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         eventDays.clear(); // Clear previous events
-
-                        // Group tasks by due date and check for priorityMode 'Yes' in one loop
                         Map<String, Boolean> priorityMap = new HashMap<>();
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
@@ -109,42 +107,36 @@ public class CalendarFragment extends Fragment {
                             String startDate = document.getString("dateStart");
 
                             try {
-                                Date dateStart = dateFormat.parse(startDate);
-                                Date currentDate = new Date();  // Current date and time
+                                // Normalize the date format
+                                Date dateStart = dateFormat.parse(normalizeDate(startDate));
+                                Date currentDate = new Date();
 
-                                // Only process tasks whose startDate has passed or is the current date
                                 if (dateStart.before(currentDate) || dateStart.equals(currentDate)) {
-                                    // Track if any task on this date has priorityMode 'Yes'
-                                    priorityMap.put(dueDate, "Yes".equals(priorityMode) || priorityMap.getOrDefault(dueDate, false));
+                                    priorityMap.put(normalizeDate(dueDate), "Yes".equals(priorityMode) || priorityMap.getOrDefault(dueDate, false));
                                 }
                             } catch (ParseException e) {
                                 Toast.makeText(getActivity(), "Date parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
-                        // Process each unique due date
                         for (Map.Entry<String, Boolean> entry : priorityMap.entrySet()) {
                             String dueDate = entry.getKey();
                             boolean isPriorityDay = entry.getValue();
 
                             try {
-                                // Parse the due date to a calendar
                                 Date dateDue = dateFormat.parse(dueDate);
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.setTime(dateDue);
 
-                                // Set the drawable based on priority status
                                 int drawableRes = isPriorityDay ? R.drawable.ic_event_day : R.drawable.ic_event_black;
                                 Drawable drawable = ContextCompat.getDrawable(getContext(), drawableRes);
 
-                                // Add the event with the appropriate drawable
                                 eventDays.add(new EventDay(calendar, drawable));
                             } catch (ParseException e) {
                                 Toast.makeText(getActivity(), "Date parsing error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
-                        // Update the calendar with highlighted events
                         calendarView.setEvents(eventDays);
                     } else {
                         Toast.makeText(getActivity(), "Error fetching tasks: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -152,16 +144,12 @@ public class CalendarFragment extends Fragment {
                 });
     }
 
-
-
-
-
     private void fetchTasksFromFirestore(String filterDate) {
         String currentUserUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         db.collection("allTasks")
                 .whereArrayContains("uids", currentUserUID)
-                .whereEqualTo("isCompleted", false) // Filter for incomplete tasks
+                .whereEqualTo("isCompleted", false)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -177,20 +165,14 @@ public class CalendarFragment extends Fragment {
                             String taskID = document.getId();
 
                             try {
-                                Date dateStart = dateFormat.parse(startDate);
-                                Date dateDue = dateFormat.parse(dueDate);
-                                Date filterDateParsed = dateFormat.parse(filterDate);
+                                Date dateStart = dateFormat.parse(normalizeDate(startDate));
+                                Date dateDue = dateFormat.parse(normalizeDate(dueDate));
+                                Date filterDateParsed = dateFormat.parse(normalizeDate(filterDate));
 
-                                // Get the current time to compare with start date and time
-                                Calendar currentTime = Calendar.getInstance();
-                                currentTime.setTime(new Date());
-
-                                // Ensure startDate is before or equal to the current time and dueDate matches filterDate
-                                if (dateStart.before(currentTime.getTime()) || dateStart.equals(currentTime.getTime())) {
-                                    // Ensure dueDate matches the selected filterDate
-                                    if (dueDate.equals(filterDate)) {
+                                if (dateStart.before(new Date()) || dateStart.equals(new Date())) {
+                                    if (dateDue.equals(filterDateParsed)) {
                                         PendingTaskList taskData = new PendingTaskList(priorityMode, courseName, dueDate, taskType, dueTime, UID, taskID, dateDue);
-                                        taskData.setDateDue(dateDue); // Add dateDue as a Date in PendingTaskList
+                                        taskData.setDateDue(dateDue);
                                         pendingTaskLists.add(taskData);
                                     }
                                 }
@@ -199,7 +181,6 @@ public class CalendarFragment extends Fragment {
                             }
                         }
 
-                        // Sort tasks by due date
                         pendingTaskLists.sort((task1, task2) -> task1.getDateDue().compareTo(task2.getDateDue()));
                         pendingTaskListAdapter.notifyDataSetChanged();
                     } else {
@@ -207,5 +188,16 @@ public class CalendarFragment extends Fragment {
                     }
                 });
     }
+
+    private String normalizeDate(String date) {
+        try {
+            Date parsedDate = new SimpleDateFormat("d-M-yy").parse(date);
+            return dateFormat.format(parsedDate);
+        } catch (ParseException e) {
+            Toast.makeText(getActivity(), "Date normalization error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return date;
+        }
+    }
+
 
 }
