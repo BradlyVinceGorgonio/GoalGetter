@@ -36,7 +36,7 @@
             android:id="@+id/group_create"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="30dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Create Group"
             android:scaleType="fitCenter"

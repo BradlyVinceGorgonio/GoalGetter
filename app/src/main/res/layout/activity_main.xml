@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
    <TextView
@@ -24,10 +25,10 @@
 
    <ImageView
        android:layout_width="match_parent"
-       android:layout_height="350dp"
-       android:layout_marginStart="50dp"
+       android:layout_height="320dp"
+       android:layout_marginStart="35dp"
        android:layout_marginTop="150dp"
-       android:layout_marginEnd="50dp"
+       android:layout_marginEnd="35dp"
        android:background="@drawable/logosplash"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintEnd_toEndOf="parent"

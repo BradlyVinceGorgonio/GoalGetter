@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+        android:background="@color/white"
         android:layout_marginTop="25dp">
 
         <androidx.cardview.widget.CardView
@@ -22,7 +23,8 @@
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:background="@color/white"
+            android:padding="10dp">
 
                 <TextView
                     android:id="@+id/titleText"
